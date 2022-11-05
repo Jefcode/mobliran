@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 
 import ImageTitle from '../components/Partials/ImageTitle';
-import Input from '../components/Utils/Input';
+import Input from '../components/common/Input';
 
 const couponVariants = {
   closed: {

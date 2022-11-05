@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import LoginForm from './LoginForm';
 import RegisterForm from './RegisterForm';
 import { motion } from 'framer-motion';
-import Backdrop from '../Utils/Backdrop';
+import Backdrop from '../common/Backdrop';
 
 interface AuthModalProps {
   onCloseModal: () => void;

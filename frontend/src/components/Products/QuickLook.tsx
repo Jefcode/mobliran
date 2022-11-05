@@ -8,8 +8,8 @@ import { GrFormClose } from 'react-icons/gr';
 import 'swiper/css';
 
 import Product from '../../models/product';
-import Backdrop from '../Utils/Backdrop';
-import Rating from '../Utils/Rating';
+import Backdrop from '../common/Backdrop';
+import Rating from '../common/Rating';
 import ProductQuantityForm from './ProductQuantityForm';
 
 interface QuickLookProps {

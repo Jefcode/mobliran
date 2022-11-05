@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom';
 
 import ProductItem from '../components/Products/ProductItem';
 import ReviewForm from '../components/Forms/ReviewForm';
-import Rating from '../components/Utils/Rating';
+import Rating from '../components/common/Rating';
 import products from '../data/products';
 import ProductQuantityForm from '../components/Products/ProductQuantityForm';
 
