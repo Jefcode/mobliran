@@ -4,14 +4,16 @@ import { AiOutlineCaretLeft } from 'react-icons/ai';
 import { useState } from 'react';
 import MobileMenuDropdown from './MobileMenuDropdown';
 import Backdrop from '../common/Backdrop';
+import { useAuthContext } from '../../context/AuthContext';
 
 interface MobileMenuProps {
   open: boolean;
   toggle: () => void;
-  onOpenAuthModal: () => void;
 }
 
-const MobileMenu = ({ open, toggle, onOpenAuthModal }: MobileMenuProps) => {
+const MobileMenu = ({ open, toggle }: MobileMenuProps) => {
+  const { closeModal: closeAuthModal } = useAuthContext();
+
   const [shopSubmenu, setShopSubmenu] = useState(false);
   const [pagesSubmenu, setPagesSubmenu] = useState(false);
 
@@ -20,7 +22,7 @@ const MobileMenu = ({ open, toggle, onOpenAuthModal }: MobileMenuProps) => {
 
   const openAuthModalHandler = () => {
     // open auth modal
-    onOpenAuthModal();
+    closeAuthModal();
 
     // close mobile menu
     setTimeout(toggle, 500);

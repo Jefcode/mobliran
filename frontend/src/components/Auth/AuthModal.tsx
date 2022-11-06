@@ -3,12 +3,11 @@ import LoginForm from './LoginForm';
 import RegisterForm from './RegisterForm';
 import { motion } from 'framer-motion';
 import Backdrop from '../common/Backdrop';
+import { useAuthContext } from '../../context/AuthContext';
 
-interface AuthModalProps {
-  onCloseModal: () => void;
-}
+const AuthModal = () => {
+  const { closeModal } = useAuthContext();
 
-const AuthModal = ({ onCloseModal }: AuthModalProps) => {
   const [panel, setPanel] = useState('register');
 
   return (
@@ -25,7 +24,7 @@ const AuthModal = ({ onCloseModal }: AuthModalProps) => {
       className='relative z-50'
     >
       {/* Backdrop */}
-      <Backdrop onClick={onCloseModal} />
+      <Backdrop onClick={closeModal} />
 
       {/* Modal */}
       <div className='fixed top-50% left-50% -translate-y-50% -translate-x-50% bg-white w-80'>

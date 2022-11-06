@@ -6,18 +6,21 @@ import Navbar from '../Navigation/Navbar';
 import Footer from '../Partials/Footer';
 import Routes from './Routes';
 import { queryClient } from '../../react-query/queryClient';
+import { AuthContextProvider } from '../../context/AuthContext';
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <div className='w-full max-w-full min-w-full min-h-screen overflow-hidden'>
-        <Navbar />
-        <Routes />
-        <Footer />
-        <ToastContainer rtl />
-        <ReactQueryDevtools />
-      </div>
-    </QueryClientProvider>
+    <AuthContextProvider>
+      <QueryClientProvider client={queryClient}>
+        <div className='w-full max-w-full min-w-full min-h-screen overflow-hidden'>
+          <Navbar />
+          <Routes />
+          <Footer />
+          <ToastContainer rtl />
+          <ReactQueryDevtools />
+        </div>
+      </QueryClientProvider>
+    </AuthContextProvider>
   );
 }
 

@@ -1,4 +1,5 @@
 import { IUser } from './../backend/models/userModel';
+
 export interface Id {
   _id: string;
 }
@@ -30,4 +31,4 @@ export interface Address {
   postalCode: number;
 }
 
-export type User = IUser;
+export type User = Id & IUser;

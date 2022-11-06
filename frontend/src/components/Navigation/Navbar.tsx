@@ -19,10 +19,12 @@ import Menu from './Menu';
 import MobileMenu from './MobileMenu';
 import NavAccount from './NavAccount';
 import CartDropdown from './CartDropdown';
+import { useAuthContext } from '../../context/AuthContext';
 
 const Navbar = () => {
+  const { modalOpen: authModalOpen, openModal: openAuthModal } =
+    useAuthContext();
   const [menuOpen, setMenuOpen] = useState(false);
-  const [authModalOpen, setAuthModalOpen] = useState(false);
 
   const toggleMenu = () => setMenuOpen((state) => !state);
 
@@ -68,7 +70,7 @@ const Navbar = () => {
           <div className='relative group'>
             <span
               className='flex items-center duration-300 cursor-pointer py-7 space-s-1 hover:text-gray-500'
-              onClick={() => setAuthModalOpen(true)}
+              onClick={openAuthModal}
             >
               <AiOutlineUser />
               <span>ورود</span>
@@ -100,21 +102,13 @@ const Navbar = () => {
 
         {/* Mobile Menu Portal */}
         {ReactDOM.createPortal(
-          <MobileMenu
-            open={menuOpen}
-            toggle={toggleMenu}
-            onOpenAuthModal={() => setAuthModalOpen(true)}
-          />,
+          <MobileMenu open={menuOpen} toggle={toggleMenu} />,
           document.getElementById('mobile-menu') as HTMLElement
         )}
 
         {/* Login Form Portal */}
         {ReactDOM.createPortal(
-          <AnimatePresence>
-            {authModalOpen && (
-              <AuthModal onCloseModal={() => setAuthModalOpen(false)} />
-            )}
-          </AnimatePresence>,
+          <AnimatePresence>{authModalOpen && <AuthModal />}</AnimatePresence>,
           document.getElementById('overlay') as HTMLElement
         )}
       </div>

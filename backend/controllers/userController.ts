@@ -14,7 +14,7 @@ export const registerUser = asyncHandler(async (req, res) => {
   // Validate
   if (!username || !email || !password) {
     res.status(400);
-    throw new Error('Missing credentials');
+    throw new Error('اطلاعات لازم دریافت نشد');
   }
 
   // Check if user already exists
@@ -22,7 +22,7 @@ export const registerUser = asyncHandler(async (req, res) => {
 
   if (userExists) {
     res.status(400);
-    throw new Error('User already exists');
+    throw new Error('کاربری با این ایمیل از قبل وجود دارد');
   }
 
   // Create user
@@ -38,7 +38,7 @@ export const registerUser = asyncHandler(async (req, res) => {
     });
   } else {
     res.status(400);
-    throw new Error('Invalid user data');
+    throw new Error('اطلاعات وارد شده اشتباه است');
   }
 });
 
@@ -62,6 +62,22 @@ export const authUser = asyncHandler(async (req, res) => {
     });
   } else {
     res.status(401);
-    throw new Error('Invalid email or password');
+    throw new Error('رمز عبور یا ایمیل اشتباه است');
   }
+});
+
+/**
+ * @desc    Get user profile
+ * @route   GET /api/users/prifle
+ * @acess   Private
+ */
+export const getUserProfile = asyncHandler(async (req, res) => {
+  const user = req.user;
+
+  res.json({
+    _id: user._id,
+    name: user.username,
+    email: user.email,
+    isAdmin: user.isAdmin,
+  });
 });
