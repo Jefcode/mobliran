@@ -1,5 +1,6 @@
 import { toast } from 'react-toastify';
 import { useMutation } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
 import ls from 'localstorage-slim';
 
 import { useAuthContext } from '../context/AuthContext';
@@ -15,7 +16,8 @@ ls.config.encrypt = true;
 ls.config.decrypt = true;
 
 export default function useAuth() {
-  const { closeModal, login } = useAuthContext();
+  const navigate = useNavigate();
+  const { closeModal, login, logout: logoutUser } = useAuthContext();
   let rememberMe = false;
 
   const loginMutations = useMutation(AuthService.loginUser, {
@@ -38,6 +40,23 @@ export default function useAuth() {
     registerMutations.mutate(userData);
   }
 
+  // Logout User from context and LocalStorage
+  function logout(redirect: string = '/'): void {
+    // Context
+    logoutUser();
+
+    // LocalStorage
+    ls.remove('userData');
+
+    navigate(redirect);
+  }
+
+  // Gets user data from localStorage if exits
+  function getUser() {
+    return (ls.get('userData') as User) ?? ({} as User);
+  }
+
+  // Login and Register On Success Event handler
   function successHandler(userData: User) {
     // Close Auth modal
     closeModal();
@@ -51,7 +70,7 @@ export default function useAuth() {
 
     // Save to localStorage
     if (rememberMe) {
-      ls.set('userData', userData);
+      ls.set('userData', userData, { ttl: 2592000 }); // 30d
     }
   }
 
@@ -60,5 +79,7 @@ export default function useAuth() {
     registerMutations,
     signIn,
     signUp,
+    logout,
+    getUser,
   };
 }

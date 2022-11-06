@@ -1,8 +1,16 @@
 import React from 'react';
-import { Link, Outlet } from 'react-router-dom';
+import { Link, Navigate, Outlet } from 'react-router-dom';
 import ImageTitle from '../../components/Partials/ImageTitle';
+import { useAuthContext } from '../../context/AuthContext';
 
 const AccountScreen = () => {
+  const {
+    user: { token },
+  } = useAuthContext();
+  if (!token) {
+    return <Navigate to='/' replace />;
+  }
+
   return (
     <div>
       {/* Image Title */}

@@ -10,8 +10,8 @@ import { AuthContextProvider } from '../../context/AuthContext';
 
 function App() {
   return (
-    <AuthContextProvider>
-      <QueryClientProvider client={queryClient}>
+    <QueryClientProvider client={queryClient}>
+      <AuthContextProvider>
         <div className='w-full max-w-full min-w-full min-h-screen overflow-hidden'>
           <Navbar />
           <Routes />
@@ -19,8 +19,8 @@ function App() {
           <ToastContainer rtl />
           <ReactQueryDevtools />
         </div>
-      </QueryClientProvider>
-    </AuthContextProvider>
+      </AuthContextProvider>
+    </QueryClientProvider>
   );
 }
 

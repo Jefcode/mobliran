@@ -1,8 +1,13 @@
 import React from 'react';
 import { AiFillCaretDown } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
+import { useAuthContext } from '../../context/AuthContext';
+import useAuth from '../../hooks/useAuth';
 
 const NavAccount = () => {
+  const { user } = useAuthContext();
+  const { logout } = useAuth();
+
   return (
     <div className='relative group'>
       <Link to='/cart' className='flex items-center h-full'>
@@ -12,7 +17,7 @@ const NavAccount = () => {
           className='w-6 h-6 rounded-full ml-2'
           alt='User Avatar'
         />
-        <span className='ml-1'>جف کد</span>
+        <span className='ml-1 font-both'>{user.username}</span>
         <AiFillCaretDown className='w-2 h-2' />
       </Link>
 
@@ -39,9 +44,12 @@ const NavAccount = () => {
             </a>
           </li>
           <li className='text-stone-400 hover:text-stone-200 transition'>
-            <a href='/' className='myGroup flex items-center overflow-hidden'>
+            <button
+              onClick={() => logout()}
+              className='myGroup flex items-center overflow-hidden'
+            >
               خروج از حساب
-            </a>
+            </button>
           </li>
         </ul>
       </div>

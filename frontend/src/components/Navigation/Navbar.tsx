@@ -7,11 +7,9 @@ import { Link } from 'react-router-dom';
 import {
   AiOutlineHeart,
   AiOutlineUser,
-  AiFillCaretDown,
   AiOutlineSearch,
   AiOutlineMenu,
 } from 'react-icons/ai';
-import { BsArrowLeft } from 'react-icons/bs';
 
 // Files
 import AuthModal from '../Auth/AuthModal';
@@ -22,8 +20,11 @@ import CartDropdown from './CartDropdown';
 import { useAuthContext } from '../../context/AuthContext';
 
 const Navbar = () => {
-  const { modalOpen: authModalOpen, openModal: openAuthModal } =
-    useAuthContext();
+  const {
+    modalOpen: authModalOpen,
+    openModal: openAuthModal,
+    user,
+  } = useAuthContext();
   const [menuOpen, setMenuOpen] = useState(false);
 
   const toggleMenu = () => setMenuOpen((state) => !state);
@@ -67,18 +68,19 @@ const Navbar = () => {
           </div>
 
           {/* Login */}
-          <div className='relative group'>
-            <span
-              className='flex items-center duration-300 cursor-pointer py-7 space-s-1 hover:text-gray-500'
-              onClick={openAuthModal}
-            >
-              <AiOutlineUser />
-              <span>ورود</span>
-            </span>
-          </div>
-
-          {/* Account => For Logged In Users */}
-          {/* <NavAccount /> */}
+          {user.token ? (
+            <NavAccount />
+          ) : (
+            <div className='relative group'>
+              <span
+                className='flex items-center duration-300 cursor-pointer py-7 space-s-1 hover:text-gray-500'
+                onClick={openAuthModal}
+              >
+                <AiOutlineUser />
+                <span>ورود</span>
+              </span>
+            </div>
+          )}
 
           {/* Search */}
           <div className='relative group flex items-center'>

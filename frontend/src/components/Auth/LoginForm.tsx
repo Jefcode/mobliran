@@ -78,7 +78,10 @@ const LoginForm = () => {
         </a>
 
         {/* Button */}
-        <button className='flex items-center justify-center space-s-2 w-full px-2 py-4 text-center text-white bg-black'>
+        <button
+          className='flex items-center justify-center space-s-2 w-full px-2 py-4 text-center text-white bg-black disabled:bg-black/75 disabled:cursor-wait'
+          disabled={isLoading}
+        >
           {isLoading && <Spinner className='w-5 h-5 text-white' />}
           <span>ورود</span>
         </button>

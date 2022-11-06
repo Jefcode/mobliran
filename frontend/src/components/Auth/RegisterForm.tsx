@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { registerSchema } from './schemas';
@@ -99,7 +98,10 @@ const RegisterForm = () => {
       </div>
 
       {/* Button */}
-      <button className='flex items-center justify-center space-s-2 w-full px-2 py-4 text-center text-white bg-black mt-6'>
+      <button
+        className='btn w-full flex items-center justify-center space-s-2 !py-4 mt-6 disabled:bg-black/75 disabled:cursor-wait'
+        disabled={isLoading}
+      >
         {isLoading && <Spinner className='w-5 h-5 text-white' />}
         <span>ثبت نام</span>
       </button>

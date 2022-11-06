@@ -21,6 +21,7 @@ export function queryErrorHandler(err: unknown): void {
 
   toast.error(message, {
     className: 'font-both',
+    toastId: 'centeralize-error',
   });
 }
 
