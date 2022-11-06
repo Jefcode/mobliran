@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 const CartDropdown = () => {
   return (
-    <div className='absolute left-0 z-10 invisible p-5 text-white transition-all bg-black opacity-0 w-60 group-hover:opacity-100 group-hover:visible top-full '>
+    <div className='absolute left-0 z-50 invisible p-5 text-white transition-all bg-black opacity-0 w-60 group-hover:opacity-100 group-hover:visible top-full '>
       <ul className='space-y-5'>
         <li>
           {/* Cart Item Flex Container */}

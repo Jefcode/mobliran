@@ -26,7 +26,7 @@ const LoginForm = () => {
   } = useAuth();
 
   const loginSubmitHandler = (data: IFormInputs) => {
-    signIn({ email: data.email, password: data.password });
+    signIn(data);
   };
 
   return (

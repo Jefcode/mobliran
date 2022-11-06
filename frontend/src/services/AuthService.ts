@@ -1,4 +1,4 @@
-import { axiosInstance } from '../axiosInstance';
+import { axiosInstance, getJWTHeader } from '../axiosInstance';
 import { User } from '../../../shared/types';
 
 export interface LoginUserData {
@@ -25,6 +25,14 @@ class AuthService {
   }
 
   // Get User Data
+  async getUserData(token: string): Promise<User> {
+    const response = await axiosInstance.get('/users/profile', {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  }
 }
 
 export default new AuthService();

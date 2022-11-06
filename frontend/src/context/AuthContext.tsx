@@ -3,10 +3,10 @@ import { User } from '../../../shared/types';
 
 interface IAuthContenxt {
   modalOpen: boolean;
+  user: User;
   openModal: () => void;
   closeModal: () => void;
   login: (userData: User) => void;
-  register: (userData: User) => void;
 }
 
 interface IAuthContextProviderProps {
@@ -23,24 +23,37 @@ export const AuthContextProvider = ({
   children,
 }: IAuthContextProviderProps) => {
   const [modalOpen, setModalOpen] = useState(false);
+  const [userData, setUserData] = useState<User>(getUserFromLocalStorage);
+  console.log(userData);
 
   const openModal = () => setModalOpen(true);
   const closeModal = () => setModalOpen(false);
 
-  const login = (userData: User) => {};
-  const register = (userData: User) => {};
+  const login = (userData: User) => {
+    setUserData(userData);
+  };
 
   return (
     <AuthContext.Provider
       value={{
         modalOpen,
+        user: userData,
         openModal,
         closeModal,
         login,
-        register,
       }}
     >
       {children}
     </AuthContext.Provider>
   );
 };
+
+function getUserFromLocalStorage() {
+  const initialValue = localStorage.getItem('userData');
+
+  if (initialValue) {
+    return JSON.parse(initialValue);
+  }
+
+  return {} as User;
+}
