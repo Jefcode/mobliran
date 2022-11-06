@@ -3,12 +3,13 @@ import dotenv from 'dotenv';
 import morgan from 'morgan';
 import cors from 'cors';
 
-import productsRouter from './routers/productsRouter';
+import productRoutes from './routers/productRoutes';
+import userRoutes from './routers/userRoutes';
 import connectDB from './config/db';
 import { errorHandler, notFound } from './middlewares/errorMiddleware';
 
 dotenv.config();
-// connectDB();
+connectDB();
 
 const app = express();
 
@@ -24,7 +25,8 @@ app.get('/', (req, res) => {
   res.send('API Running');
 });
 
-app.use('/api/products', productsRouter);
+app.use('/api/products', productRoutes);
+app.use('/api/users', userRoutes);
 
 // Middleware for error handling
 app.use(notFound);

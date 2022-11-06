@@ -1,3 +1,4 @@
+import { IUser } from './../backend/models/userModel';
 export interface Id {
   _id: string;
 }
@@ -22,15 +23,11 @@ export interface Product extends Id {
   images: string[];
 }
 
-export interface Address {}
-
-export interface NewUser {
-  email: string;
-  username: string;
-  address?: Address;
-  firstName?: string;
-  lastName?: string;
-  token?: string;
+export interface Address {
+  country: string;
+  city: string;
+  address: string;
+  postalCode: number;
 }
 
-export type User = Id & NewUser;
+export type User = IUser;

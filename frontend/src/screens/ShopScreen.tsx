@@ -1,5 +1,4 @@
 import React from 'react';
-import Spinner from '../components/common/Spinner';
 import Filter from '../components/Products/Filter';
 import { useProducts } from '../components/Products/hooks/useProducts';
 import ProductItem from '../components/Products/ProductItem';
