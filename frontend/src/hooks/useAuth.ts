@@ -1,5 +1,6 @@
 import { toast } from 'react-toastify';
 import { useMutation } from '@tanstack/react-query';
+import ls from 'localstorage-slim';
 
 import { useAuthContext } from '../context/AuthContext';
 import AuthService, {
@@ -7,6 +8,11 @@ import AuthService, {
   RegisterUserData,
 } from '../services/AuthService';
 import { User } from '../../../shared/types';
+
+// Global Configurations for ls => localStorage-slim
+ls.config.ttl = 10;
+ls.config.encrypt = true;
+ls.config.decrypt = true;
 
 export default function useAuth() {
   const { closeModal, login } = useAuthContext();
@@ -45,7 +51,7 @@ export default function useAuth() {
 
     // Save to localStorage
     if (rememberMe) {
-      localStorage.setItem('userData', JSON.stringify(userData));
+      ls.set('userData', userData);
     }
   }
 

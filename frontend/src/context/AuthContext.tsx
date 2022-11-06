@@ -1,4 +1,6 @@
 import { createContext, ReactNode, useContext, useState } from 'react';
+import ls from 'localstorage-slim';
+
 import { User } from '../../../shared/types';
 
 interface IAuthContenxt {
@@ -24,7 +26,6 @@ export const AuthContextProvider = ({
 }: IAuthContextProviderProps) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [userData, setUserData] = useState<User>(getUserFromLocalStorage);
-  console.log(userData);
 
   const openModal = () => setModalOpen(true);
   const closeModal = () => setModalOpen(false);
@@ -49,11 +50,5 @@ export const AuthContextProvider = ({
 };
 
 function getUserFromLocalStorage() {
-  const initialValue = localStorage.getItem('userData');
-
-  if (initialValue) {
-    return JSON.parse(initialValue);
-  }
-
-  return {} as User;
+  return (ls.get('userData') as User) ?? ({} as User);
 }
