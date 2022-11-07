@@ -8,7 +8,7 @@ import AuthService, {
   LoginUserData,
   RegisterUserData,
 } from '../services/AuthService';
-import { User } from '../../../shared/types';
+import { Address, User } from '../../../shared/types';
 
 // Global Configurations for ls => localStorage-slim
 ls.config.ttl = 10;
@@ -17,7 +17,7 @@ ls.config.decrypt = true;
 
 export default function useAuth() {
   const navigate = useNavigate();
-  const { closeModal, login, logout: logoutUser } = useAuthContext();
+  const { closeModal, login, logout: logoutUser, user } = useAuthContext();
   let rememberMe = false;
 
   const loginMutations = useMutation(AuthService.loginUser, {
@@ -26,6 +26,8 @@ export default function useAuth() {
   const registerMutations = useMutation(AuthService.registerUser, {
     onSuccess: successHandler,
   });
+
+  const userAddressMutations = useMutation(AuthService.updateUserAddress);
 
   function signIn(userData: LoginUserData) {
     loginMutations.mutate(userData);
@@ -56,6 +58,18 @@ export default function useAuth() {
     return (ls.get('userData') as User) ?? ({} as User);
   }
 
+  // Update User Address
+  async function updateUserAddress(address: Address) {
+    const updatedUser = await userAddressMutations.mutateAsync({
+      token: user.token ?? '',
+      address,
+    });
+
+    login(updatedUser);
+
+    saveUserToLocalStorage(updatedUser);
+  }
+
   // Login and Register On Success Event handler
   function successHandler(userData: User) {
     // Close Auth modal
@@ -70,16 +84,22 @@ export default function useAuth() {
 
     // Save to localStorage
     if (rememberMe) {
-      ls.set('userData', userData, { ttl: 2592000 }); // 30d
+      saveUserToLocalStorage(userData);
     }
   }
 
   return {
     loginMutations,
     registerMutations,
+    userAddressMutations,
     signIn,
     signUp,
     logout,
     getUser,
+    updateUserAddress,
   };
 }
+
+const saveUserToLocalStorage = (user: User) => {
+  ls.set('userData', user, { ttl: 2592000 }); // 30d
+};

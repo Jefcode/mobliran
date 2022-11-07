@@ -1,5 +1,5 @@
-import { axiosInstance, getJWTHeader } from '../axiosInstance';
-import { User } from '../../../shared/types';
+import { axiosInstance } from '../axiosInstance';
+import { Address, User } from '../../../shared/types';
 
 export interface LoginUserData {
   email: string;
@@ -9,6 +9,11 @@ export interface LoginUserData {
 
 export interface RegisterUserData extends LoginUserData {
   username: string;
+}
+
+export interface IUpdateUserAddress {
+  token: string;
+  address: Address;
 }
 
 class AuthService {
@@ -31,6 +36,23 @@ class AuthService {
         Authorization: `Bearer ${token}`,
       },
     });
+    return response.data;
+  }
+
+  // update User Address
+  async updateUserAddress({
+    token,
+    address,
+  }: IUpdateUserAddress): Promise<User> {
+    const response = await axiosInstance.put(
+      '/users/profile/address',
+      address,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
     return response.data;
   }
 }

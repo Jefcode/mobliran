@@ -1,17 +1,63 @@
-import React from 'react';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+
+import { editAddressFormSchema } from './schemas';
+import { useAuthContext } from '../../context/AuthContext';
+import useAuth from '../../hooks/useAuth';
+import Spinner from '../../components/common/Spinner';
+import Message from '../../components/common/Message';
+
+interface IFormInputs {
+  country: string;
+  city: string;
+  address: string;
+  postalCode: number;
+}
 
 const EditAddress = () => {
+  // User address Data
+  const { user } = useAuthContext();
+  const {
+    updateUserAddress,
+    userAddressMutations: { isLoading, isSuccess },
+  } = useAuth();
+
+  // React Hook Form Registration
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<IFormInputs>({
+    resolver: yupResolver(editAddressFormSchema),
+    defaultValues: {
+      country: user.address?.country,
+      city: user.address?.city,
+      address: user.address?.address,
+      postalCode: user.address?.postalCode,
+    },
+  });
+
+  const submitHandler = (data: IFormInputs) => {
+    updateUserAddress(data);
+  };
+
   return (
     <div>
       <p className='text-lightGray'>
         آدرس زیر به صورت پیش فرض در فرایند خرید استفاده خواهد شد.
       </p>
 
+      {isSuccess && (
+        <Message variant='success' className='mt-8'>
+          اطلاعات با موفقیت ثبت شدند.
+        </Message>
+      )}
+
       {/* Page Title */}
       <h1 className='text-2xl mt-10 mb-2 font-semibold'>آدرس محل تحویل</h1>
 
       {/* Shipping Address Form */}
-      <form>
+      <form onSubmit={handleSubmit(submitHandler)}>
         {/* Form Container */}
         <div className='space-y-5'>
           {/* Form Control / Input + Label + Possible Error message */}
@@ -21,8 +67,14 @@ const EditAddress = () => {
             </label>
             <input
               type='text'
-              className='w-full px-5 py-3 text-lightGray border border-stone-200 outline-none focus:bg-stone-50 duration-200 '
+              className={`w-full font-both px-5 py-3 text-lightGray border  outline-none focus:bg-stone-50 duration-200 ${
+                errors.country?.message ? 'border-red-500' : 'border-stone-200'
+              }`}
+              {...register('country')}
             />
+            <p className='mt-2 text-red-500 text-sm font-light'>
+              {errors.country?.message}
+            </p>
           </div>
 
           <div className='space-y-2'>
@@ -31,8 +83,14 @@ const EditAddress = () => {
             </label>
             <input
               type='text'
-              className='w-full px-5 py-3 text-lightGray border border-stone-200 outline-none focus:bg-stone-50 duration-200'
+              className={`w-full font-both px-5 py-3 text-lightGray border  outline-none focus:bg-stone-50 duration-200 ${
+                errors.city?.message ? 'border-red-500' : 'border-stone-200'
+              }`}
+              {...register('city')}
             />
+            <p className='mt-2 text-red-500 text-sm font-light'>
+              {errors.city?.message}
+            </p>
           </div>
 
           <div className='space-y-2'>
@@ -41,8 +99,14 @@ const EditAddress = () => {
             </label>
             <input
               type='text'
-              className='w-full px-5 py-3 text-lightGray border border-stone-200 outline-none focus:bg-stone-50 duration-200'
+              className={`w-full font-both px-5 py-3 text-lightGray border  outline-none focus:bg-stone-50 duration-200 ${
+                errors.address?.message ? 'border-red-500' : 'border-stone-200'
+              }`}
+              {...register('address')}
             />
+            <p className='mt-2 text-red-500 text-sm font-light'>
+              {errors.address?.message}
+            </p>
           </div>
 
           <div className='space-y-2'>
@@ -50,14 +114,28 @@ const EditAddress = () => {
               کد پستی *
             </label>
             <input
-              type='email'
-              className='w-full px-5 py-3 text-lightGray border border-stone-200 outline-none focus:bg-stone-50 duration-200'
+              type='text'
+              className={`w-full font-both px-5 py-3 text-lightGray border  outline-none focus:bg-stone-50 duration-200 ${
+                errors.postalCode?.message
+                  ? 'border-red-500'
+                  : 'border-stone-200'
+              }`}
+              {...register('postalCode')}
             />
+            <p className='mt-2 text-red-500 text-sm font-light'>
+              {errors.postalCode?.message}
+            </p>
           </div>
         </div>
 
         {/* Submittion Button */}
-        <button className='btn mt-5'>ثبت اطلاعــــــــــات</button>
+        <button
+          className='btn mt-5 flex items-center justify-center space-s-2 disabled:bg-black/75'
+          disabled={isLoading}
+        >
+          {isLoading && <Spinner className='w-5 h-5' />}
+          <span>ثبت اطلاعــــــــــات</span>
+        </button>
       </form>
     </div>
   );

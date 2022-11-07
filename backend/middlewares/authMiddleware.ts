@@ -24,16 +24,21 @@ export const protect = asyncHandler(async (req: Request, res, next) => {
         '-password'
       );
 
+      if (!req.user) {
+        res.status(401);
+        throw new Error('توکن اشتباه است');
+      }
+
       next();
     } catch (error) {
       console.error(error);
       res.status(401);
-      throw new Error('Not authorized, token failed');
+      throw new Error('مجاز به انجام این عملیات نیستید، توکن اشتباه است');
     }
   }
 
   if (!token) {
     res.status(401);
-    throw new Error('Not authorized, no token');
+    throw new Error('مجاز به انجام این عملیات نیستید، توکن شناسایی نشد');
   }
 });

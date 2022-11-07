@@ -34,6 +34,7 @@ export const registerUser = asyncHandler(async (req, res) => {
       username: user.username,
       email: user.email,
       isAdmin: user.isAdmin,
+      address: user.address,
       token: generateToken(user.id),
     });
   } else {
@@ -58,6 +59,7 @@ export const authUser = asyncHandler(async (req, res) => {
       username: user.username,
       email: user.email,
       isAdmin: user.isAdmin,
+      address: user.address,
       token: generateToken(user.id),
     });
   } else {
@@ -68,16 +70,49 @@ export const authUser = asyncHandler(async (req, res) => {
 
 /**
  * @desc    Get user profile
- * @route   GET /api/users/prifle
+ * @route   GET /api/users/profile
  * @acess   Private
  */
 export const getUserProfile = asyncHandler(async (req, res) => {
   const user = req.user;
 
-  res.json({
-    _id: user._id,
-    name: user.username,
-    email: user.email,
-    isAdmin: user.isAdmin,
-  });
+  res.json(user);
+});
+
+/**
+ * @desc    Update User Address
+ * @route   PUT /api/users/profile/address
+ * @acess   Private
+ */
+export const updateUserAddress = asyncHandler(async (req, res) => {
+  const { country, city, address, postalCode } = req.body;
+
+  // Validate
+  if (!country || !city || !address || !postalCode) {
+    res.status(400);
+    throw new Error('تمام اطلاعات مورد نیاز ارسال نشد.');
+  }
+
+  try {
+    req.user.address = {
+      country,
+      city,
+      address,
+      postalCode,
+    };
+
+    const updatedUser = await req.user.save();
+
+    res.json({
+      _id: updatedUser._id,
+      username: updatedUser.username,
+      email: updatedUser.email,
+      isAdmin: updatedUser.isAdmin,
+      address: updatedUser.address,
+      token: generateToken(updatedUser.id),
+    });
+  } catch (error) {
+    res.status(400);
+    throw new Error('اطلاعات وارد شده اشتباه است');
+  }
 });
