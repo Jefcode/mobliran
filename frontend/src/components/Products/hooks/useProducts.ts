@@ -1,17 +1,18 @@
+import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 
-import type { Product } from './../../../../../shared/types';
+import type { Category, Product } from './../../../../../shared/types';
 import { queryKeys } from '../../../react-query/constants';
 import ProductService from '../../../services/ProductService';
 
 export function useProducts() {
-  const fallback: Product[] = [];
+  const [category, setCategory] = useState<Category>();
 
-  const {
-    data = fallback,
-    isLoading,
-    isError,
-  } = useQuery([queryKeys.products], ProductService.getProducts);
+  const productsQuery = useQuery([queryKeys.products, category], () =>
+    ProductService.getProducts({
+      category,
+    })
+  );
 
-  return { products: data, isLoading, isError };
+  return { productsQuery, category, setCategory };
 }

@@ -9,7 +9,7 @@ const Products = () => {
     <section id='products' className='mt-5 md:mt-14 mb-14'>
       {/* Container */}
       <div className='container mx-auto'>
-        <Filter />
+        {/* <Filter /> */}
 
         {/* Products Flex Container */}
         <div className='flex flex-col items-start sm:flex-row sm:flex-wrap'>

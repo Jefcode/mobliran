@@ -8,7 +8,16 @@ import Product from '../models/productModel';
  * @acess   public
  */
 export const getAllProducts = asyncHandler(async (req, res) => {
-  const products = await Product.find();
+  const { category } = req.query;
+
+  let products;
+
+  if (category === 'all') {
+    products = await Product.find();
+  } else {
+    products = await Product.find({ categories: category });
+  }
+
   res.json(products);
 });
 

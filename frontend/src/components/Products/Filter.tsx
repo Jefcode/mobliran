@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { AiOutlineCaretDown } from 'react-icons/ai';
+import { Category } from '../../../../shared/types';
 import { queryKeys } from '../../react-query/constants';
 import CategoryService from '../../services/CategoryService';
 
@@ -22,7 +23,12 @@ const listVariants = {
   },
 };
 
-const Filter = () => {
+interface FilterProps {
+  selectedCategory: Category | undefined;
+  onChangeCategory: (category: Category | undefined) => void;
+}
+
+const Filter = ({ onChangeCategory, selectedCategory }: FilterProps) => {
   // Get Categories
   const { data: categories = [] } = useQuery(
     [queryKeys.categories],
@@ -61,14 +67,25 @@ const Filter = () => {
           className='hidden h-0 md:!h-auto md:!flex text-stone-400 flex-col space-y-4 items-start overflow-hidden md:flex-row md:space-y-0 md:items-center md:space-s-10'
         >
           {/* Category Items Container */}
-          <div className='font-light cursor-pointer hover:text-stone-700 duration-200 text-stone-700'>
+          <div
+            className={`font-light cursor-pointer hover:text-stone-700 duration-200 ${
+              selectedCategory === undefined && 'text-stone-700'
+            }`}
+            onClick={() => onChangeCategory(undefined)}
+          >
             همه
           </div>
 
           {categories.map((category, idx) => (
             <div
               key={idx}
-              className='font-light cursor-pointer hover:text-stone-700 duration-200'
+              className={`font-light cursor-pointer hover:text-stone-700 duration-200 ${
+                selectedCategory !== undefined &&
+                selectedCategory._id === category._id
+                  ? 'text-stone-700'
+                  : ''
+              }`}
+              onClick={() => onChangeCategory(category)}
             >
               {category.title}
             </div>

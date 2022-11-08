@@ -1,11 +1,21 @@
 import React from 'react';
+import { Category } from '../../../shared/types';
+import Message from '../components/common/Message';
 import Filter from '../components/Products/Filter';
 import { useProducts } from '../components/Products/hooks/useProducts';
 import ProductItem from '../components/Products/ProductItem';
 import SkeletonProducts from '../components/Products/SkeletonProducts';
 
 const ShopScreen = () => {
-  const { products, isLoading, isError } = useProducts();
+  const {
+    productsQuery: { data: products = [], isLoading, isError },
+    category,
+    setCategory,
+  } = useProducts();
+
+  const categoryChangeHandler = (category: Category | undefined) => {
+    setCategory(category);
+  };
 
   return (
     <>
@@ -30,7 +40,10 @@ const ShopScreen = () => {
       <section id='products' className='mt-5 md:mt-14 mb-14'>
         {/* Container */}
         <div className='container mx-auto'>
-          <Filter />
+          <Filter
+            selectedCategory={category}
+            onChangeCategory={categoryChangeHandler}
+          />
 
           {/* Products Flex Container */}
           <div className='flex flex-col items-start sm:flex-row sm:flex-wrap'>
@@ -39,6 +52,11 @@ const ShopScreen = () => {
               <div className='w-full px-5 py-4 bg-rose-200 border-rose-400 font-both'>
                 خطایی رخ داده است
               </div>
+            )}
+            {products.length === 0 && (
+              <Message variant='info'>
+                هیچ محصولی با این دسته بندی یافت نشد.
+              </Message>
             )}
             {products.map((product) => (
               <ProductItem product={product} key={product._id} />

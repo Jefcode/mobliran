@@ -56,5 +56,6 @@ export interface User {
 }
 
 export interface Category {
+  _id?: string;
   title: string;
 }
