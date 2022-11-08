@@ -6,6 +6,7 @@ import { useAuthContext } from '../../context/AuthContext';
 import useAuth from '../../hooks/useAuth';
 import Spinner from '../../components/common/Spinner';
 import Message from '../../components/common/Message';
+import { useEffect } from 'react';
 
 interface IFormInputs {
   country: string;
@@ -40,6 +41,16 @@ const EditAddress = () => {
   const submitHandler = (data: IFormInputs) => {
     updateUserAddress(data);
   };
+
+  // Scroll to top when isSuccess is true
+  useEffect(() => {
+    if (isSuccess) {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth',
+      });
+    }
+  }, [isSuccess]);
 
   return (
     <div>

@@ -51,7 +51,7 @@ const RegisterForm = () => {
 
         <div>
           <input
-            type='email'
+            type='text'
             id='email'
             placeholder='ایمیل'
             className={`font-both w-full px-3 py-4 border outline-none placeholder:font-light focus:bg-gray-50 ${

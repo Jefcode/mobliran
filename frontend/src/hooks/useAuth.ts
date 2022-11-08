@@ -9,6 +9,7 @@ import AuthService, {
   RegisterUserData,
 } from '../services/AuthService';
 import { Address, User } from '../../../shared/types';
+import { IProfileUpdateForm } from '../screens/Account/AccountDetails';
 
 // Global Configurations for ls => localStorage-slim
 ls.config.ttl = 10;
@@ -20,6 +21,9 @@ export default function useAuth() {
   const { closeModal, login, logout: logoutUser, user } = useAuthContext();
   let rememberMe = false;
 
+  /**
+   * Mutations
+   */
   const loginMutations = useMutation(AuthService.loginUser, {
     onSuccess: successHandler,
   });
@@ -28,6 +32,8 @@ export default function useAuth() {
   });
 
   const userAddressMutations = useMutation(AuthService.updateUserAddress);
+
+  const userProfileMutations = useMutation(AuthService.updateUserProfile);
 
   function signIn(userData: LoginUserData) {
     loginMutations.mutate(userData);
@@ -65,9 +71,19 @@ export default function useAuth() {
       address,
     });
 
-    login(updatedUser);
+    console.log(updatedUser);
 
-    saveUserToLocalStorage(updatedUser);
+    loginUser(updatedUser);
+  }
+
+  // Update User Profile
+  async function updateUserProfile(userData: IProfileUpdateForm) {
+    const updatedUser = await userProfileMutations.mutateAsync({
+      token: user.token ?? '',
+      userData,
+    });
+
+    loginUser(updatedUser);
   }
 
   // Login and Register On Success Event handler
@@ -88,15 +104,23 @@ export default function useAuth() {
     }
   }
 
+  // This fn logs the user in and saves its data to localStorage
+  function loginUser(user: User) {
+    login(user);
+    saveUserToLocalStorage(user);
+  }
+
   return {
     loginMutations,
     registerMutations,
     userAddressMutations,
+    userProfileMutations,
     signIn,
     signUp,
     logout,
     getUser,
     updateUserAddress,
+    updateUserProfile,
   };
 }
 

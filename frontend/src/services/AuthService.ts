@@ -1,5 +1,6 @@
 import { axiosInstance } from '../axiosInstance';
 import { Address, User } from '../../../shared/types';
+import { IProfileUpdateForm } from '../screens/Account/AccountDetails';
 
 export interface LoginUserData {
   email: string;
@@ -11,9 +12,14 @@ export interface RegisterUserData extends LoginUserData {
   username: string;
 }
 
-export interface IUpdateUserAddress {
+interface IUpdateUserAddress {
   token: string;
   address: Address;
+}
+
+interface IUpdateUserProfile {
+  token: string;
+  userData: IProfileUpdateForm;
 }
 
 class AuthService {
@@ -53,6 +59,16 @@ class AuthService {
         },
       }
     );
+    return response.data;
+  }
+
+  // Update user Profile
+  async updateUserProfile({ token, userData }: IUpdateUserProfile) {
+    const response = await axiosInstance.put('/users/profile', userData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return response.data;
   }
 }

@@ -4,6 +4,7 @@ import {
   getUserProfile,
   registerUser,
   updateUserAddress,
+  updateUserProfile,
 } from '../controllers/userController';
 import { protect } from '../middlewares/authMiddleware';
 
@@ -11,7 +12,10 @@ const router = Router();
 
 router.route('/').post(registerUser);
 router.post('/login', authUser);
-router.get('/profile', protect, getUserProfile);
+router
+  .route('/profile')
+  .get(protect, getUserProfile)
+  .put(protect, updateUserProfile);
 router.put('/profile/address', protect, updateUserAddress);
 
 export default router;

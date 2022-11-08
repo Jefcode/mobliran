@@ -29,7 +29,6 @@ export const AuthContextProvider = ({
   const { getUser } = useAuth();
   const [modalOpen, setModalOpen] = useState(false);
   const [userData, setUserData] = useState<User>(getUser);
-  console.log(userData);
 
   const openModal = () => setModalOpen(true);
   const closeModal = () => setModalOpen(false);

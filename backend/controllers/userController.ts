@@ -31,6 +31,8 @@ export const registerUser = asyncHandler(async (req, res) => {
   if (user) {
     res.status(201).json({
       _id: user._id,
+      firstName: user.firstName,
+      lastName: user.lastName,
       username: user.username,
       email: user.email,
       isAdmin: user.isAdmin,
@@ -56,6 +58,8 @@ export const authUser = asyncHandler(async (req, res) => {
   if (user && (await user.matchPassword(password))) {
     res.json({
       _id: user._id,
+      firstName: user.firstName,
+      lastName: user.lastName,
       username: user.username,
       email: user.email,
       isAdmin: user.isAdmin,
@@ -105,6 +109,8 @@ export const updateUserAddress = asyncHandler(async (req, res) => {
 
     res.json({
       _id: updatedUser._id,
+      firstName: updatedUser.firstName,
+      lastName: updatedUser.lastName,
       username: updatedUser.username,
       email: updatedUser.email,
       isAdmin: updatedUser.isAdmin,
@@ -115,4 +121,49 @@ export const updateUserAddress = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error('اطلاعات وارد شده اشتباه است');
   }
+});
+
+/**
+ * @desc    Update User Address
+ * @route   PUT /api/users/profile
+ * @acess   Private
+ */
+export const updateUserProfile = asyncHandler(async (req, res) => {
+  const { firstName, lastName, username, email, oldPassword, newPassword } =
+    req.body;
+
+  // Validation
+  if (!firstName || !lastName || !username || !email) {
+    res.status(400);
+    throw new Error('اطلاعات فرستاده شده کامل نیست');
+  }
+
+  const user = (await User.findById(req.user.id)) || req.user;
+
+  user.firstName = firstName;
+  user.lastName = lastName;
+  user.username = username;
+  user.email = email;
+
+  // Check for existance of password
+  if (oldPassword && newPassword) {
+    if (await user.matchPassword(oldPassword)) {
+      user.password = newPassword;
+    } else {
+      res.status(400);
+      throw new Error('رمز کنونی اشتباه وارد شده است');
+    }
+  }
+
+  const updatedUser = await user.save();
+  res.json({
+    _id: updatedUser._id,
+    firstName: updatedUser.firstName,
+    lastName: updatedUser.lastName,
+    username: updatedUser.username,
+    email: updatedUser.email,
+    isAdmin: updatedUser.isAdmin,
+    address: updatedUser.address,
+    token: generateToken(updatedUser.id),
+  });
 });
