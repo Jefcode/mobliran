@@ -1,5 +1,5 @@
 import { toast } from 'react-toastify';
-import { QueryCache, QueryClient } from '@tanstack/react-query';
+import { QueryClient } from '@tanstack/react-query';
 
 interface PossibleError {
   response?: {

@@ -1,4 +1,5 @@
 export const queryKeys = {
   products: 'products',
-  userProfile: 'userProfile'
+  categories: 'categories',
+  userProfile: 'userProfile',
 };

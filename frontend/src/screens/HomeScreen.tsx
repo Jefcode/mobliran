@@ -1,10 +1,21 @@
 import { Link } from 'react-router-dom';
+import { useQueryClient } from '@tanstack/react-query';
 
 import Hero from '../components/Partials/Hero';
 import ProductItem from '../components/Products/ProductItem';
 import products from '../data/products';
+import { queryKeys } from '../react-query/constants';
+import CategoryService from '../services/CategoryService';
 
 const HomeScreen = () => {
+  // Prefetch Categories
+  const queryClient = useQueryClient();
+
+  queryClient.prefetchQuery(
+    [queryKeys.categories],
+    CategoryService.getAllCategories
+  );
+
   return (
     <>
       <Hero />

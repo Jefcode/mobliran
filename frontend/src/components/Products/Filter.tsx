@@ -1,6 +1,9 @@
+import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { AiOutlineCaretDown } from 'react-icons/ai';
+import { queryKeys } from '../../react-query/constants';
+import CategoryService from '../../services/CategoryService';
 
 const listVariants = {
   close: {
@@ -20,6 +23,12 @@ const listVariants = {
 };
 
 const Filter = () => {
+  // Get Categories
+  const { data: categories = [] } = useQuery(
+    [queryKeys.categories],
+    CategoryService.getAllCategories
+  );
+
   const [categoriesOpen, setCategoriesOpen] = useState(false);
   const [filtersOpen, setFiltersOpen] = useState(false);
 
@@ -55,15 +64,15 @@ const Filter = () => {
           <div className='font-light cursor-pointer hover:text-stone-700 duration-200 text-stone-700'>
             همه
           </div>
-          <div className='font-light cursor-pointer hover:text-stone-700 duration-200'>
-            دکور خانه
-          </div>
-          <div className='font-light cursor-pointer hover:text-stone-700 duration-200'>
-            نور آرایی
-          </div>
-          <div className='font-light cursor-pointer hover:text-stone-700 duration-200'>
-            دکوراسیون
-          </div>
+
+          {categories.map((category, idx) => (
+            <div
+              key={idx}
+              className='font-light cursor-pointer hover:text-stone-700 duration-200'
+            >
+              {category.title}
+            </div>
+          ))}
         </motion.div>
       </div>
 
@@ -138,22 +147,40 @@ const Filter = () => {
 
               {/* Sort Flex Container */}
               <div className='flex flex-col text-sm mt-5 space-y-2 text-stone-400'>
-                <a href='/' className='hover:text-stone-700 md:hover:text-stone-100 duration-200'>
+                <a
+                  href='/'
+                  className='hover:text-stone-700 md:hover:text-stone-100 duration-200'
+                >
                   1 هزار - 100 هزار
                 </a>
-                <a href='/' className='hover:text-stone-700 md:hover:text-stone-100 duration-200'>
+                <a
+                  href='/'
+                  className='hover:text-stone-700 md:hover:text-stone-100 duration-200'
+                >
                   100 هزار - 500 هزار
                 </a>
-                <a href='/' className='hover:text-stone-700 md:hover:text-stone-100 duration-200'>
+                <a
+                  href='/'
+                  className='hover:text-stone-700 md:hover:text-stone-100 duration-200'
+                >
                   500 هزار - 1 میلیون
                 </a>
-                <a href='/' className='hover:text-stone-700 md:hover:text-stone-100 duration-200'>
+                <a
+                  href='/'
+                  className='hover:text-stone-700 md:hover:text-stone-100 duration-200'
+                >
                   1 میلیون - 2 میلیون
                 </a>
-                <a href='/' className='hover:text-stone-700 md:hover:text-stone-100 duration-200'>
+                <a
+                  href='/'
+                  className='hover:text-stone-700 md:hover:text-stone-100 duration-200'
+                >
                   2 میلیون - 5 میلیون
                 </a>
-                <a href='/' className='hover:text-stone-700 md:hover:text-stone-100 duration-200'>
+                <a
+                  href='/'
+                  className='hover:text-stone-700 md:hover:text-stone-100 duration-200'
+                >
                   5 میلیون به بالا
                 </a>
               </div>
