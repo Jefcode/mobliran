@@ -1,18 +1,7 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
-import { Address } from '../../shared/types';
 
-export interface IUser extends Document {
-  email: string;
-  password: string;
-  username: string;
-  address?: Address;
-  firstName?: string;
-  lastName?: string;
-  isAdmin?: boolean;
-  token?: string;
-  matchPassword: (password: string) => Promise<boolean>;
-}
+import { IUser } from './interfaces';
 
 const userSchema = new mongoose.Schema<IUser>(
   {

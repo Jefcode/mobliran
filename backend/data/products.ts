@@ -3,7 +3,7 @@ import { Product } from '../../shared/types';
 const products: Product[] = [
   {
     user: '63693a3e8f90ded4279527c1',
-    _id: '2',
+
     images: [
       '/products/clock-1.jpg',
       '/products/clock-2.jpg',
@@ -32,7 +32,7 @@ const products: Product[] = [
   },
   {
     user: '63693a3e8f90ded4279527c1',
-    _id: '1',
+
     images: [
       '/products/p-1.jpg',
       '/products/p-2.jpg',
@@ -61,7 +61,7 @@ const products: Product[] = [
   },
   {
     user: '63693a3e8f90ded4279527c1',
-    _id: '3',
+
     images: [
       '/products/table-1.jpg',
       '/products/table-2.jpg',
@@ -90,7 +90,7 @@ const products: Product[] = [
   },
   {
     user: '63693a3e8f90ded4279527c1',
-    _id: '4',
+
     images: [
       '/products/chair-1.jpg',
       '/products/chair-2.jpg',
@@ -119,7 +119,7 @@ const products: Product[] = [
   },
   {
     user: '63693a3e8f90ded4279527c1',
-    _id: '5',
+
     images: [
       '/products/lamp-1.jpg',
       '/products/lamp-2.jpg',
@@ -148,7 +148,7 @@ const products: Product[] = [
   },
   {
     user: '63693a3e8f90ded4279527c1',
-    _id: '6',
+
     images: [
       '/products/bed-1.jpg',
       '/products/bed-2.jpg',
@@ -177,7 +177,7 @@ const products: Product[] = [
   },
   {
     user: '63693a3e8f90ded4279527c1',
-    _id: '7',
+
     images: [
       '/products/gold-clock-1.jpg',
       '/products/gold-clock-2.jpg',
@@ -206,7 +206,7 @@ const products: Product[] = [
   },
   {
     user: '63693a3e8f90ded4279527c1',
-    _id: '8',
+
     images: [
       '/products/gray-chair-1.jpg',
       '/products/gray-chair-2.jpg',

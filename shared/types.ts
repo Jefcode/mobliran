@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import { IUser } from './../backend/models/userModel';
 
 export interface Id {
   _id: string;
@@ -12,7 +11,8 @@ export interface Review {
   user: mongoose.Schema.Types.ObjectId;
 }
 
-export interface Product extends Id {
+export interface Product {
+  _id?: string;
   user: mongoose.Schema.Types.ObjectId | string;
   title: string;
   price: number;
@@ -40,4 +40,13 @@ export interface Address {
   postalCode: number;
 }
 
-export type User = Id & IUser;
+export interface User {
+  email: string;
+  password: string;
+  username: string;
+  address?: Address;
+  firstName?: string;
+  lastName?: string;
+  isAdmin?: boolean;
+  token?: string;
+}
