@@ -1,14 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { axiosInstance } from './../../../axiosInstance/index';
 import type { Product } from './../../../../../shared/types';
 import { queryKeys } from '../../../react-query/constants';
-
-// For when we need a query function for useQuery
-async function getProducts(): Promise<Product[]> {
-  const { data } = await axiosInstance.get('/products');
-  return data;
-}
+import ProductService from '../../../services/ProductService';
 
 export function useProducts() {
   const fallback: Product[] = [];
@@ -17,7 +11,7 @@ export function useProducts() {
     data = fallback,
     isLoading,
     isError,
-  } = useQuery([queryKeys.products], getProducts);
+  } = useQuery([queryKeys.products], ProductService.getProducts);
 
   return { products: data, isLoading, isError };
 }

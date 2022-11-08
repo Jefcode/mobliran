@@ -1,4 +1,4 @@
-import { Review, Product, User } from './../../shared/types';
+import { Review, Product, User, Category } from './../../shared/types';
 import { Document } from 'mongoose';
 
 interface CustomUserMethods {
@@ -8,3 +8,4 @@ interface CustomUserMethods {
 export type IUser = User & CustomUserMethods & Document;
 export type IReview = Review & Document;
 export type IProduct = Product & Document;
+export type ICategory = Category & Document;

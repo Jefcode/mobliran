@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import Category from './categoryModel';
 import { IProduct, IReview } from './interfaces';
 
 const reviewSchema = new mongoose.Schema<IReview>(
@@ -24,11 +25,13 @@ const productSchema = new mongoose.Schema<IProduct>(
       required: true,
       ref: 'User',
     },
-    categories: {
-      type: [mongoose.Schema.Types.ObjectId],
-      required: true,
-      ref: 'Category',
-    },
+    categories: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: Category,
+        required: true,
+      },
+    ],
     title: {
       type: String,
       required: true,

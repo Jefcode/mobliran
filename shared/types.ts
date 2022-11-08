@@ -11,6 +11,10 @@ export interface Review {
   user: mongoose.Schema.Types.ObjectId;
 }
 
+export interface ResultCategory {
+  title: string;
+}
+
 export interface Product {
   _id?: string;
   user: mongoose.Schema.Types.ObjectId | string;
@@ -18,7 +22,7 @@ export interface Product {
   price: number;
   intro: string;
   countInStock: number;
-  categories: mongoose.Schema.Types.ObjectId[] | string[];
+  categories: mongoose.Schema.Types.ObjectId[] | string[] | ResultCategory[];
   tags: string[];
   description: string;
   info: {
@@ -49,4 +53,8 @@ export interface User {
   lastName?: string;
   isAdmin?: boolean;
   token?: string;
+}
+
+export interface Category {
+  title: string;
 }

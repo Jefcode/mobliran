@@ -1,10 +1,12 @@
-import mongoose from 'mongoose';
+import mongoose, { Document } from 'mongoose';
+import { ICategory } from './interfaces';
 
-const categorySchema = new mongoose.Schema({
+export const categorySchema = new mongoose.Schema<ICategory>({
   title: {
     type: String,
     required: true,
   },
 });
 
-export default mongoose.model('Category', categorySchema);
+const categoryModel = mongoose.model('Category', categorySchema);
+export default categoryModel;

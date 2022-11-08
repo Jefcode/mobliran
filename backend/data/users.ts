@@ -3,6 +3,12 @@ import { User } from './../../shared/types';
 
 const users: User[] = [
   {
+    username: 'AdminUser',
+    email: 'admin@gmail.com',
+    password: bcrypt.hashSync('jefcode', 10),
+    isAdmin: true,
+  },
+  {
     username: 'john',
     email: 'john@gmail.com',
     password: bcrypt.hashSync('jefcode', 10),
@@ -11,12 +17,6 @@ const users: User[] = [
     username: 'jane',
     email: 'jane@gmail.com',
     password: bcrypt.hashSync('jefcode', 10),
-  },
-  {
-    username: 'AdminUser',
-    email: 'admin@gmail.com',
-    password: bcrypt.hashSync('jefcode', 10),
-    isAdmin: true,
   },
 ];
 
