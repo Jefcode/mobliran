@@ -1,5 +1,8 @@
-const products: any[] = [
+import { Product } from '../../shared/types';
+
+const products: Product[] = [
   {
+    user: '63693a3e8f90ded4279527c1',
     _id: '2',
     images: [
       '/products/clock-1.jpg',
@@ -24,9 +27,11 @@ const products: any[] = [
     reviews: [],
     numReviews: 10,
     rating: 5,
+    categories: ['6369b99ffbc49636c4c7bdc8', '6369b99ffbc49636c4c7bdc9'],
     tags: ['وسایل، خرید وسایل خانگی'],
   },
   {
+    user: '63693a3e8f90ded4279527c1',
     _id: '1',
     images: [
       '/products/p-1.jpg',
@@ -51,9 +56,11 @@ const products: any[] = [
     reviews: [],
     numReviews: 10,
     rating: 5,
+    categories: ['6369b99ffbc49636c4c7bdc8', '6369b99ffbc49636c4c7bdc9'],
     tags: ['وسایل، خرید وسایل خانگی'],
   },
   {
+    user: '63693a3e8f90ded4279527c1',
     _id: '3',
     images: [
       '/products/table-1.jpg',
@@ -78,9 +85,11 @@ const products: any[] = [
     reviews: [],
     numReviews: 10,
     rating: 5,
+    categories: ['6369b99ffbc49636c4c7bdc8', '6369b99ffbc49636c4c7bdc9'],
     tags: ['وسایل، خرید وسایل خانگی'],
   },
   {
+    user: '63693a3e8f90ded4279527c1',
     _id: '4',
     images: [
       '/products/chair-1.jpg',
@@ -105,9 +114,11 @@ const products: any[] = [
     reviews: [],
     numReviews: 10,
     rating: 5,
+    categories: ['6369b99ffbc49636c4c7bdc8', '6369b99ffbc49636c4c7bdc9'],
     tags: ['وسایل، خرید وسایل خانگی'],
   },
   {
+    user: '63693a3e8f90ded4279527c1',
     _id: '5',
     images: [
       '/products/lamp-1.jpg',
@@ -132,9 +143,11 @@ const products: any[] = [
     reviews: [],
     rating: 2.3,
     numReviews: 10,
+    categories: ['6369b99ffbc49636c4c7bdc8', '6369b99ffbc49636c4c7bdc9'],
     tags: ['وسایل، خرید وسایل خانگی'],
   },
   {
+    user: '63693a3e8f90ded4279527c1',
     _id: '6',
     images: [
       '/products/bed-1.jpg',
@@ -159,9 +172,11 @@ const products: any[] = [
     reviews: [],
     numReviews: 10,
     rating: 5,
+    categories: ['6369b99ffbc49636c4c7bdc8', '6369b99ffbc49636c4c7bdc9'],
     tags: ['وسایل، خرید وسایل خانگی'],
   },
   {
+    user: '63693a3e8f90ded4279527c1',
     _id: '7',
     images: [
       '/products/gold-clock-1.jpg',
@@ -186,9 +201,11 @@ const products: any[] = [
     reviews: [],
     numReviews: 10,
     rating: 5,
+    categories: ['6369b99ffbc49636c4c7bdc8', '6369b99ffbc49636c4c7bdc9'],
     tags: ['وسایل، خرید وسایل خانگی'],
   },
   {
+    user: '63693a3e8f90ded4279527c1',
     _id: '8',
     images: [
       '/products/gray-chair-1.jpg',
@@ -213,6 +230,7 @@ const products: any[] = [
     reviews: [],
     numReviews: 10,
     rating: 5,
+    categories: ['6369b99ffbc49636c4c7bdc8', '6369b99ffbc49636c4c7bdc9'],
     tags: ['وسایل، خرید وسایل خانگی'],
   },
 ];

@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import { AnimatePresence } from 'framer-motion';
 import QuickLook from './QuickLook';
-
-import Product from '../../models/product';
+import { Product } from '../../../../shared/types';
 
 interface QuickLookBtnProps {
   product: Product;

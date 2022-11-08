@@ -120,7 +120,7 @@ const ProductDetailScreen = () => {
                         href='/'
                         className='text-gray-500 transition hover:text-black'
                       >
-                        {category}
+                        لوازم خانگی
                       </a>{' '}
                     </React.Fragment>
                   ))}

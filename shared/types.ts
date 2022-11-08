@@ -1,13 +1,37 @@
+import mongoose from 'mongoose';
 import { IUser } from './../backend/models/userModel';
-import { IProduct } from '../backend/models/interfaces';
 
 export interface Id {
   _id: string;
 }
 
-export interface Review {}
+export interface Review {
+  name: string;
+  rating: number;
+  comment: string;
+  user: mongoose.Schema.Types.ObjectId;
+}
 
-export type Product = Id & IProduct;
+export interface Product extends Id {
+  user: mongoose.Schema.Types.ObjectId | string;
+  title: string;
+  price: number;
+  intro: string;
+  countInStock: number;
+  categories: mongoose.Schema.Types.ObjectId[] | string[];
+  tags: string[];
+  description: string;
+  info: {
+    weight: string;
+    dimentions: string;
+    colors: string;
+    material: string;
+  };
+  reviews: Review[];
+  rating: number;
+  images: string[];
+  numReviews: number;
+}
 
 export interface Address {
   country: string;

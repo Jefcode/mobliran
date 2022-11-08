@@ -1,7 +1,7 @@
 import { AiFillHeart } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 
-import Product from '../../models/product';
+import { Product } from '../../../../shared/types';
 import QuickLookBtn from './QuickLookBtn';
 
 interface ProductItemProps {
