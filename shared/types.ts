@@ -1,4 +1,5 @@
 import { IUser } from './../backend/models/userModel';
+import { IProduct } from '../backend/models/interfaces';
 
 export interface Id {
   _id: string;
@@ -6,23 +7,7 @@ export interface Id {
 
 export interface Review {}
 
-export interface Product extends Id {
-  title: string;
-  price: number;
-  intro: string;
-  countInStock: number;
-  categories: string[];
-  tags: string[];
-  description: string;
-  info: {
-    weight: string;
-    dimentions: string;
-    colors: string;
-    material: string;
-  };
-  reviews: Review[];
-  images: string[];
-}
+export type Product = Id & IProduct;
 
 export interface Address {
   country: string;

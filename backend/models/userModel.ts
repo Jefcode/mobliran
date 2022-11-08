@@ -14,32 +14,37 @@ export interface IUser extends Document {
   matchPassword: (password: string) => Promise<boolean>;
 }
 
-const userSchema = new mongoose.Schema<IUser>({
-  username: {
-    type: String,
-    required: true,
+const userSchema = new mongoose.Schema<IUser>(
+  {
+    username: {
+      type: String,
+      required: true,
+    },
+    email: {
+      type: String,
+      required: true,
+    },
+    password: {
+      type: String,
+      required: true,
+    },
+    isAdmin: {
+      type: Boolean,
+      default: false,
+    },
+    firstName: String,
+    lastName: String,
+    address: {
+      country: String,
+      city: String,
+      address: String,
+      postalCode: Number,
+    },
   },
-  email: {
-    type: String,
-    required: true,
-  },
-  password: {
-    type: String,
-    required: true,
-  },
-  isAdmin: {
-    type: Boolean,
-    default: false,
-  },
-  firstName: String,
-  lastName: String,
-  address: {
-    country: String,
-    city: String,
-    address: String,
-    postalCode: Number,
-  },
-});
+  {
+    timestamps: true,
+  }
+);
 
 userSchema.methods.matchPassword = async function (enteredPassword: string) {
   return await bcrypt.compare(enteredPassword, this.password);
