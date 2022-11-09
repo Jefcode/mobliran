@@ -3,9 +3,10 @@ import { useQueryClient } from '@tanstack/react-query';
 
 import Hero from '../components/Partials/Hero';
 import ProductItem from '../components/Products/ProductItem';
-import products from '../data/products';
+import { useProducts } from '../components/Products/hooks/useProducts';
 import { queryKeys } from '../react-query/constants';
 import CategoryService from '../services/CategoryService';
+import Spinner from '../components/common/Spinner';
 
 const HomeScreen = () => {
   // Prefetch Categories
@@ -15,6 +16,11 @@ const HomeScreen = () => {
     [queryKeys.categories],
     CategoryService.getAllCategories
   );
+
+  // Fetch products
+  const {
+    productsQuery: { data: products = [], isLoading, isError },
+  } = useProducts();
 
   return (
     <>
@@ -34,6 +40,7 @@ const HomeScreen = () => {
 
           {/* Products Flex Container */}
           <div className='flex flex-col items-start sm:flex-row sm:flex-wrap'>
+            {isLoading && <Spinner className='mx-auto w-10 h-10' />}
             {products.map((product) => (
               <ProductItem product={product} key={product._id} />
             ))}
