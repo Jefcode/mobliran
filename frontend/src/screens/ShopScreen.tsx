@@ -1,6 +1,7 @@
 import Message from '../components/common/Message';
 import Filter from '../components/Products/Filter';
 import {
+  PriceRange,
   SortOptions,
   useProducts,
 } from '../components/Products/hooks/useProducts';
@@ -8,20 +9,30 @@ import ProductItem from '../components/Products/ProductItem';
 import SkeletonProducts from '../components/Products/SkeletonProducts';
 
 const ShopScreen = () => {
+  // Get products
   const {
     productsQuery: { data: products = [], isLoading, isError },
     category,
-    setCategory,
     sortBy,
+    priceRange,
+    setCategory,
     setSortBy,
+    setPriceRange,
   } = useProducts();
 
+  // Changing Category event in Filter
   const categoryChangeHandler = (category: string | undefined) => {
     setCategory(category);
   };
 
+  // Changing sort method in Filter
   const changeSortHandler = (sort: SortOptions) => {
     setSortBy(sort);
+  };
+
+  // Changing Price Event in Filter
+  const priceRangeChangeHandler = (priceRange: PriceRange) => {
+    setPriceRange(priceRange);
   };
 
   return (
@@ -52,6 +63,8 @@ const ShopScreen = () => {
             onChangeCategory={categoryChangeHandler}
             sortBy={sortBy}
             onChangeSort={changeSortHandler}
+            priceRange={priceRange}
+            onChangePriceRange={priceRangeChangeHandler}
           />
 
           {/* Products Flex Container */}
@@ -63,9 +76,11 @@ const ShopScreen = () => {
               </div>
             )}
             {products.length === 0 && !isLoading && (
-              <Message variant='info'>
-                هیچ محصولی با این دسته بندی یافت نشد.
-              </Message>
+              <div className='px-6 w-full'>
+                <Message variant='info'>
+                  هیچ محصولی با این دسته بندی یافت نشد.
+                </Message>
+              </div>
             )}
             {products.map((product) => (
               <ProductItem product={product} key={product._id} />

@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { AiOutlineCaretDown } from 'react-icons/ai';
 import { queryKeys } from '../../react-query/constants';
 import CategoryService from '../../services/CategoryService';
-import { SortOptions } from './hooks/useProducts';
+import { PriceRange, SortOptions } from './hooks/useProducts';
 
 const listVariants = {
   close: {
@@ -28,6 +28,8 @@ interface FilterProps {
   onChangeCategory: (category: string | undefined) => void;
   sortBy: SortOptions;
   onChangeSort: (sort: SortOptions) => void;
+  priceRange: PriceRange;
+  onChangePriceRange: (priceRange: PriceRange) => void;
 }
 
 const Filter = ({
@@ -35,11 +37,16 @@ const Filter = ({
   selectedCategory,
   sortBy,
   onChangeSort,
+  priceRange,
+  onChangePriceRange,
 }: FilterProps) => {
   // Get Categories
   const { data: categories = [] } = useQuery(
     [queryKeys.categories],
-    CategoryService.getAllCategories
+    CategoryService.getAllCategories,
+    {
+      staleTime: 3600000,
+    }
   );
 
   const [categoriesOpen, setCategoriesOpen] = useState(false);
@@ -179,43 +186,59 @@ const Filter = ({
               <h4 className='font-bold'>بازه قیمتی - تومان</h4>
 
               {/* Sort Flex Container */}
-              <div className='flex flex-col text-sm mt-5 space-y-2 text-stone-400'>
-                <a
-                  href='/'
-                  className='hover:text-stone-700 md:hover:text-stone-100 duration-200'
+              <div className='flex flex-col items-start text-sm mt-5 space-y-2 text-stone-400'>
+                <button
+                  onClick={() => onChangePriceRange({ min: 1000, max: 500000 })}
+                  className={`hover:text-stone-700 md:hover:text-stone-100 duration-200 ${
+                    priceRange.min === 1000 &&
+                    priceRange.max === 500000 &&
+                    'text-stone-700 md:text-stone-500 md:text-stone-100'
+                  }`}
                 >
-                  1 هزار - 100 هزار
-                </a>
-                <a
-                  href='/'
-                  className='hover:text-stone-700 md:hover:text-stone-100 duration-200'
-                >
-                  100 هزار - 500 هزار
-                </a>
-                <a
-                  href='/'
-                  className='hover:text-stone-700 md:hover:text-stone-100 duration-200'
+                  1 هزار - 500 هزار
+                </button>
+                <button
+                  onClick={() =>
+                    onChangePriceRange({ min: 500000, max: 1000000 })
+                  }
+                  className={`hover:text-stone-700 md:hover:text-stone-100 duration-200 ${
+                    priceRange.min === 500000 &&
+                    'text-stone-700 md:text-stone-500 md:text-stone-100'
+                  }`}
                 >
                   500 هزار - 1 میلیون
-                </a>
-                <a
-                  href='/'
-                  className='hover:text-stone-700 md:hover:text-stone-100 duration-200'
+                </button>
+                <button
+                  onClick={() =>
+                    onChangePriceRange({ min: 1000000, max: 2000000 })
+                  }
+                  className={`hover:text-stone-700 md:hover:text-stone-100 duration-200 ${
+                    priceRange.min === 1000000 &&
+                    'text-stone-700 md:text-stone-500 md:text-stone-100'
+                  }`}
                 >
                   1 میلیون - 2 میلیون
-                </a>
-                <a
-                  href='/'
-                  className='hover:text-stone-700 md:hover:text-stone-100 duration-200'
+                </button>
+                <button
+                  onClick={() =>
+                    onChangePriceRange({ min: 2000000, max: 5000000 })
+                  }
+                  className={`hover:text-stone-700 md:hover:text-stone-100 duration-200 ${
+                    priceRange.min === 2000000 &&
+                    'text-stone-700 md:text-stone-500 md:text-stone-100'
+                  }`}
                 >
                   2 میلیون - 5 میلیون
-                </a>
-                <a
-                  href='/'
-                  className='hover:text-stone-700 md:hover:text-stone-100 duration-200'
+                </button>
+                <button
+                  onClick={() => onChangePriceRange({ min: 5000000 })}
+                  className={`hover:text-stone-700 md:hover:text-stone-100 duration-200 ${
+                    priceRange.min === 5000000 &&
+                    'text-stone-700 md:text-stone-500 md:text-stone-100'
+                  }`}
                 >
                   5 میلیون به بالا
-                </a>
+                </button>
               </div>
             </div>
           </div>

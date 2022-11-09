@@ -8,7 +8,7 @@ import Product from '../models/productModel';
  * @acess   public
  */
 export const getAllProducts = asyncHandler(async (req, res) => {
-  const { category, sortBy } = req.query;
+  const { category, sortBy, minPrice, maxPrice } = req.query;
 
   let options: { sort?: any } = {};
 
@@ -40,10 +40,19 @@ export const getAllProducts = asyncHandler(async (req, res) => {
 
   let products;
 
+  let priceOptions: any = { $gte: minPrice };
+  if (maxPrice) {
+    priceOptions.$lte = maxPrice;
+  }
+
   if (category === 'all') {
-    products = await Product.find({}, {}, options);
+    products = await Product.find({ price: priceOptions }, {}, options);
   } else {
-    products = await Product.find({ categories: category }, {}, options);
+    products = await Product.find(
+      { categories: category, price: priceOptions },
+      {},
+      options
+    );
   }
 
   res.json(products);

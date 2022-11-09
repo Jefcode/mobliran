@@ -12,7 +12,7 @@ interface MobileMenuProps {
 }
 
 const MobileMenu = ({ open, toggle }: MobileMenuProps) => {
-  const { closeModal: closeAuthModal } = useAuthContext();
+  const { openModal: openAuthModal } = useAuthContext();
 
   const [shopSubmenu, setShopSubmenu] = useState(false);
   const [pagesSubmenu, setPagesSubmenu] = useState(false);
@@ -22,7 +22,7 @@ const MobileMenu = ({ open, toggle }: MobileMenuProps) => {
 
   const openAuthModalHandler = () => {
     // open auth modal
-    closeAuthModal();
+    openAuthModal();
 
     // close mobile menu
     setTimeout(toggle, 500);

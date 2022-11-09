@@ -7,16 +7,33 @@ import ProductService from '../../../services/ProductService';
 
 export type SortOptions = 'default' | 'popularity' | 'new' | 'ASC' | 'DESC'; // Asc and Desc is for price
 
+export type PriceRange = {
+  min: number;
+  max?: number;
+};
+
 export function useProducts() {
   const [category, setCategory] = useState<string>();
   const [sortBy, setSortBy] = useState<SortOptions>('default');
+  const [priceRange, setPriceRange] = useState<PriceRange>({ min: 1000 });
 
-  const productsQuery = useQuery([queryKeys.products, category, sortBy], () =>
-    ProductService.getProducts({
-      category,
-      sortBy,
-    })
+  const productsQuery = useQuery(
+    [queryKeys.products, category, sortBy, priceRange],
+    () =>
+      ProductService.getProducts({
+        category,
+        sortBy,
+        priceRange,
+      })
   );
 
-  return { productsQuery, category, setCategory, sortBy, setSortBy };
+  return {
+    productsQuery,
+    category,
+    setCategory,
+    sortBy,
+    setSortBy,
+    priceRange,
+    setPriceRange,
+  };
 }
