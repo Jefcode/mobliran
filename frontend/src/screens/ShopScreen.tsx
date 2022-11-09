@@ -53,7 +53,7 @@ const ShopScreen = () => {
                 خطایی رخ داده است
               </div>
             )}
-            {products.length === 0 && (
+            {products.length === 0 && !isLoading && (
               <Message variant='info'>
                 هیچ محصولی با این دسته بندی یافت نشد.
               </Message>
