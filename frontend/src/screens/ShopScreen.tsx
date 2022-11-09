@@ -1,6 +1,9 @@
 import Message from '../components/common/Message';
 import Filter from '../components/Products/Filter';
-import { useProducts } from '../components/Products/hooks/useProducts';
+import {
+  SortOptions,
+  useProducts,
+} from '../components/Products/hooks/useProducts';
 import ProductItem from '../components/Products/ProductItem';
 import SkeletonProducts from '../components/Products/SkeletonProducts';
 
@@ -9,10 +12,16 @@ const ShopScreen = () => {
     productsQuery: { data: products = [], isLoading, isError },
     category,
     setCategory,
+    sortBy,
+    setSortBy,
   } = useProducts();
 
   const categoryChangeHandler = (category: string | undefined) => {
     setCategory(category);
+  };
+
+  const changeSortHandler = (sort: SortOptions) => {
+    setSortBy(sort);
   };
 
   return (
@@ -41,6 +50,8 @@ const ShopScreen = () => {
           <Filter
             selectedCategory={category}
             onChangeCategory={categoryChangeHandler}
+            sortBy={sortBy}
+            onChangeSort={changeSortHandler}
           />
 
           {/* Products Flex Container */}

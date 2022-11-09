@@ -8,14 +8,42 @@ import Product from '../models/productModel';
  * @acess   public
  */
 export const getAllProducts = asyncHandler(async (req, res) => {
-  const { category } = req.query;
+  const { category, sortBy } = req.query;
+
+  let options: { sort?: any } = {};
+
+  switch (sortBy) {
+    case 'popularity':
+      options.sort = {
+        rating: -1,
+      };
+      break;
+
+    case 'ASC':
+      options.sort = {
+        price: 1,
+      };
+      break;
+
+    case 'DESC':
+      options.sort = {
+        price: -1,
+      };
+      break;
+
+    default:
+      options.sort = {
+        createdAt: -1,
+      };
+      break;
+  }
 
   let products;
 
   if (category === 'all') {
-    products = await Product.find();
+    products = await Product.find({}, {}, options);
   } else {
-    products = await Product.find({ categories: category });
+    products = await Product.find({ categories: category }, {}, options);
   }
 
   res.json(products);

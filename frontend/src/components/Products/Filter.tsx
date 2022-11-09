@@ -2,9 +2,9 @@ import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { AiOutlineCaretDown } from 'react-icons/ai';
-import { Category } from '../../../../shared/types';
 import { queryKeys } from '../../react-query/constants';
 import CategoryService from '../../services/CategoryService';
+import { SortOptions } from './hooks/useProducts';
 
 const listVariants = {
   close: {
@@ -26,9 +26,16 @@ const listVariants = {
 interface FilterProps {
   selectedCategory: string | undefined;
   onChangeCategory: (category: string | undefined) => void;
+  sortBy: SortOptions;
+  onChangeSort: (sort: SortOptions) => void;
 }
 
-const Filter = ({ onChangeCategory, selectedCategory }: FilterProps) => {
+const Filter = ({
+  onChangeCategory,
+  selectedCategory,
+  sortBy,
+  onChangeSort,
+}: FilterProps) => {
   // Get Categories
   const { data: categories = [] } = useQuery(
     [queryKeys.categories],
@@ -118,43 +125,52 @@ const Filter = ({ onChangeCategory, selectedCategory }: FilterProps) => {
               <h4 className='font-bold'>مرتب بر اساس</h4>
 
               {/* Sort Flex Container */}
-              <div className='flex flex-col text-sm mt-5 space-y-2 text-stone-400'>
-                <a
-                  href='/'
-                  className='hover:text-stone-700 md:hover:text-stone-100 duration-200'
+              <div className='flex flex-col items-start text-sm mt-5 space-y-2 text-stone-400'>
+                <button
+                  onClick={() => onChangeSort('default')}
+                  className={`hover:text-stone-700 md:hover:text-stone-100 duration-200 ${
+                    sortBy === 'default' &&
+                    'text-stone-700 md:text-stone-500 md:text-stone-100'
+                  }`}
                 >
                   پیش فرض
-                </a>
-                <a
-                  href='/'
-                  className='hover:text-stone-700 md:hover:text-stone-100 duration-200'
+                </button>
+                <button
+                  onClick={() => onChangeSort('popularity')}
+                  className={`hover:text-stone-700 md:hover:text-stone-100 duration-200 ${
+                    sortBy === 'popularity' &&
+                    'text-stone-700 md:text-stone-500 md:text-stone-100'
+                  }`}
                 >
                   محبوبیت
-                </a>
-                <a
-                  href='/'
-                  className='hover:text-stone-700 md:hover:text-stone-100 duration-200'
-                >
-                  میانگین امتیاز
-                </a>
-                <a
-                  href='/'
-                  className='hover:text-stone-700 md:hover:text-stone-100 duration-200'
+                </button>
+                <button
+                  onClick={() => onChangeSort('new')}
+                  className={`hover:text-stone-700 md:hover:text-stone-100 duration-200 ${
+                    sortBy === 'new' &&
+                    'text-stone-700 md:text-stone-500 md:text-stone-100'
+                  }`}
                 >
                   جدید بودن
-                </a>
-                <a
-                  href='/'
-                  className='hover:text-stone-700 md:hover:text-stone-100 duration-200'
+                </button>
+                <button
+                  onClick={() => onChangeSort('ASC')}
+                  className={`hover:text-stone-700 md:hover:text-stone-100 duration-200 ${
+                    sortBy === 'ASC' &&
+                    'text-stone-700 md:text-stone-500 md:text-stone-100'
+                  }`}
                 >
                   قیمت: کمتر به بیشتر
-                </a>
-                <a
-                  href='/'
-                  className='hover:text-stone-700 md:hover:text-stone-100 duration-200'
+                </button>
+                <button
+                  onClick={() => onChangeSort('DESC')}
+                  className={`hover:text-stone-700 md:hover:text-stone-100 duration-200 ${
+                    sortBy === 'DESC' &&
+                    'text-stone-700 md:text-stone-500 md:text-stone-100'
+                  }`}
                 >
                   قیمت: بیشتر به کمتر
-                </a>
+                </button>
               </div>
             </div>
 
