@@ -6,7 +6,7 @@ import { queryKeys } from '../../../react-query/constants';
 import ProductService from '../../../services/ProductService';
 
 export function useProducts() {
-  const [category, setCategory] = useState<Category>();
+  const [category, setCategory] = useState<string>();
 
   const productsQuery = useQuery([queryKeys.products, category], () =>
     ProductService.getProducts({

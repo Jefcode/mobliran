@@ -1,5 +1,3 @@
-import React from 'react';
-import { Category } from '../../../shared/types';
 import Message from '../components/common/Message';
 import Filter from '../components/Products/Filter';
 import { useProducts } from '../components/Products/hooks/useProducts';
@@ -13,7 +11,7 @@ const ShopScreen = () => {
     setCategory,
   } = useProducts();
 
-  const categoryChangeHandler = (category: Category | undefined) => {
+  const categoryChangeHandler = (category: string | undefined) => {
     setCategory(category);
   };
 

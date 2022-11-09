@@ -24,8 +24,8 @@ const listVariants = {
 };
 
 interface FilterProps {
-  selectedCategory: Category | undefined;
-  onChangeCategory: (category: Category | undefined) => void;
+  selectedCategory: string | undefined;
+  onChangeCategory: (category: string | undefined) => void;
 }
 
 const Filter = ({ onChangeCategory, selectedCategory }: FilterProps) => {
@@ -81,11 +81,11 @@ const Filter = ({ onChangeCategory, selectedCategory }: FilterProps) => {
               key={idx}
               className={`font-light cursor-pointer hover:text-stone-700 duration-200 ${
                 selectedCategory !== undefined &&
-                selectedCategory._id === category._id
+                selectedCategory === category._id
                   ? 'text-stone-700'
                   : ''
               }`}
-              onClick={() => onChangeCategory(category)}
+              onClick={() => onChangeCategory(category._id)}
             >
               {category.title}
             </div>
