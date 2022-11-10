@@ -93,7 +93,10 @@ export default function useAuth() {
   }
 
   // updates user cart in db after logging in with the data in localStorage
-  async function updateUserCart(userCart: CartItem[]) {
+  async function updateUserCart(
+    userCart: CartItem[],
+    token: string | undefined
+  ) {
     const newCart = mergeTwoCart(cartItems, userCart);
 
     // Update Redux
@@ -101,10 +104,18 @@ export default function useAuth() {
 
     // Save to localStorage
     setCartItems(newCart);
+
+    // Save To Database;
+    await AuthService.updateCart({
+      token: token || '',
+      cart: newCart,
+    });
   }
 
   // Login and Register On Success Event handler
   function successHandler(userData: User) {
+    updateUserCart(userData.cart || [], userData.token);
+
     // Close Auth modal
     dispatch(authActions.closeModal());
 
@@ -119,8 +130,6 @@ export default function useAuth() {
     if (rememberMe) {
       saveUserToLocalStorage(userData);
     }
-
-    updateUserCart(userData.cart || []);
   }
 
   // This fn logs the user in and saves its data to localStorage

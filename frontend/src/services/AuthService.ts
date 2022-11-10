@@ -27,6 +27,11 @@ interface IAddToCart {
   cartItem: CartItem;
 }
 
+interface IUpdateCart {
+  token: string;
+  cart: CartItem[];
+}
+
 class AuthService {
   // Login User Api request
   async loginUser(userData: LoginUserData): Promise<User> {
@@ -82,6 +87,15 @@ class AuthService {
     const response = await axiosInstance.post(
       '/users/cart',
       cartItem,
+      getJWTHeader(token)
+    );
+    return response.data;
+  }
+
+  async updateCart({ token, cart }: IUpdateCart): Promise<User> {
+    const response = await axiosInstance.put(
+      '/users/cart',
+      { cart },
       getJWTHeader(token)
     );
     return response.data;

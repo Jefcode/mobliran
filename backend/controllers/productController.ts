@@ -1,6 +1,8 @@
+import mongoose from 'mongoose';
 import asyncHandler from 'express-async-handler';
 
 import Product from '../models/productModel';
+import { CartItem } from '../types';
 
 /**
  * @desc    fetch all products

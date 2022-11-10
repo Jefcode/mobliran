@@ -211,3 +211,28 @@ export const addToCart = asyncHandler(async (req, res) => {
 
   res.status(200).json({ ...updatedUser._doc });
 });
+
+/**
+ * @desc    Update user Cart
+ * @route   PUT /api/products/cart
+ * @acess   Private
+ */
+export const updateCart = asyncHandler(async (req, res) => {
+  const user = req.user;
+
+  const { cart } = req.body;
+
+  const newCart = cart.map((p: CartItem) => ({
+    product: p.product,
+    quantity: p.quantity,
+  }));
+
+  console.log(newCart);
+
+  // Validate the cart values
+  user.cart = newCart;
+
+  const updatedUser = await user.save();
+
+  res.json(updatedUser);
+});

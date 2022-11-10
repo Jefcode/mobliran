@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { CartItem } from '../../../../shared/types';
+import { RootState } from '../../components/app/store';
 
 const cartInitialStateFromLocalStorage = localStorage.getItem('cartItems')
   ? JSON.parse(localStorage.getItem('cartItems') as string)
@@ -27,5 +28,6 @@ export const cartSlice = createSlice({
 });
 
 export const cartActions = cartSlice.actions;
+export const cartSelector = (state: RootState) => state.cart;
 
 export default cartSlice.reducer;

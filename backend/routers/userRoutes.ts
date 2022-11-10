@@ -4,6 +4,7 @@ import {
   authUser,
   getUserProfile,
   registerUser,
+  updateCart,
   updateUserAddress,
   updateUserProfile,
 } from '../controllers/userController';
@@ -18,6 +19,6 @@ router
   .get(protect, getUserProfile)
   .put(protect, updateUserProfile);
 router.put('/profile/address', protect, updateUserAddress);
-router.route('/cart').post(protect, addToCart);
+router.route('/cart').post(protect, addToCart).put(protect, updateCart);
 
 export default router;

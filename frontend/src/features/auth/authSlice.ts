@@ -5,7 +5,8 @@ import { User } from '../../../../shared/types';
 import { RootState } from '../../components/app/store';
 
 // User Data from Localstorage
-const userDataFromLocalStorage = (ls.get('userData') as User) ?? ({} as User);
+const userDataFromLocalStorage =
+  (ls.get('userData', { decrypt: true }) as User) ?? ({} as User);
 
 interface AuthSliceInitialState {
   modalOpen: boolean;
