@@ -1,12 +1,12 @@
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useMutation } from '@tanstack/react-query';
 
 import { CartItem } from '../../../shared/types';
-import { useAuthContext } from '../context/AuthContext';
 import AuthService from '../services/AuthService';
 import { useLocalStorage } from './useLocalStorage';
 import { cartActions } from '../features/cart/cartSlice';
+import { authSelector } from '../features/auth/authSlice';
 
 export default function useCart() {
   const dispatch = useDispatch();
@@ -15,7 +15,7 @@ export default function useCart() {
     []
   );
   console.log(cartItems);
-  const { user } = useAuthContext();
+  const { user } = useSelector(authSelector);
 
   const addToCartMutation = useMutation(AuthService.addToCart);
 

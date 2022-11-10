@@ -1,9 +1,9 @@
 import { Navigate, Outlet } from 'react-router-dom';
-
-import { useAuthContext } from '../../context/AuthContext';
+import { useSelector } from 'react-redux';
+import { authSelector } from '../../features/auth/authSlice';
 
 const AuthorizedUserRoutes = () => {
-  const { user } = useAuthContext();
+  const { user } = useSelector(authSelector);
   const isLoggedIn = !!user.token;
 
   if (!isLoggedIn) {

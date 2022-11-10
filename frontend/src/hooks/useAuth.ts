@@ -1,10 +1,9 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import ls from 'localstorage-slim';
 
-import { useAuthContext } from '../context/AuthContext';
 import AuthService, {
   LoginUserData,
   RegisterUserData,
@@ -13,6 +12,7 @@ import { Address, CartItem, User } from '../../../shared/types';
 import { IProfileUpdateForm } from '../screens/Account/AccountDetails';
 import { useLocalStorage } from './useLocalStorage';
 import { cartActions } from '../features/cart/cartSlice';
+import { authActions, authSelector } from '../features/auth/authSlice';
 
 // Global Configurations for ls => localStorage-slim
 ls.config.ttl = 10;
@@ -21,8 +21,9 @@ ls.config.decrypt = true;
 
 export default function useAuth() {
   const dispatch = useDispatch();
+  const { user } = useSelector(authSelector);
   const navigate = useNavigate();
-  const { closeModal, login, logout: logoutUser, user } = useAuthContext();
+
   let rememberMe = false;
 
   // Cart
@@ -61,17 +62,12 @@ export default function useAuth() {
   // Logout User from context and LocalStorage
   function logout(redirect: string = '/'): void {
     // Context
-    logoutUser();
+    dispatch(authActions.logout());
 
     // LocalStorage
     ls.remove('userData');
 
     navigate(redirect);
-  }
-
-  // Gets user data from localStorage if exits
-  function getUser() {
-    return (ls.get('userData') as User) ?? ({} as User);
   }
 
   // Update User Address
@@ -110,10 +106,10 @@ export default function useAuth() {
   // Login and Register On Success Event handler
   function successHandler(userData: User) {
     // Close Auth modal
-    closeModal();
+    dispatch(authActions.closeModal());
 
     // Login the User
-    login(userData);
+    dispatch(authActions.login(userData));
 
     toast.success(`با موفقیت وارد شدید`, {
       className: 'font-both',
@@ -129,7 +125,7 @@ export default function useAuth() {
 
   // This fn logs the user in and saves its data to localStorage
   function loginUser(user: User) {
-    login(user);
+    dispatch(authActions.login(user));
     saveUserToLocalStorage(user);
   }
 
@@ -141,7 +137,6 @@ export default function useAuth() {
     signIn,
     signUp,
     logout,
-    getUser,
     updateUserAddress,
     updateUserProfile,
   };

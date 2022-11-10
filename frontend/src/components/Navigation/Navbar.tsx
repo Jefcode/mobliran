@@ -1,3 +1,4 @@
+import { useSelector, useDispatch } from 'react-redux';
 import { AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
 import ReactDOM from 'react-dom';
@@ -17,14 +18,11 @@ import Menu from './Menu';
 import MobileMenu from './MobileMenu';
 import NavAccount from './NavAccount';
 import CartDropdown from './CartDropdown';
-import { useAuthContext } from '../../context/AuthContext';
+import { authActions, authSelector } from '../../features/auth/authSlice';
 
 const Navbar = () => {
-  const {
-    modalOpen: authModalOpen,
-    openModal: openAuthModal,
-    user,
-  } = useAuthContext();
+  const dispatch = useDispatch();
+  const { modalOpen, user } = useSelector(authSelector);
   const [menuOpen, setMenuOpen] = useState(false);
 
   const toggleMenu = () => setMenuOpen((state) => !state);
@@ -74,7 +72,7 @@ const Navbar = () => {
             <div className='relative group'>
               <span
                 className='flex items-center duration-300 cursor-pointer py-7 space-s-1 hover:text-gray-500'
-                onClick={openAuthModal}
+                onClick={() => dispatch(authActions.openModal())}
               >
                 <AiOutlineUser />
                 <span>ورود</span>
@@ -110,7 +108,7 @@ const Navbar = () => {
 
         {/* Login Form Portal */}
         {ReactDOM.createPortal(
-          <AnimatePresence>{authModalOpen && <AuthModal />}</AnimatePresence>,
+          <AnimatePresence>{modalOpen && <AuthModal />}</AnimatePresence>,
           document.getElementById('overlay') as HTMLElement
         )}
       </div>

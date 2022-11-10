@@ -1,12 +1,13 @@
-import React from 'react';
+import { useSelector } from 'react-redux';
 import { Link, Navigate, Outlet } from 'react-router-dom';
 import ImageTitle from '../../components/Partials/ImageTitle';
-import { useAuthContext } from '../../context/AuthContext';
+import { authSelector } from '../../features/auth/authSlice';
 
 const AccountScreen = () => {
   const {
     user: { token },
-  } = useAuthContext();
+  } = useSelector(authSelector);
+
   if (!token) {
     return <Navigate to='/' replace />;
   }

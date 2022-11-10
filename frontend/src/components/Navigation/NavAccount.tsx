@@ -1,11 +1,12 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { AiFillCaretDown } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
-import { useAuthContext } from '../../context/AuthContext';
 import useAuth from '../../hooks/useAuth';
+import { authSelector } from '../../features/auth/authSlice';
 
 const NavAccount = () => {
-  const { user } = useAuthContext();
+  const { user } = useSelector(authSelector);
   const { logout } = useAuth();
 
   return (

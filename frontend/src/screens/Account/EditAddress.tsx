@@ -1,12 +1,13 @@
 import { useForm } from 'react-hook-form';
+import { useSelector } from 'react-redux';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { editAddressFormSchema } from './schemas';
-import { useAuthContext } from '../../context/AuthContext';
 import useAuth from '../../hooks/useAuth';
 import Spinner from '../../components/common/Spinner';
 import Message from '../../components/common/Message';
 import { useEffect } from 'react';
+import { authSelector } from '../../features/auth/authSlice';
 
 interface IFormInputs {
   country: string;
@@ -17,7 +18,8 @@ interface IFormInputs {
 
 const EditAddress = () => {
   // User address Data
-  const { user } = useAuthContext();
+  const { user } = useSelector(authSelector);
+
   const {
     updateUserAddress,
     userAddressMutations: { isLoading, isSuccess },

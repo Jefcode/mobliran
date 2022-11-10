@@ -1,10 +1,12 @@
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { AnimatePresence } from 'framer-motion';
 import { IoMdClose } from 'react-icons/io';
 import { AiOutlineCaretLeft } from 'react-icons/ai';
-import { useState } from 'react';
+
 import MobileMenuDropdown from './MobileMenuDropdown';
 import Backdrop from '../common/Backdrop';
-import { useAuthContext } from '../../context/AuthContext';
+import { authActions } from '../../features/auth/authSlice';
 
 interface MobileMenuProps {
   open: boolean;
@@ -12,7 +14,7 @@ interface MobileMenuProps {
 }
 
 const MobileMenu = ({ open, toggle }: MobileMenuProps) => {
-  const { openModal: openAuthModal } = useAuthContext();
+  const dispatch = useDispatch();
 
   const [shopSubmenu, setShopSubmenu] = useState(false);
   const [pagesSubmenu, setPagesSubmenu] = useState(false);
@@ -22,7 +24,7 @@ const MobileMenu = ({ open, toggle }: MobileMenuProps) => {
 
   const openAuthModalHandler = () => {
     // open auth modal
-    openAuthModal();
+    dispatch(authActions.openModal());
 
     // close mobile menu
     setTimeout(toggle, 500);
