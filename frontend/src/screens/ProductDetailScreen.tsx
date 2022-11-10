@@ -12,7 +12,7 @@ import { queryKeys } from '../react-query/constants';
 import ProductService from '../services/ProductService';
 import Spinner from '../components/common/Spinner';
 import NotFoundScreen from './NotFoundScreen';
-import type { ResultCategory } from '../../../shared/types';
+import type { Category } from '../../../shared/types';
 
 const ProductDetailScreen = () => {
   const [tab, setTab] = useState('description'); // description / informations / reviews
@@ -58,7 +58,7 @@ const ProductDetailScreen = () => {
                       href='/'
                       className='transition hover:text-gray-600 after:content-["،"] mr-1 first:mr-0 last:after:content-[""] flex-inline items-center'
                     >
-                      {(category as ResultCategory).title}
+                      {(category as Category).title}
                     </a>
                   ))}
                 </div>
