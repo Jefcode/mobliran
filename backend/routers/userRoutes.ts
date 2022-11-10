@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import {
+  addToCart,
   authUser,
   getUserProfile,
   registerUser,
@@ -17,5 +18,6 @@ router
   .get(protect, getUserProfile)
   .put(protect, updateUserProfile);
 router.put('/profile/address', protect, updateUserAddress);
+router.route('/cart').post(protect, addToCart);
 
 export default router;

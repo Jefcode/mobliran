@@ -1,3 +1,4 @@
+import { CartItem } from './../../shared/types';
 import asyncHandler from 'express-async-handler';
 
 import User from '../models/userModel';
@@ -166,4 +167,39 @@ export const updateUserProfile = asyncHandler(async (req, res) => {
     address: updatedUser.address,
     token: generateToken(updatedUser.id),
   });
+});
+
+/**
+ * @desc    Add Product to Cart
+ * @route   POST /api/users/cart
+ * @acess   Private
+ */
+export const addToCart = asyncHandler(async (req, res) => {
+  const user: any = req.user;
+
+  const { productId, quantity } = req.body;
+
+  if (!productId || !quantity) {
+    res.status(400);
+    throw new Error('اطلاعات به درستی ارسال نشده است');
+  }
+
+  // Check if product exist in cart
+  const existingItem = user.cart.find(
+    (p: CartItem) => p.product.toString() === productId
+  );
+
+  if (existingItem) {
+    user.cart = user.cart.map((p: CartItem) => {
+      return p.product.toString() === productId
+        ? { ...p, quantity: p.quantity + Number(quantity) }
+        : p;
+    });
+  } else {
+    user.cart.push({ product: productId, quantity: Number(quantity) });
+  }
+
+  const updatedUser = await user.save();
+
+  res.status(200).json(updatedUser);
 });

@@ -29,6 +29,16 @@ const userSchema = new mongoose.Schema<IUser>(
       address: String,
       postalCode: Number,
     },
+    cart: [
+      {
+        product: {
+          type: mongoose.Schema.Types.ObjectId,
+          required: true,
+          ref: 'Product',
+        },
+        quantity: { type: Number, required: true },
+      },
+    ],
   },
   {
     timestamps: true,

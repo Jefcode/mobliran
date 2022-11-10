@@ -19,7 +19,7 @@ const HomeScreen = () => {
 
   // Fetch products
   const {
-    productsQuery: { data: products = [], isLoading, isError },
+    productsQuery: { data: products = [], isLoading },
   } = useProducts();
 
   return (

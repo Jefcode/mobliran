@@ -1,5 +1,4 @@
 import { createContext, ReactNode, useContext, useState } from 'react';
-import ls from 'localstorage-slim';
 
 import { User } from '../../../shared/types';
 import useAuth from '../hooks/useAuth';
