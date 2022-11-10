@@ -3,11 +3,13 @@ import axios, { AxiosRequestConfig } from 'axios';
 import { baseUrl } from './constants';
 
 interface jwtHeader {
-  Authorization?: string;
+  headers: {
+    Authorization?: string;
+  };
 }
 
 export function getJWTHeader(token: string): jwtHeader {
-  return { Authorization: `Bearer ${token}` };
+  return { headers: { Authorization: `Bearer ${token}` } };
 }
 
 const config: AxiosRequestConfig = { baseURL: baseUrl };

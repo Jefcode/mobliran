@@ -1,5 +1,5 @@
-import { axiosInstance } from '../axiosInstance';
-import { Address, User } from '../../../shared/types';
+import { axiosInstance, getJWTHeader } from '../axiosInstance';
+import { Address, CartItem, User } from '../../../shared/types';
 import { IProfileUpdateForm } from '../screens/Account/AccountDetails';
 
 export interface LoginUserData {
@@ -20,6 +20,11 @@ interface IUpdateUserAddress {
 interface IUpdateUserProfile {
   token: string;
   userData: IProfileUpdateForm;
+}
+
+interface IAddToCart {
+  token: string;
+  cartItem: CartItem;
 }
 
 class AuthService {
@@ -69,6 +74,16 @@ class AuthService {
         Authorization: `Bearer ${token}`,
       },
     });
+    return response.data;
+  }
+
+  // Add Product To Cart
+  async addToCart({ token, cartItem }: IAddToCart): Promise<User> {
+    const response = await axiosInstance.post(
+      '/users/cart',
+      cartItem,
+      getJWTHeader(token)
+    );
     return response.data;
   }
 }

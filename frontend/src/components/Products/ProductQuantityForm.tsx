@@ -1,28 +1,45 @@
 import React, { useState } from 'react';
 import { AiOutlineCaretLeft, AiOutlineCaretRight } from 'react-icons/ai';
+import useCart from '../../hooks/useCart';
+import LoadingBtn from '../common/LoadingBtn';
 
 interface ProductQuantityFormProps {
+  productId: string;
   max: number;
+  onSuccessAddingToCart?: () => void;
 }
 
-const ProductQuantityForm = ({ max }: ProductQuantityFormProps) => {
+const ProductQuantityForm = ({
+  max,
+  productId,
+  onSuccessAddingToCart,
+}: ProductQuantityFormProps) => {
   const [qty, setQty] = useState(1);
+
+  const {
+    addToCart,
+    addToCartMutation: { isLoading },
+  } = useCart();
 
   // Change Quantity
   const changeQtyHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = Number(e.target.value);
+    setQty(value);
+  };
 
-    if (value && value !== 0 && value <= max) {
-      setQty(value);
-    }
+  const submitHandler = (e: React.FormEvent) => {
+    e.preventDefault();
 
-    if (value > max) {
-      setQty(max);
-    }
+    addToCart({ product: productId, quantity: qty }, () =>
+      onSuccessAddingToCart?.()
+    );
   };
 
   return (
-    <div className='flex flex-col items-stretch my-12 space-y-3 lg:flex-row lg:space-y-0'>
+    <form
+      onSubmit={submitHandler}
+      className='flex flex-col items-stretch my-12 space-y-3 lg:flex-row lg:space-y-0'
+    >
       {/* Input Container */}
       <div className='flex justify-between w-full text-sm bg-white border lg:w-52 border-stone-300 text-stone-500'>
         <span className='px-3 py-4'>تعداد</span>
@@ -46,10 +63,10 @@ const ProductQuantityForm = ({ max }: ProductQuantityFormProps) => {
         </div>
       </div>
       {/* Button */}
-      <button className='px-10 py-4 text-white transition bg-black whitespace-nowrap hover:bg-black/80'>
+      <LoadingBtn loading={isLoading} className='!py-4'>
         افزودن به سبد خرید
-      </button>
-    </div>
+      </LoadingBtn>
+    </form>
   );
 };
 

@@ -2,6 +2,7 @@ import { CartItem } from './../../shared/types';
 import asyncHandler from 'express-async-handler';
 
 import User from '../models/userModel';
+import Product from '../models/productModel';
 import generateToken from '../utils/generateToken';
 
 /**
@@ -38,6 +39,7 @@ export const registerUser = asyncHandler(async (req, res) => {
       email: user.email,
       isAdmin: user.isAdmin,
       address: user.address,
+      cart: user.cart,
       token: generateToken(user.id),
     });
   } else {
@@ -65,6 +67,7 @@ export const authUser = asyncHandler(async (req, res) => {
       email: user.email,
       isAdmin: user.isAdmin,
       address: user.address,
+      cart: user.cart,
       token: generateToken(user.id),
     });
   } else {
@@ -109,13 +112,7 @@ export const updateUserAddress = asyncHandler(async (req, res) => {
     const updatedUser = await req.user.save();
 
     res.json({
-      _id: updatedUser._id,
-      firstName: updatedUser.firstName,
-      lastName: updatedUser.lastName,
-      username: updatedUser.username,
-      email: updatedUser.email,
-      isAdmin: updatedUser.isAdmin,
-      address: updatedUser.address,
+      ...updatedUser._doc,
       token: generateToken(updatedUser.id),
     });
   } catch (error) {
@@ -158,13 +155,7 @@ export const updateUserProfile = asyncHandler(async (req, res) => {
 
   const updatedUser = await user.save();
   res.json({
-    _id: updatedUser._id,
-    firstName: updatedUser.firstName,
-    lastName: updatedUser.lastName,
-    username: updatedUser.username,
-    email: updatedUser.email,
-    isAdmin: updatedUser.isAdmin,
-    address: updatedUser.address,
+    ...updatedUser._doc,
     token: generateToken(updatedUser.id),
   });
 });
@@ -177,29 +168,46 @@ export const updateUserProfile = asyncHandler(async (req, res) => {
 export const addToCart = asyncHandler(async (req, res) => {
   const user: any = req.user;
 
-  const { productId, quantity } = req.body;
+  const { product, quantity } = req.body;
 
-  if (!productId || !quantity) {
+  if (!product || !quantity) {
     res.status(400);
     throw new Error('اطلاعات به درستی ارسال نشده است');
   }
 
+  // Check if product is a valid product
+  const existingProduct = await Product.findById(product, {
+    _id: 1,
+    countInStock: 1,
+  });
+
+  if (!existingProduct) {
+    res.status(404);
+    throw new Error('محصول مد نظر یافت نشد');
+  }
+
   // Check if product exist in cart
   const existingItem = user.cart.find(
-    (p: CartItem) => p.product.toString() === productId
+    (p: CartItem) => p.product.toString() === product
   );
 
   if (existingItem) {
     user.cart = user.cart.map((p: CartItem) => {
-      return p.product.toString() === productId
-        ? { ...p, quantity: p.quantity + Number(quantity) }
+      return p.product.toString() === product
+        ? {
+            ...p,
+            quantity: quantity,
+          }
         : p;
     });
   } else {
-    user.cart.push({ product: productId, quantity: Number(quantity) });
+    user.cart.push({
+      product,
+      quantity,
+    });
   }
 
   const updatedUser = await user.save();
 
-  res.status(200).json(updatedUser);
+  res.status(200).json({ ...updatedUser._doc });
 });

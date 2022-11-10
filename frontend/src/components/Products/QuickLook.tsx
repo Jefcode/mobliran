@@ -88,7 +88,10 @@ const QuickLook = ({ product, onClose }: QuickLookProps) => {
               </p>
 
               {/* Add To Cart Form */}
-              <ProductQuantityForm max={product.countInStock} />
+              <ProductQuantityForm
+                productId={product._id ?? ''}
+                max={product.countInStock}
+              />
 
               {/* Add To wishlist */}
               <div className='flex items-center cursor-pointer space-s-2'>

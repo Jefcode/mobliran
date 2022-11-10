@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { AiOutlineHeart } from 'react-icons/ai';
 import { useParams } from 'react-router-dom';
@@ -30,6 +30,14 @@ const ProductDetailScreen = () => {
   } = useQuery([queryKeys.products, productId], () =>
     ProductService.getProductDetail(productId)
   );
+
+  // Add To cart Success Event handler
+  const successAddToCartHandler = useCallback(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  }, []);
 
   return (
     <>
@@ -128,7 +136,11 @@ const ProductDetailScreen = () => {
                   </p>
 
                   {/* Add To Cart Container */}
-                  <ProductQuantityForm max={product?.countInStock ?? 1} />
+                  <ProductQuantityForm
+                    productId={product._id ?? ''}
+                    onSuccessAddingToCart={successAddToCartHandler}
+                    max={product?.countInStock ?? 1}
+                  />
 
                   {/* Add To wishlist */}
                   <div className='flex items-center cursor-pointer mb-14 space-s-2'>

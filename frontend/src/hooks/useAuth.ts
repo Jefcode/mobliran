@@ -1,3 +1,4 @@
+import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
@@ -8,8 +9,10 @@ import AuthService, {
   LoginUserData,
   RegisterUserData,
 } from '../services/AuthService';
-import { Address, User } from '../../../shared/types';
+import { Address, CartItem, User } from '../../../shared/types';
 import { IProfileUpdateForm } from '../screens/Account/AccountDetails';
+import { useLocalStorage } from './useLocalStorage';
+import { cartActions } from '../features/cart/cartSlice';
 
 // Global Configurations for ls => localStorage-slim
 ls.config.ttl = 10;
@@ -17,9 +20,16 @@ ls.config.encrypt = true;
 ls.config.decrypt = true;
 
 export default function useAuth() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const { closeModal, login, logout: logoutUser, user } = useAuthContext();
   let rememberMe = false;
+
+  // Cart
+  const [cartItems, setCartItems] = useLocalStorage<CartItem[]>(
+    'cartItems',
+    []
+  );
 
   /**
    * Mutations
@@ -86,6 +96,17 @@ export default function useAuth() {
     loginUser(updatedUser);
   }
 
+  // updates user cart in db after logging in with the data in localStorage
+  async function updateUserCart(userCart: CartItem[]) {
+    const newCart = mergeTwoCart(cartItems, userCart);
+
+    // Update Redux
+    dispatch(cartActions.saveCart(newCart));
+
+    // Save to localStorage
+    setCartItems(newCart);
+  }
+
   // Login and Register On Success Event handler
   function successHandler(userData: User) {
     // Close Auth modal
@@ -102,6 +123,8 @@ export default function useAuth() {
     if (rememberMe) {
       saveUserToLocalStorage(userData);
     }
+
+    updateUserCart(userData.cart || []);
   }
 
   // This fn logs the user in and saves its data to localStorage
@@ -127,3 +150,27 @@ export default function useAuth() {
 const saveUserToLocalStorage = (user: User) => {
   ls.set('userData', user, { ttl: 2592000 }); // 30d
 };
+
+function mergeTwoCart(array1: CartItem[], array2: CartItem[]): CartItem[] {
+  const combinedArray = [...array1, ...array2];
+
+  const newArray: CartItem[] = [];
+  combinedArray.forEach((cartItem) => {
+    // Check if this cartItem with this id is already in newArray variable
+    const newArrayItemIndex = newArray.findIndex(
+      (p) => p.product === cartItem.product
+    );
+    const newArrayItem = newArray[newArrayItemIndex];
+
+    if (newArrayItem) {
+      newArray[newArrayItemIndex] = {
+        ...cartItem,
+        quantity: Math.max(newArrayItem.quantity, cartItem.quantity),
+      };
+    } else {
+      newArray.push(cartItem);
+    }
+  });
+
+  return newArray;
+}

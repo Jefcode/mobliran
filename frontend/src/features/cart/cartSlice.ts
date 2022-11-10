@@ -1,12 +1,16 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { CartItem } from '../../../../shared/types';
 
+const cartInitialStateFromLocalStorage = localStorage.getItem('cartItems')
+  ? JSON.parse(localStorage.getItem('cartItems') as string)
+  : [];
+
 interface CartInitialState {
   items: CartItem[];
 }
 
 const initialState: CartInitialState = {
-  items: [],
+  items: cartInitialStateFromLocalStorage,
 };
 
 export const cartSlice = createSlice({
@@ -15,6 +19,9 @@ export const cartSlice = createSlice({
   reducers: {
     addToCart(state: CartInitialState, action: PayloadAction<CartItem>) {
       state.items.push(action.payload);
+    },
+    saveCart(state: CartInitialState, action: PayloadAction<CartItem[]>) {
+      state.items = action.payload;
     },
   },
 });
