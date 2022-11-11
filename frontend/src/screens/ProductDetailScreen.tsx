@@ -61,9 +61,10 @@ const ProductDetailScreen = () => {
                 </div>
 
                 <div className='after:content-["/"] after:mr-4 last:after:content-[""]'>
-                  {product?.categories.map((category) => (
+                  {product?.categories.map((category, idx) => (
                     <a
                       href='/'
+                      key={idx}
                       className='transition hover:text-gray-600 after:content-["،"] mr-1 first:mr-0 last:after:content-[""] flex-inline items-center'
                     >
                       {(category as Category).title}

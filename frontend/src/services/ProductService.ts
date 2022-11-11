@@ -1,4 +1,4 @@
-import { Product } from '../../../shared/types';
+import { CartItem, Product } from '../../../shared/types';
 import { axiosInstance } from '../axiosInstance';
 import { PriceRange } from '../components/Products/hooks/useProducts';
 
@@ -6,6 +6,11 @@ interface GetProductsArgs {
   category: string | undefined;
   sortBy: string;
   priceRange: PriceRange;
+}
+
+export interface ResultCartItem {
+  product: Product;
+  quantity: number;
 }
 
 class ProductService {
@@ -28,6 +33,17 @@ class ProductService {
   async getProductDetail(id: string): Promise<Product> {
     const response = await axiosInstance.get(`/products/${id}`);
     return response.data;
+  }
+
+  async getProductsByIds(items: CartItem[]) {
+    const products: ResultCartItem[] = [];
+
+    for (const item of items) {
+      const product = await this.getProductDetail(item.product as string);
+      products.push({ product, quantity: item.quantity });
+    }
+
+    return products;
   }
 }
 

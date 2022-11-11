@@ -14,7 +14,7 @@ export default function useCart() {
     'cartItems',
     []
   );
-  console.log(cartItems);
+
   const { user } = useSelector(authSelector);
 
   const addToCartMutation = useMutation(AuthService.addToCart);
