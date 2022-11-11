@@ -1,16 +1,12 @@
 import { CartItem, Product } from '../../../shared/types';
 import { axiosInstance } from '../axiosInstance';
 import { PriceRange } from '../components/Products/hooks/useProducts';
+import { ResultCartItem } from '../models/types';
 
 interface GetProductsArgs {
   category: string | undefined;
   sortBy: string;
   priceRange: PriceRange;
-}
-
-export interface ResultCartItem {
-  product: Product;
-  quantity: number;
 }
 
 class ProductService {

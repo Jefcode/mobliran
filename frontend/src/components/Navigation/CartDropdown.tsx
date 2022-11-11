@@ -1,23 +1,15 @@
-import { useQuery } from '@tanstack/react-query';
 import { IoIosClose } from 'react-icons/io';
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { cartSelector } from '../../features/cart/cartSlice';
-import { queryKeys } from '../../react-query/constants';
-import ProductService, { ResultCartItem } from '../../services/ProductService';
+import { ResultCartItem } from '../../models/types';
+
 import Spinner from '../common/Spinner';
+import useCartData from './hooks/useCartData';
 
 const CartDropdown = () => {
-  const { items } = useSelector(cartSelector);
-
-  const { data, isLoading, isSuccess } = useQuery([queryKeys.cart, items], () =>
-    ProductService.getProductsByIds(items)
-  );
-
-  const totalPrice = data?.reduce(
-    (acc, item) => acc + item.product.price * item.quantity,
-    0
-  );
+  const {
+    cartDataQuery: { data = [], isLoading, isSuccess },
+    totalPrice,
+  } = useCartData();
 
   return (
     <div className='absolute left-0 z-50 invisible p-5 text-white transition-all bg-black opacity-0 w-60 group-hover:opacity-100 group-hover:visible top-full '>
