@@ -1,5 +1,6 @@
 import { IoIosClose } from 'react-icons/io';
 import { Link } from 'react-router-dom';
+import useCart from '../../hooks/useCart';
 import { ResultCartItem } from '../../models/types';
 
 import Spinner from '../common/Spinner';
@@ -10,6 +11,12 @@ const CartDropdown = () => {
     cartDataQuery: { data = [], isLoading, isSuccess },
     totalPrice,
   } = useCartData();
+
+  const { removeFromCart } = useCart();
+
+  const deleteItemHandler = (id: string) => {
+    removeFromCart(id);
+  };
 
   return (
     <div className='absolute left-0 z-50 invisible p-5 text-white transition-all bg-black opacity-0 w-60 group-hover:opacity-100 group-hover:visible top-full '>
@@ -49,7 +56,10 @@ const CartDropdown = () => {
 
                 {/* Remove button */}
                 <button className='mr-auto self-center px-0.5 text-white'>
-                  <IoIosClose className='w-5 h-5' />
+                  <IoIosClose
+                    onClick={() => deleteItemHandler(item.product._id ?? '')}
+                    className='w-5 h-5'
+                  />
                 </button>
               </div>
             </li>

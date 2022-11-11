@@ -4,6 +4,7 @@ import {
   authUser,
   getUserProfile,
   registerUser,
+  removeFromCart,
   updateCart,
   updateUserAddress,
   updateUserProfile,
@@ -20,5 +21,6 @@ router
   .put(protect, updateUserProfile);
 router.put('/profile/address', protect, updateUserAddress);
 router.route('/cart').post(protect, addToCart).put(protect, updateCart);
+router.route('/cart/:id').delete(protect, removeFromCart);
 
 export default router;

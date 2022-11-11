@@ -18,8 +18,10 @@ export default function useCart() {
   const { user } = useSelector(authSelector);
 
   const addToCartMutation = useMutation(AuthService.addToCart);
+  const removeFromCartMutation = useMutation(AuthService.removeFromCart);
 
   useEffect(() => {
+    console.log('redespatch');
     dispatch(cartActions.saveCart(cartItems));
   }, [cartItems, dispatch, user]);
 
@@ -55,5 +57,32 @@ export default function useCart() {
     }
   }
 
-  return { addToCartMutation, addToCart };
+  async function removeFromCart(cartItemId: string, onSuccess?: () => void) {
+    // Check if user is logged in
+    if (user.token) {
+      const updatedUser = await removeFromCartMutation.mutateAsync({
+        token: user.token,
+        cartItemId,
+      });
+
+      if (updatedUser) {
+        setCartItems(updatedUser.cart || []);
+        onSuccess?.();
+      }
+    } else {
+      // remove from localstorage
+      setCartItems((prevCartItems) => {
+        return prevCartItems.filter((p) => p.product !== cartItemId);
+      });
+
+      onSuccess?.();
+    }
+  }
+
+  return {
+    addToCartMutation,
+    removeFromCartMutation,
+    addToCart,
+    removeFromCart,
+  };
 }

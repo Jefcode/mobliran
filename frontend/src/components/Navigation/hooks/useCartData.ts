@@ -17,6 +17,7 @@ export default function useCartData() {
     {
       refetchOnWindowFocus: false,
       staleTime: 60 * 60000,
+      keepPreviousData: true,
     }
   );
 

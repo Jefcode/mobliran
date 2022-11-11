@@ -12,23 +12,27 @@ export interface RegisterUserData extends LoginUserData {
   username: string;
 }
 
-interface IUpdateUserAddress {
+interface Token {
   token: string;
+}
+
+interface IUpdateUserAddress extends Token {
   address: Address;
 }
 
-interface IUpdateUserProfile {
-  token: string;
+interface IUpdateUserProfile extends Token {
   userData: IProfileUpdateForm;
 }
 
-interface IAddToCart {
-  token: string;
+interface IAddToCart extends Token {
   cartItem: CartItem;
 }
 
-interface IUpdateCart {
-  token: string;
+interface IRemoveFromCart extends Token {
+  cartItemId: string;
+}
+
+interface IUpdateCart extends Token {
   cart: CartItem[];
 }
 
@@ -87,6 +91,15 @@ class AuthService {
     const response = await axiosInstance.post(
       '/users/cart',
       cartItem,
+      getJWTHeader(token)
+    );
+    return response.data;
+  }
+
+  // Remove from cart
+  async removeFromCart({ token, cartItemId }: IRemoveFromCart): Promise<User> {
+    const response = await axiosInstance.delete(
+      `/users/cart/${cartItemId}`,
       getJWTHeader(token)
     );
     return response.data;

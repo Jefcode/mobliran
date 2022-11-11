@@ -5,15 +5,19 @@ import { ResultCartItem } from '../../models/types';
 
 interface CartItemRowProps {
   data: ResultCartItem;
+  onRemove: (id: string) => void;
 }
 
-const CartItemRow = ({ data }: CartItemRowProps) => {
+const CartItemRow = ({ data, onRemove }: CartItemRowProps) => {
   return (
     <tr>
       {/* Hidden Button */}
       <td className='w-7'>
         {/* Remove Button */}
-        <IoMdClose className='text-gray-500 transition cursor-pointer hover:text-gray-700' />
+        <IoMdClose
+          onClick={() => onRemove(data.product._id ?? '')}
+          className='text-gray-500 transition cursor-pointer hover:text-gray-700'
+        />
       </td>
 
       {/* Image */}

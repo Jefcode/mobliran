@@ -1,9 +1,9 @@
-import { AiOutlineCaretLeft, AiOutlineCaretRight } from 'react-icons/ai';
 import { BsGift } from 'react-icons/bs';
 import { HiArrowRight } from 'react-icons/hi2';
-import { IoMdClose } from 'react-icons/io';
 import { Link } from 'react-router-dom';
+import useCart from '../../hooks/useCart';
 import { ResultCartItem } from '../../models/types';
+import Spinner from '../common/Spinner';
 import CartItemRow from './CartItemRow';
 
 interface CartDetailProps {
@@ -12,8 +12,23 @@ interface CartDetailProps {
 }
 
 const CartDetail = ({ cartItems, total }: CartDetailProps) => {
+  const {
+    removeFromCart,
+    removeFromCartMutation: { isLoading },
+  } = useCart();
+
+  const deleteItemHandler = (id: string) => {
+    removeFromCart(id, () => console.log('removed'));
+  };
+
   return (
-    <div className='container px-2 mx-auto my-24'>
+    <div className='container px-2 mx-auto my-24 relative'>
+      {isLoading && (
+        <div className='absolute top-0 right-0 h-full w-full bg-white/75 z-50 flex items-center justify-center'>
+          <Spinner className='w-20 h-20' />
+        </div>
+      )}
+
       {/* Shopping Cart Flex Container => Cart Items / Cart Total */}
       <div className='flex flex-col items-start space-y-10 lg:flex-row lg:space-y-0'>
         {/* Shopping Cart Items */}
@@ -25,7 +40,11 @@ const CartDetail = ({ cartItems, total }: CartDetailProps) => {
           <table className='w-full'>
             <tbody className='divide-y divide-gray-200'>
               {cartItems.map((item) => (
-                <CartItemRow key={item.product._id} data={item} />
+                <CartItemRow
+                  onRemove={deleteItemHandler}
+                  key={item.product._id}
+                  data={item}
+                />
               ))}
             </tbody>
           </table>

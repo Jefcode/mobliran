@@ -219,6 +219,25 @@ export const addToCart = asyncHandler(async (req, res) => {
 });
 
 /**
+ * @desc    Remove Product from Cart
+ * @route   Delete /api/users/cart/:id
+ * @acess   Private
+ */
+export const removeFromCart = asyncHandler(async (req, res) => {
+  const { id: productId } = req.params;
+
+  const user = req.user;
+
+  user.cart = user.cart.filter((p: CartItem) => {
+    return p.product.toString() !== productId;
+  });
+
+  const updatedUser = await user.save();
+
+  res.json(updatedUser);
+});
+
+/**
  * @desc    Update user Cart
  * @route   PUT /api/products/cart
  * @acess   Private

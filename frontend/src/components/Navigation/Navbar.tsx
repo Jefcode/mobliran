@@ -19,9 +19,11 @@ import MobileMenu from './MobileMenu';
 import NavAccount from './NavAccount';
 import CartDropdown from './CartDropdown';
 import { authActions, authSelector } from '../../features/auth/authSlice';
+import { cartSelector } from '../../features/cart/cartSlice';
 
 const Navbar = () => {
   const dispatch = useDispatch();
+  const { items } = useSelector(cartSelector);
   const { modalOpen, user } = useSelector(authSelector);
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -47,7 +49,8 @@ const Navbar = () => {
           {/* Cart */}
           <div className='relative group'>
             <Link to='/cart' className='inline-block py-7'>
-              سبد خرید <span className='text-gray-500'>(0 ت)</span>
+              سبد خرید{' '}
+              <span className='text-gray-500'>({items.length ?? 0})</span>
             </Link>
 
             {/* Dropdown */}
