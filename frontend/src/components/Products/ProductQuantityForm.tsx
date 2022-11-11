@@ -24,7 +24,12 @@ const ProductQuantityForm = ({
   // Change Quantity
   const changeQtyHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = Number(e.target.value);
-    setQty(value);
+
+    if (value > max) {
+      setQty(max);
+    } else {
+      setQty(value);
+    }
   };
 
   const submitHandler = (e: React.FormEvent) => {

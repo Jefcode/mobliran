@@ -196,14 +196,20 @@ export const addToCart = asyncHandler(async (req, res) => {
       return p.product.toString() === product
         ? {
             ...p,
-            quantity: quantity,
+            quantity:
+              quantity < existingProduct.countInStock
+                ? quantity
+                : existingProduct.countInStock,
           }
         : p;
     });
   } else {
     user.cart.push({
       product,
-      quantity,
+      quantity:
+        quantity < existingProduct.countInStock
+          ? quantity
+          : existingProduct.countInStock,
     });
   }
 
