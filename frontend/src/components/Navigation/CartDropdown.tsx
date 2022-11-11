@@ -10,9 +10,12 @@ const CartDropdown = () => {
   const {
     cartDataQuery: { data = [], isLoading, isSuccess },
     totalPrice,
-  } = useCartData();
+  } = useCartData(false);
 
-  const { removeFromCart } = useCart();
+  const {
+    removeFromCart,
+    removeFromCartMutation: { isLoading: isRemoving },
+  } = useCart();
 
   const deleteItemHandler = (id: string) => {
     removeFromCart(id);
@@ -25,45 +28,53 @@ const CartDropdown = () => {
       {isSuccess && data.length === 0 && <p>سبد خرید شما خالی است</p>}
 
       {isSuccess && data.length !== 0 && (
-        <ul className='space-y-5'>
-          {data.map((item: ResultCartItem) => (
-            <li key={item.product._id}>
-              {/* Cart Item Flex Container */}
-              <div className='flex items-stretch'>
-                {/* Image */}
-                <img
-                  src={item.product.images[0]}
-                  className='w-10 h-12 object-cover ml-3'
-                  alt=''
-                />
+        <ul className='relative'>
+          {isRemoving && (
+            <div className='flex items-center justify-center absolute top-0 right-0 h-full w-full z-50 bg-black/75'>
+              <Spinner className='w-10 h-10 text-white' />
+            </div>
+          )}
 
-                {/* Info container | product title + quantity + price */}
-                <div className=''>
-                  {/* Title */}
-                  <Link
-                    to={`/product/${item.product._id}`}
-                    className='mb-1 hover:text-stone-400 transition block'
-                  >
-                    {item.product.title}
-                  </Link>
-
-                  {/* Quantity + price */}
-                  <p dir='ltr' className='text-lightGray font-sm'>
-                    <span className='mr-1 font-both'>{item.quantity} x</span>
-                    <span>{item.product.price.toLocaleString()}</span>
-                  </p>
-                </div>
-
-                {/* Remove button */}
-                <button className='mr-auto self-center px-0.5 text-white'>
-                  <IoIosClose
-                    onClick={() => deleteItemHandler(item.product._id ?? '')}
-                    className='w-5 h-5'
+          <div className='max-h-96 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-800 mb-4'>
+            {data.map((item: ResultCartItem) => (
+              <li key={item.product._id} className='mt-5 first-of-type:mt-0'>
+                {/* Cart Item Flex Container */}
+                <div className='flex items-stretch'>
+                  {/* Image */}
+                  <img
+                    src={item.product.images[0]}
+                    className='w-10 h-12 object-cover ml-3'
+                    alt=''
                   />
-                </button>
-              </div>
-            </li>
-          ))}
+
+                  {/* Info container | product title + quantity + price */}
+                  <div className=''>
+                    {/* Title */}
+                    <Link
+                      to={`/product/${item.product._id}`}
+                      className='mb-1 hover:text-stone-400 transition block'
+                    >
+                      {item.product.title}
+                    </Link>
+
+                    {/* Quantity + price */}
+                    <p dir='ltr' className='text-lightGray font-sm'>
+                      <span className='mr-1 font-both'>{item.quantity} x</span>
+                      <span>{item.product.price.toLocaleString()}</span>
+                    </p>
+                  </div>
+
+                  {/* Remove button */}
+                  <button className='mr-auto self-center px-0.5 text-white'>
+                    <IoIosClose
+                      onClick={() => deleteItemHandler(item.product._id ?? '')}
+                      className='w-5 h-5'
+                    />
+                  </button>
+                </div>
+              </li>
+            ))}
+          </div>
 
           {/* Total/ViewCart Button/CheckoutButton Container */}
           <div className='space-y-3'>

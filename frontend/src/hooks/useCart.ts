@@ -19,11 +19,11 @@ export default function useCart() {
 
   const addToCartMutation = useMutation(AuthService.addToCart);
   const removeFromCartMutation = useMutation(AuthService.removeFromCart);
+  const updateCartMutation = useMutation(AuthService.updateCart);
 
   useEffect(() => {
-    console.log('redespatch');
     dispatch(cartActions.saveCart(cartItems));
-  }, [cartItems, dispatch, user]);
+  }, [cartItems, dispatch]);
 
   async function addToCart(cartItem: CartItem, onSuccess?: () => void) {
     // Check if User is logged in
@@ -79,10 +79,46 @@ export default function useCart() {
     }
   }
 
+  async function updateCart(toUpdateData: CartItem[], onSuccess?: () => void) {
+    // Prepare the new Cart
+    const newCart: CartItem[] = [];
+
+    cartItems.forEach((item) => {
+      const existingItemIndex = toUpdateData.findIndex(
+        (p) => p.product === item.product
+      );
+      const existingItem = toUpdateData[existingItemIndex];
+
+      if (existingItem) {
+        newCart.push(existingItem);
+      } else {
+        newCart.push(item);
+      }
+    });
+
+    // Check if User is logged in => save new cart in database
+    if (user.token) {
+      const updatedUser = await updateCartMutation.mutateAsync({
+        token: user.token,
+        cart: newCart,
+      });
+
+      if (updatedUser) {
+        setCartItems(updatedUser.cart || []);
+        onSuccess?.();
+      }
+    } else {
+      setCartItems(newCart || []);
+      onSuccess?.();
+    }
+  }
+
   return {
     addToCartMutation,
     removeFromCartMutation,
+    updateCartMutation,
     addToCart,
     removeFromCart,
+    updateCart,
   };
 }

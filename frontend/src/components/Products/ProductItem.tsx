@@ -2,6 +2,7 @@ import { AiFillHeart } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 
 import { Product } from '../../../../shared/types';
+// import useCart from '../../hooks/useCart';
 import QuickLookBtn from './QuickLookBtn';
 
 interface ProductItemProps {
@@ -36,12 +37,15 @@ const ProductItem = ({ product }: ProductItemProps) => {
 
         {/* Price/AddToCart Container */}
         <div className='relative'>
-          <p className='absolute right-50% translate-x-50% text-sm text-stone-400 group-hover:right-0 group-hover:opacity-0 transition-all duration-500'>
+          {/* group-hover:right-0 group-hover:opacity-0 */}
+          <p className='absolute right-50% translate-x-50% text-sm text-stone-400 transition-all duration-500'>
             {product.price.toLocaleString()} ت
           </p>
-          <button className='absolute left-0 -translate-x-50% last:text-sm text-stone-400 hover:text-stone-700 opacity-0 group-hover:left-50% group-hover:opacity-100 transition-all duration-500 whitespace-nowrap'>
+          {/* <button
+            className='absolute left-0 -translate-x-50% last:text-sm text-stone-400 hover:text-stone-700 opacity-0 group-hover:left-50% group-hover:opacity-100 transition-all duration-500 whitespace-nowrap'
+          >
             اضافه کردن به سبد خرید
-          </button>
+          </button> */}
         </div>
       </div>
     </div>

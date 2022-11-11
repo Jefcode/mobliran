@@ -1,3 +1,5 @@
+import { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { AiOutlineCaretLeft, AiOutlineCaretRight } from 'react-icons/ai';
 import { IoMdClose } from 'react-icons/io';
 import { Link } from 'react-router-dom';
@@ -6,9 +8,36 @@ import { ResultCartItem } from '../../models/types';
 interface CartItemRowProps {
   data: ResultCartItem;
   onRemove: (id: string) => void;
+  onChangeQuantity: (id: string, qty: number) => void;
 }
 
-const CartItemRow = ({ data, onRemove }: CartItemRowProps) => {
+const CartItemRow = ({
+  data,
+  onRemove,
+  onChangeQuantity,
+}: CartItemRowProps) => {
+  const dispatch = useDispatch();
+  const { product, quantity } = data;
+  const { _id: productId = '' } = product;
+  const [qty, setQty] = useState<number>(data.quantity);
+
+  // Notify the parent when quantity changed
+  useEffect(() => {
+    if (qty !== quantity) {
+      onChangeQuantity(productId, qty);
+    }
+  }, [qty, quantity, dispatch, productId, onChangeQuantity]);
+
+  const changeQtyHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = Number(e.target.value);
+
+    if (value < data.product.countInStock) {
+      setQty(value);
+    } else {
+      setQty(data.product.countInStock);
+    }
+  };
+
   return (
     <tr>
       {/* Hidden Button */}
@@ -53,13 +82,22 @@ const CartItemRow = ({ data, onRemove }: CartItemRowProps) => {
 
             {/* Counter Container */}
             <div className='flex items-center pl-3 space-between space-s-2'>
-              <AiOutlineCaretRight />
+              <AiOutlineCaretRight onClick={() => setQty(qty - 1 || 1)} />
               <input
                 type='text'
-                value={data.quantity}
+                value={qty}
+                onChange={changeQtyHandler}
                 className='w-6 h-full text-center outline-none focus:bg-stone-100'
               />
-              <AiOutlineCaretLeft />
+              <AiOutlineCaretLeft
+                onClick={() =>
+                  setQty(
+                    qty + 1 > product.countInStock
+                      ? product.countInStock
+                      : qty + 1
+                  )
+                }
+              />
             </div>
           </div>
         </div>

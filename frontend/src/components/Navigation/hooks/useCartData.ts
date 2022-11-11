@@ -8,16 +8,14 @@ import ProductService from '../../../services/ProductService';
 /**
  * This Hook is responsible for getting the cart data
  */
-export default function useCartData() {
+export default function useCartData(keepPreviousData: boolean = true) {
   const { items } = useSelector(cartSelector);
 
   const cartDataQuery = useQuery(
     [queryKeys.cart, items],
     () => ProductService.getProductsByIds(items),
     {
-      refetchOnWindowFocus: false,
-      staleTime: 60 * 60000,
-      keepPreviousData: true,
+      keepPreviousData,
     }
   );
 

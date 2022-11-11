@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { AiOutlineHeart } from 'react-icons/ai';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 import ProductItem from '../components/Products/ProductItem';
 import ReviewForm from '../components/Forms/ReviewForm';
@@ -16,6 +16,7 @@ import type { Category } from '../../../shared/types';
 
 const ProductDetailScreen = () => {
   const [tab, setTab] = useState('description'); // description / informations / reviews
+  const [successAddToCart, setSuccessAddToCart] = useState(false);
 
   // Get Product Details
   const params = useParams();
@@ -37,6 +38,8 @@ const ProductDetailScreen = () => {
       top: 0,
       behavior: 'smooth',
     });
+
+    setSuccessAddToCart(true);
   }, []);
 
   return (
@@ -76,6 +79,19 @@ const ProductDetailScreen = () => {
                   {product?.title}
                 </div>
               </div>
+
+              {/* Success Add To Cart Notification */}
+              {successAddToCart && (
+                <div className='border-y border-stone-300 w-full py-5 mb-10 flex justify-between items-center flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-s-4'>
+                  <p className='text-lightGray'>
+                    ({product.title}) به سبد خرید شما اضافه شد
+                  </p>
+
+                  <Link to='/cart' className='btn'>
+                    دیدن سبد
+                  </Link>
+                </div>
+              )}
 
               {/* Images / Info Container */}
               <div className='flex flex-col space-y-8 lg:flex-row lg:space-y-0'>
@@ -187,7 +203,6 @@ const ProductDetailScreen = () => {
                   </div>
                 </div>
               </div>
-
               {/* Tabs */}
               <div className='pt-20 sm:pt-24 md:pt-32 text-stone-600'>
                 {/* Panel Control Container */}

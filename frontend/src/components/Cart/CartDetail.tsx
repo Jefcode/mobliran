@@ -1,6 +1,8 @@
+import { useCallback, useMemo, useState } from 'react';
 import { BsGift } from 'react-icons/bs';
 import { HiArrowRight } from 'react-icons/hi2';
 import { Link } from 'react-router-dom';
+import { CartItem } from '../../../../shared/types';
 import useCart from '../../hooks/useCart';
 import { ResultCartItem } from '../../models/types';
 import Spinner from '../common/Spinner';
@@ -12,13 +14,42 @@ interface CartDetailProps {
 }
 
 const CartDetail = ({ cartItems, total }: CartDetailProps) => {
+  const [shouldUpdateCart, setShouldUpdateCart] = useState(false);
+  const toUpdateData: CartItem[] = useMemo(() => [], []);
+
   const {
+    removeFromCartMutation: { isLoading: loadingRemove },
+    updateCartMutation: { isLoading: loadingUpdate },
     removeFromCart,
-    removeFromCartMutation: { isLoading },
+    updateCart,
   } = useCart();
+  const isLoading = loadingRemove || loadingUpdate;
 
   const deleteItemHandler = (id: string) => {
     removeFromCart(id, () => console.log('removed'));
+  };
+
+  // Gets called when any of row items change their quantity
+  const changeQuantityHandler = useCallback(
+    (id: string, qty: number) => {
+      if (!shouldUpdateCart) setShouldUpdateCart(true);
+
+      // Check if exists in toUpdateData
+      const existingItemIndex = toUpdateData.findIndex((p) => p.product === id);
+      const existingItem = toUpdateData[existingItemIndex];
+
+      if (existingItem) {
+        toUpdateData[existingItemIndex] = { product: id, quantity: qty };
+      } else {
+        toUpdateData.push({ product: id, quantity: qty });
+      }
+    },
+    [shouldUpdateCart, toUpdateData]
+  );
+
+  const updateCartHandler = () => {
+    if (!shouldUpdateCart) return;
+    updateCart(toUpdateData);
   };
 
   return (
@@ -42,6 +73,7 @@ const CartDetail = ({ cartItems, total }: CartDetailProps) => {
               {cartItems.map((item) => (
                 <CartItemRow
                   onRemove={deleteItemHandler}
+                  onChangeQuantity={changeQuantityHandler}
                   key={item.product._id}
                   data={item}
                 />
@@ -50,9 +82,9 @@ const CartDetail = ({ cartItems, total }: CartDetailProps) => {
           </table>
 
           {/* Discount Code form */}
-          <div className='flex items-center border-y border-stone-200'>
+          <div className='flex flex-col sm:flex-row items-center border-y border-stone-200'>
             {/* Flex Container */}
-            <form className='w-1/2 flex items-center px-4 py-5 space-s-3 bg-primaryGray'>
+            <form className='w-full sm:w-1/2 flex items-center px-4 py-5 space-s-3 bg-primaryGray'>
               {/* Icon */}
               <BsGift className='text-2xl sm:text-lg' />
 
@@ -69,19 +101,25 @@ const CartDetail = ({ cartItems, total }: CartDetailProps) => {
               </button>
             </form>
 
-            <div className='w-1/2 text-center flex items-center justify-center'>
-              <button className='text-lightGray'>بروزرسانی سبد</button>
+            <div className='w-full sm:w-1/2 text-center flex items-center justify-center py-5 sm:py-0'>
+              <button
+                className='disabled:text-lightGray text-stone-600'
+                disabled={!shouldUpdateCart}
+                onClick={updateCartHandler}
+              >
+                بروزرسانی سبد
+              </button>
             </div>
           </div>
 
           {/* Go Back to Shop Link */}
-          <a
-            href='/'
+          <Link
+            to='/shop'
             className='flex items-center mt-10 font-light space-s-3 text-lightGray'
           >
             <HiArrowRight />
             <span>بازگشت به فروشگاه</span>
-          </a>
+          </Link>
         </div>
 
         {/* Cart Info */}

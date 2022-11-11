@@ -252,8 +252,6 @@ export const updateCart = asyncHandler(async (req, res) => {
     quantity: p.quantity,
   }));
 
-  console.log(newCart);
-
   // Validate the cart values
   user.cart = newCart;
 
