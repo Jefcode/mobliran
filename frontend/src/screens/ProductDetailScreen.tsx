@@ -338,11 +338,7 @@ const ProductDetailScreen = () => {
               {/* Products Flex Container */}
               <div className='flex flex-col items-start sm:flex-row sm:flex-wrap'>
                 {products.slice(0, 4).map((product) => (
-                  <ProductItem
-                    onAddToCart={(item: CartItem) => {}}
-                    product={product}
-                    key={product._id}
-                  />
+                  <ProductItem product={product} key={product._id} />
                 ))}
               </div>
             </div>

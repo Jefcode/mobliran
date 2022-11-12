@@ -40,11 +40,7 @@ const Products = ({
         </div>
       )}
       {products.map((product) => (
-        <ProductItem
-          product={product}
-          key={product._id}
-          onAddToCart={addToCartHandler}
-        />
+        <ProductItem product={product} key={product._id} />
       ))}
     </div>
   );

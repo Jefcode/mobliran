@@ -4,20 +4,23 @@ import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { CartItem, Product } from '../../../../shared/types';
+import { useShoppingCartContext } from '../../context/ShoppingCartContext';
 import { cartSelector } from '../../features/cart/cartSlice';
 // import useCart from '../../hooks/useCart';
 import QuickLookBtn from './QuickLookBtn';
 
 interface ProductItemProps {
   product: Product;
-  onAddToCart: (item: CartItem) => void;
 }
 
-const ProductItem = ({ product, onAddToCart }: ProductItemProps) => {
-  // To Prevent from hammering the add to cart button
-  const [clickedAddToCart, setClickedAddToCart] = useState(false);
+const ProductItem = ({ product }: ProductItemProps) => {
   const navigate = useNavigate();
+  const [isSuccess, setIsSuccess] = useState(false);
   const { items } = useSelector(cartSelector);
+  const {
+    addToCart,
+    addMutation: { isLoading },
+  } = useShoppingCartContext();
 
   // Item in cart?
   const productInCart = !!items.find(
@@ -25,8 +28,7 @@ const ProductItem = ({ product, onAddToCart }: ProductItemProps) => {
   );
 
   const addToCartHandler = () => {
-    if (clickedAddToCart) return;
-
+    // Check if product is already in cart
     if (productInCart) {
       navigate('/cart');
       return;
@@ -34,9 +36,7 @@ const ProductItem = ({ product, onAddToCart }: ProductItemProps) => {
 
     const item: CartItem = { product: product._id ?? '', quantity: 1 };
 
-    onAddToCart(item);
-
-    setTimeout(() => setClickedAddToCart(false), 1000);
+    addToCart(item, () => setIsSuccess(true));
   };
 
   return (
@@ -71,10 +71,14 @@ const ProductItem = ({ product, onAddToCart }: ProductItemProps) => {
           </p>
           <button
             onClick={addToCartHandler}
-            className='absolute left-0 -translate-x-50% last:text-sm text-stone-400 hover:text-stone-700 opacity-0 group-hover:left-50% group-hover:opacity-100 transition-all duration-500 whitespace-nowrap disabled:text-white disabled:cursor-wait'
-            disabled={clickedAddToCart}
+            className='absolute left-0 -translate-x-50% last:text-sm text-stone-400 hover:text-stone-700 opacity-0 group-hover:left-50% group-hover:opacity-100 transition-all duration-500 whitespace-nowrap disabled:cursor-wait'
+            disabled={isLoading}
           >
-            {productInCart ? 'دیدن سبد خرید' : 'اضافه کردن به سبد خرید'}
+            {productInCart || isSuccess
+              ? 'دیدن سبد خرید'
+              : isLoading
+              ? 'در حال افزودن'
+              : 'اضافه کردن به سبد خرید'}
           </button>
         </div>
       </div>

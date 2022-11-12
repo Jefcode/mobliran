@@ -15,6 +15,7 @@ export default function useCartData(keepPreviousData: boolean = true) {
     [queryKeys.cart, items],
     () => ProductService.getProductsByIds(items),
     {
+      refetchOnWindowFocus: false,
       keepPreviousData,
     }
   );
