@@ -1,5 +1,4 @@
-import { CartItem, Product } from '../../../../shared/types';
-import { useShoppingCartContext } from '../../context/ShoppingCartContext';
+import { Product } from '../../../../shared/types';
 import Message from '../common/Message';
 
 import ProductItem from './ProductItem';
@@ -16,14 +15,6 @@ const Products = ({
   isLoading = false,
   isError = false,
 }: ProductsProps) => {
-  // Add Item to Cart Prep
-  const { addToCart } = useShoppingCartContext();
-
-  // Add to cart (called in a child product)
-  const addToCartHandler = (item: CartItem) => {
-    addToCart(item);
-  };
-
   return (
     <div className='flex flex-col items-start sm:flex-row sm:flex-wrap'>
       {isLoading && <SkeletonProducts />}

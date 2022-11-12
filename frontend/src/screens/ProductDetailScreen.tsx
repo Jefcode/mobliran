@@ -12,7 +12,7 @@ import { queryKeys } from '../react-query/constants';
 import ProductService from '../services/ProductService';
 import Spinner from '../components/common/Spinner';
 import NotFoundScreen from './NotFoundScreen';
-import type { CartItem, Category } from '../../../shared/types';
+import type { Category } from '../../../shared/types';
 
 const ProductDetailScreen = () => {
   const [tab, setTab] = useState('description'); // description / informations / reviews
