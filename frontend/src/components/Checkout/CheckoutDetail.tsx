@@ -1,10 +1,14 @@
+import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
+import { yupResolver } from '@hookform/resolvers/yup';
+
 import { authSelector } from '../../features/auth/authSlice';
 import { ResultCartItem } from '../../models/types';
 
 import Input from '../common/Input';
 import CouponCheckout from './CouponCheckout';
+import checkoutFormSchema from './schema';
 
 interface CheckoutDetailProps {
   cartItems: ResultCartItem[];
@@ -13,11 +17,36 @@ interface CheckoutDetailProps {
 
 const SHIPPING_PRICE = 20_000;
 
+interface ICheckoutFormInputs {
+  shipToAnotherAddress: boolean;
+  country: string;
+  city: string;
+  address: string;
+  postalCode: number;
+
+  specialNotes: string;
+}
+
 const CheckoutDetail = ({ cartItems, totalPrice }: CheckoutDetailProps) => {
   const { user } = useSelector(authSelector);
   const [shipToAnotherAddress, setShipToAnotherAddress] = useState<boolean>(
     !!!user.address?.address
   );
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<ICheckoutFormInputs>({
+    resolver: yupResolver(checkoutFormSchema),
+    defaultValues: {
+      shipToAnotherAddress,
+    },
+  });
+
+  const checkoutSubmitHandler = (data: ICheckoutFormInputs) => {
+    console.log(data);
+  };
 
   return (
     <div className='container px-6 mx-auto py-28'>
@@ -25,7 +54,7 @@ const CheckoutDetail = ({ cartItems, totalPrice }: CheckoutDetailProps) => {
       <CouponCheckout />
 
       {/* Checkout Form */}
-      <form>
+      <form onSubmit={handleSubmit(checkoutSubmitHandler)}>
         {/* Shipping Address Section */}
         <section id='shipping' className='text-stone-600'>
           <h2 className='mb-8 text-2xl text-stone-900'>اطلاعات آدرس تحویل</h2>
@@ -65,10 +94,13 @@ const CheckoutDetail = ({ cartItems, totalPrice }: CheckoutDetailProps) => {
             }`}
           >
             <input
-              onChange={(e) => setShipToAnotherAddress(e.target.checked)}
-              checked={shipToAnotherAddress}
               type='checkbox'
               id='shipToAnotherAddress'
+              {...register('shipToAnotherAddress', {
+                onChange(event) {
+                  setShipToAnotherAddress(event.target.checked);
+                },
+              })}
             />
             <label htmlFor='shipToAnotherAddress'>ارسال به آدرسی دیگر؟</label>
           </div>
@@ -81,28 +113,46 @@ const CheckoutDetail = ({ cartItems, totalPrice }: CheckoutDetailProps) => {
                 <label htmlFor='' className='text-stone-700'>
                   کشور *
                 </label>
-                <Input />
+                <Input
+                  {...register('country')}
+                  className={errors.country && 'border-red-500'}
+                />
+                <p className='mt-1 text-red-500'>{errors.country?.message}</p>
               </div>
 
               <div className='space-y-2'>
                 <label htmlFor='' className='text-stone-700'>
                   شهر *
                 </label>
-                <Input />
+                <Input
+                  {...register('city')}
+                  className={errors.city && 'border-red-500'}
+                />
+                <p className='mt-1 text-red-500'>{errors.city?.message}</p>
               </div>
 
               <div className='space-y-2'>
                 <label htmlFor='' className='text-stone-700'>
                   آدرس *
                 </label>
-                <Input />
+                <Input
+                  {...register('address')}
+                  className={errors.address && 'border-red-500'}
+                />
+                <p className='mt-1 text-red-500'>{errors.address?.message}</p>
               </div>
 
               <div className='space-y-2'>
                 <label htmlFor='' className='text-stone-700'>
                   کد پستی *
                 </label>
-                <Input />
+                <Input
+                  {...register('postalCode')}
+                  className={errors.postalCode && 'border-red-500'}
+                />
+                <p className='mt-1 text-red-500'>
+                  {errors.postalCode?.message}
+                </p>
               </div>
             </div>
           )}
@@ -114,6 +164,7 @@ const CheckoutDetail = ({ cartItems, totalPrice }: CheckoutDetailProps) => {
               cols={30}
               className='w-full p-4 mt-2 text-sm border h-52 border-stone-200 text-lightGray placeholder:font-light focus:outline-none focus:bg-stone-50'
               placeholder='نکات خاص درباره سفارش و تحویل'
+              {...register('specialNotes')}
             ></textarea>
           </div>
         </section>
