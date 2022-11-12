@@ -73,8 +73,6 @@ export default function useAuth() {
       address,
     });
 
-    console.log(updatedUser);
-
     loginUser(updatedUser);
   }
 

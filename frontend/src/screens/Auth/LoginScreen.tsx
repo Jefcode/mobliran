@@ -103,7 +103,7 @@ const LoginScreen = () => {
           </a>
 
           <Link
-            to={`/register?redirect=${redirect}`}
+            to={`/auth/register?redirect=${redirect}`}
             className='hover:text-stone-700 transition'
           >
             ثبت نام

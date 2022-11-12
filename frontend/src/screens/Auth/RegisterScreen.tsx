@@ -113,7 +113,7 @@ const RegisterScreen = () => {
         {/* Forgot password / Register Link */}
         <div className='text-sm mt-6 text-stone-500 flex flex-col space-y-2'>
           <Link
-            to={`/login?redirect=${redirect}`}
+            to={`/auth/login?redirect=${redirect}`}
             className='hover:text-stone-700 transition'
           >
             حساب دارید؟ وارد شوید
