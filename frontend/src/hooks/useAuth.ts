@@ -1,3 +1,4 @@
+import { useShoppingCartContext } from './../context/ShoppingCartContext';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { useMutation } from '@tanstack/react-query';
@@ -10,7 +11,6 @@ import AuthService, {
 } from '../services/AuthService';
 import { Address, CartItem, User } from '../../../shared/types';
 import { IProfileUpdateForm } from '../screens/Account/AccountDetails';
-import { useLocalStorage } from './useLocalStorage';
 import { cartActions } from '../features/cart/cartSlice';
 import { authActions, authSelector } from '../features/auth/authSlice';
 
@@ -26,11 +26,7 @@ export default function useAuth() {
 
   let rememberMe = false;
 
-  // Cart
-  const [cartItems, setCartItems] = useLocalStorage<CartItem[]>(
-    'cartItems',
-    []
-  );
+  const { items: cartItems, setLocalCart } = useShoppingCartContext();
 
   /**
    * Mutations
@@ -103,7 +99,7 @@ export default function useAuth() {
     dispatch(cartActions.saveCart(newCart));
 
     // Save to localStorage
-    setCartItems(newCart);
+    setLocalCart(newCart);
 
     // Save To Database;
     await AuthService.updateCart({

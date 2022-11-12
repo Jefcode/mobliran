@@ -24,7 +24,11 @@ const CartScreen = () => {
       {isSuccess && data.length === 0 ? <CartEmpty /> : null}
 
       {isSuccess && data.length !== 0 ? (
-        <CartDetail cartItems={data} total={totalPrice} />
+        <CartDetail
+          cartLoading={isLoading}
+          cartItems={data}
+          total={totalPrice}
+        />
       ) : null}
     </>
   );

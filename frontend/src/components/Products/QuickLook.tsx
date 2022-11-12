@@ -1,5 +1,6 @@
+import { toast } from 'react-toastify';
 import { motion } from 'framer-motion';
-import { HiArrowLongLeft, HiArrowLongRight } from 'react-icons/hi2';
+import { BsArrowLeft, BsArrowRight } from 'react-icons/bs';
 import { Swiper, SwiperSlide, useSwiper } from 'swiper/react';
 import { AiOutlineHeart } from 'react-icons/ai';
 import { GrFormClose } from 'react-icons/gr';
@@ -25,6 +26,12 @@ const quickLookVariants = {
 };
 
 const QuickLook = ({ product, onClose }: QuickLookProps) => {
+  const successAddingToCartHandler = () => {
+    toast.success(`(${product.title}) به سبد شما اضافه شد.`, {
+      className: 'font-both',
+    });
+  };
+
   return (
     <motion.div
       layout
@@ -90,6 +97,7 @@ const QuickLook = ({ product, onClose }: QuickLookProps) => {
               {/* Add To Cart Form */}
               <ProductQuantityForm
                 productId={product._id ?? ''}
+                onSuccessAddingToCart={successAddingToCartHandler}
                 max={product.countInStock}
               />
 
@@ -119,7 +127,7 @@ const SwiperPrevButton = () => {
       onClick={() => swiper.slidePrev()}
       className='absolute right-5 top-50% -translate-y-50% z-50 text-lg outline-none text-stone-600 hover:text-stone-400 transition'
     >
-      <HiArrowLongRight />
+      <BsArrowRight />
     </button>
   );
 };
@@ -132,7 +140,7 @@ const SwiperNextButton = () => {
       onClick={() => swiper.slideNext()}
       className='absolute left-5 top-50% -translate-y-50% z-50 text-lg outline-none text-stone-600 hover:text-stone-400 transition'
     >
-      <HiArrowLongLeft />
+      <BsArrowLeft />
     </button>
   );
 };

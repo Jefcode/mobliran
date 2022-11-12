@@ -16,23 +16,23 @@ interface Token {
   token: string;
 }
 
-interface IUpdateUserAddress extends Token {
+export interface IUpdateUserAddress extends Token {
   address: Address;
 }
 
-interface IUpdateUserProfile extends Token {
+export interface IUpdateUserProfile extends Token {
   userData: IProfileUpdateForm;
 }
 
-interface IAddToCart extends Token {
+export interface IAddToCart extends Token {
   cartItem: CartItem;
 }
 
-interface IRemoveFromCart extends Token {
+export interface IRemoveFromCart extends Token {
   cartItemId: string;
 }
 
-interface IUpdateCart extends Token {
+export interface IUpdateCart extends Token {
   cart: CartItem[];
 }
 

@@ -10,7 +10,7 @@ import { authActions } from '../../features/auth/authSlice';
 const AuthModal = () => {
   const dispatch = useDispatch();
 
-  const [panel, setPanel] = useState('register');
+  const [panel, setPanel] = useState('login');
 
   return (
     <motion.div

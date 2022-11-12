@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { AiOutlineCaretLeft, AiOutlineCaretRight } from 'react-icons/ai';
+import { BsFillCaretLeftFill, BsFillCaretRightFill } from 'react-icons/bs';
 import { IoMdClose } from 'react-icons/io';
 import { Link } from 'react-router-dom';
 import { ResultCartItem } from '../../models/types';
@@ -82,14 +82,18 @@ const CartItemRow = ({
 
             {/* Counter Container */}
             <div className='flex items-center pl-3 space-between space-s-2'>
-              <AiOutlineCaretRight onClick={() => setQty(qty - 1 || 1)} />
+              <BsFillCaretRightFill
+                className='cursor-pointer text-xs'
+                onClick={() => setQty(qty - 1 || 1)}
+              />
               <input
                 type='text'
                 value={qty}
                 onChange={changeQtyHandler}
                 className='w-6 h-full text-center outline-none focus:bg-stone-100'
               />
-              <AiOutlineCaretLeft
+              <BsFillCaretLeftFill
+                className='cursor-pointer text-xs'
                 onClick={() =>
                   setQty(
                     qty + 1 > product.countInStock

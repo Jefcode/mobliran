@@ -1,24 +1,52 @@
-import React from 'react';
+import { CartItem, Product } from '../../../../shared/types';
+import { useShoppingCartContext } from '../../context/ShoppingCartContext';
+import Message from '../common/Message';
 
-import products from '../../data/products';
-import Filter from './Filter';
 import ProductItem from './ProductItem';
+import SkeletonProducts from './SkeletonProducts';
 
-const Products = () => {
+interface ProductsProps {
+  isLoading?: boolean;
+  isError?: boolean;
+  products: Product[];
+}
+
+const Products = ({
+  products,
+  isLoading = false,
+  isError = false,
+}: ProductsProps) => {
+  // Add Item to Cart Prep
+  const { addToCart } = useShoppingCartContext();
+
+  // Add to cart (called in a child product)
+  const addToCartHandler = (item: CartItem) => {
+    addToCart(item);
+  };
+
   return (
-    <section id='products' className='mt-5 md:mt-14 mb-14'>
-      {/* Container */}
-      <div className='container mx-auto'>
-        {/* <Filter /> */}
-
-        {/* Products Flex Container */}
-        <div className='flex flex-col items-start sm:flex-row sm:flex-wrap'>
-          {products.map((product) => (
-            <ProductItem product={product} key={product._id} />
-          ))}
+    <div className='flex flex-col items-start sm:flex-row sm:flex-wrap'>
+      {isLoading && <SkeletonProducts />}
+      {isError && (
+        <div className='w-full px-5 py-4 bg-rose-200 border-rose-400 font-both'>
+          خطایی رخ داده است
         </div>
-      </div>
-    </section>
+      )}
+      {products.length === 0 && !isLoading && (
+        <div className='w-full px-6'>
+          <Message variant='info'>
+            هیچ محصولی با این دسته بندی یافت نشد.
+          </Message>
+        </div>
+      )}
+      {products.map((product) => (
+        <ProductItem
+          product={product}
+          key={product._id}
+          onAddToCart={addToCartHandler}
+        />
+      ))}
+    </div>
   );
 };
 

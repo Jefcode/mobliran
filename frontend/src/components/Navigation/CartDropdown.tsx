@@ -1,6 +1,6 @@
 import { IoIosClose } from 'react-icons/io';
 import { Link } from 'react-router-dom';
-import useCart from '../../hooks/useCart';
+import { useShoppingCartContext } from '../../context/ShoppingCartContext';
 import { ResultCartItem } from '../../models/types';
 
 import Spinner from '../common/Spinner';
@@ -14,8 +14,8 @@ const CartDropdown = () => {
 
   const {
     removeFromCart,
-    removeFromCartMutation: { isLoading: isRemoving },
-  } = useCart();
+    removeMutation: { isLoading: isRemoving },
+  } = useShoppingCartContext();
 
   const deleteItemHandler = (id: string) => {
     removeFromCart(id);

@@ -12,7 +12,7 @@ import { queryKeys } from '../react-query/constants';
 import ProductService from '../services/ProductService';
 import Spinner from '../components/common/Spinner';
 import NotFoundScreen from './NotFoundScreen';
-import type { Category } from '../../../shared/types';
+import type { CartItem, Category } from '../../../shared/types';
 
 const ProductDetailScreen = () => {
   const [tab, setTab] = useState('description'); // description / informations / reviews
@@ -45,7 +45,7 @@ const ProductDetailScreen = () => {
   return (
     <>
       {isLoading ? (
-        <div className='flex h-screen items-center justify-center'>
+        <div className='flex items-center justify-center h-screen'>
           <Spinner className='w-20 h-20' />
         </div>
       ) : isSuccess ? (
@@ -82,7 +82,7 @@ const ProductDetailScreen = () => {
 
               {/* Success Add To Cart Notification */}
               {successAddToCart && (
-                <div className='border-y border-stone-300 w-full py-5 mb-10 flex justify-between items-center flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-s-4'>
+                <div className='flex flex-col items-center justify-between w-full py-5 mb-10 space-y-4 border-y border-stone-300 sm:flex-row sm:space-y-0 sm:space-s-4'>
                   <p className='text-lightGray'>
                     ({product.title}) به سبد خرید شما اضافه شد
                   </p>
@@ -338,7 +338,11 @@ const ProductDetailScreen = () => {
               {/* Products Flex Container */}
               <div className='flex flex-col items-start sm:flex-row sm:flex-wrap'>
                 {products.slice(0, 4).map((product) => (
-                  <ProductItem product={product} key={product._id} />
+                  <ProductItem
+                    onAddToCart={(item: CartItem) => {}}
+                    product={product}
+                    key={product._id}
+                  />
                 ))}
               </div>
             </div>

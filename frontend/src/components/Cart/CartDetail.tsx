@@ -1,9 +1,9 @@
 import { useCallback, useMemo, useState } from 'react';
-import { BsGift } from 'react-icons/bs';
-import { HiArrowRight } from 'react-icons/hi2';
+import { BsGift, BsArrowRight } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
+
 import { CartItem } from '../../../../shared/types';
-import useCart from '../../hooks/useCart';
+import { useShoppingCartContext } from '../../context/ShoppingCartContext';
 import { ResultCartItem } from '../../models/types';
 import Spinner from '../common/Spinner';
 import CartItemRow from './CartItemRow';
@@ -11,22 +11,24 @@ import CartItemRow from './CartItemRow';
 interface CartDetailProps {
   cartItems: ResultCartItem[];
   total: number;
+  cartLoading: boolean;
 }
 
-const CartDetail = ({ cartItems, total }: CartDetailProps) => {
+const CartDetail = ({ cartItems, total, cartLoading }: CartDetailProps) => {
   const [shouldUpdateCart, setShouldUpdateCart] = useState(false);
   const toUpdateData: CartItem[] = useMemo(() => [], []);
 
   const {
-    removeFromCartMutation: { isLoading: loadingRemove },
-    updateCartMutation: { isLoading: loadingUpdate },
+    removeMutation: { isLoading: loadingRemove },
+    updateMutation: { isLoading: loadingUpdate },
     removeFromCart,
     updateCart,
-  } = useCart();
-  const isLoading = loadingRemove || loadingUpdate;
+  } = useShoppingCartContext();
+
+  const isLoading = loadingRemove || loadingUpdate || cartLoading;
 
   const deleteItemHandler = (id: string) => {
-    removeFromCart(id, () => console.log('removed'));
+    removeFromCart(id);
   };
 
   // Gets called when any of row items change their quantity
@@ -117,7 +119,7 @@ const CartDetail = ({ cartItems, total }: CartDetailProps) => {
             to='/shop'
             className='flex items-center mt-10 font-light space-s-3 text-lightGray'
           >
-            <HiArrowRight />
+            <BsArrowRight />
             <span>بازگشت به فروشگاه</span>
           </Link>
         </div>

@@ -1,12 +1,10 @@
-import Message from '../components/common/Message';
 import Filter from '../components/Products/Filter';
 import {
   PriceRange,
   SortOptions,
   useProducts,
 } from '../components/Products/hooks/useProducts';
-import ProductItem from '../components/Products/ProductItem';
-import SkeletonProducts from '../components/Products/SkeletonProducts';
+import Products from '../components/Products/Products';
 
 const ShopScreen = () => {
   // Get products
@@ -68,24 +66,11 @@ const ShopScreen = () => {
           />
 
           {/* Products Flex Container */}
-          <div className='flex flex-col items-start sm:flex-row sm:flex-wrap'>
-            {isLoading && <SkeletonProducts />}
-            {isError && (
-              <div className='w-full px-5 py-4 bg-rose-200 border-rose-400 font-both'>
-                خطایی رخ داده است
-              </div>
-            )}
-            {products.length === 0 && !isLoading && (
-              <div className='px-6 w-full'>
-                <Message variant='info'>
-                  هیچ محصولی با این دسته بندی یافت نشد.
-                </Message>
-              </div>
-            )}
-            {products.map((product) => (
-              <ProductItem product={product} key={product._id} />
-            ))}
-          </div>
+          <Products
+            products={products}
+            isLoading={isLoading}
+            isError={isError}
+          />
         </div>
       </section>
     </>

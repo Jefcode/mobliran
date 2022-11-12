@@ -3,6 +3,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { loginSchema } from './schemas';
 import useAuth from '../../hooks/useAuth';
 import Spinner from '../common/Spinner';
+import { useEffect } from 'react';
 
 interface IFormInputs {
   email: string;
@@ -14,10 +15,16 @@ const LoginForm = () => {
   const {
     register,
     handleSubmit,
+    setFocus,
     formState: { errors },
   } = useForm<IFormInputs>({
     resolver: yupResolver(loginSchema),
   });
+
+  // Focus the email input once the component mounts
+  useEffect(() => {
+    setFocus('email', { shouldSelect: true });
+  }, [setFocus]);
 
   // Sign in useAuth
   const {

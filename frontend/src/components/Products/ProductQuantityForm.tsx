@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { AiOutlineCaretLeft, AiOutlineCaretRight } from 'react-icons/ai';
-import useCart from '../../hooks/useCart';
+import { useShoppingCartContext } from '../../context/ShoppingCartContext';
 import LoadingBtn from '../common/LoadingBtn';
 
 interface ProductQuantityFormProps {
@@ -18,8 +18,8 @@ const ProductQuantityForm = ({
 
   const {
     addToCart,
-    addToCartMutation: { isLoading },
-  } = useCart();
+    addMutation: { isLoading },
+  } = useShoppingCartContext();
 
   // Change Quantity
   const changeQtyHandler = (e: React.ChangeEvent<HTMLInputElement>) => {

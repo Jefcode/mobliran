@@ -35,6 +35,7 @@ const userSchema = new mongoose.Schema<IUser>(
           type: mongoose.Schema.Types.ObjectId,
           required: true,
           ref: 'Product',
+          unique: true,
         },
         quantity: { type: Number, required: true },
       },

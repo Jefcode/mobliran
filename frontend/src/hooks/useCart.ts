@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 import { useDispatch, useSelector } from 'react-redux';
 import { useMutation } from '@tanstack/react-query';
 
@@ -7,8 +8,10 @@ import AuthService from '../services/AuthService';
 import { useLocalStorage } from './useLocalStorage';
 import { cartActions } from '../features/cart/cartSlice';
 import { authSelector } from '../features/auth/authSlice';
+import { queryKeys } from '../react-query/constants';
 
 export default function useCart() {
+  const queryClient = useQueryClient();
   const dispatch = useDispatch();
   const [cartItems, setCartItems] = useLocalStorage<CartItem[]>(
     'cartItems',
@@ -18,7 +21,9 @@ export default function useCart() {
   const { user } = useSelector(authSelector);
 
   const addToCartMutation = useMutation(AuthService.addToCart);
-  const removeFromCartMutation = useMutation(AuthService.removeFromCart);
+  const removeFromCartMutation = useMutation(AuthService.removeFromCart, {
+    onError: (error) => {},
+  });
   const updateCartMutation = useMutation(AuthService.updateCart);
 
   useEffect(() => {
@@ -66,6 +71,9 @@ export default function useCart() {
       });
 
       if (updatedUser) {
+        // Invalidate Cart Query Key which is used to fetch cart products
+        queryClient.invalidateQueries([queryKeys.cart]);
+
         setCartItems(updatedUser.cart || []);
         onSuccess?.();
       }
@@ -114,11 +122,13 @@ export default function useCart() {
   }
 
   return {
+    items: cartItems,
     addToCartMutation,
     removeFromCartMutation,
     updateCartMutation,
     addToCart,
     removeFromCart,
     updateCart,
+    setCartItems,
   };
 }

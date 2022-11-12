@@ -1,17 +1,46 @@
+import { useState } from 'react';
 import { AiFillHeart } from 'react-icons/ai';
-import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
 
-import { Product } from '../../../../shared/types';
+import { CartItem, Product } from '../../../../shared/types';
+import { cartSelector } from '../../features/cart/cartSlice';
 // import useCart from '../../hooks/useCart';
 import QuickLookBtn from './QuickLookBtn';
 
 interface ProductItemProps {
   product: Product;
+  onAddToCart: (item: CartItem) => void;
 }
 
-const ProductItem = ({ product }: ProductItemProps) => {
+const ProductItem = ({ product, onAddToCart }: ProductItemProps) => {
+  // To Prevent from hammering the add to cart button
+  const [clickedAddToCart, setClickedAddToCart] = useState(false);
+  const navigate = useNavigate();
+  const { items } = useSelector(cartSelector);
+
+  // Item in cart?
+  const productInCart = !!items.find(
+    (p) => p.product === (product._id as string)
+  );
+
+  const addToCartHandler = () => {
+    if (clickedAddToCart) return;
+
+    if (productInCart) {
+      navigate('/cart');
+      return;
+    }
+
+    const item: CartItem = { product: product._id ?? '', quantity: 1 };
+
+    onAddToCart(item);
+
+    setTimeout(() => setClickedAddToCart(false), 1000);
+  };
+
   return (
-    <div className='px-5 group w-full sm:w-1/2 md:w-1/3 lg:w-1/4'>
+    <div className='w-full px-5 group sm:w-1/2 md:w-1/3 lg:w-1/4'>
       {/* Image Container */}
       <div className='relative overflow-hidden'>
         <Link to={`/product/${product._id}`}>
@@ -37,15 +66,16 @@ const ProductItem = ({ product }: ProductItemProps) => {
 
         {/* Price/AddToCart Container */}
         <div className='relative'>
-          {/* group-hover:right-0 group-hover:opacity-0 */}
-          <p className='absolute right-50% translate-x-50% text-sm text-stone-400 transition-all duration-500'>
+          <p className='absolute right-50% translate-x-50% text-sm text-stone-400 group-hover:right-0 group-hover:opacity-0 transition-all duration-500'>
             {product.price.toLocaleString()} ت
           </p>
-          {/* <button
-            className='absolute left-0 -translate-x-50% last:text-sm text-stone-400 hover:text-stone-700 opacity-0 group-hover:left-50% group-hover:opacity-100 transition-all duration-500 whitespace-nowrap'
+          <button
+            onClick={addToCartHandler}
+            className='absolute left-0 -translate-x-50% last:text-sm text-stone-400 hover:text-stone-700 opacity-0 group-hover:left-50% group-hover:opacity-100 transition-all duration-500 whitespace-nowrap disabled:text-white disabled:cursor-wait'
+            disabled={clickedAddToCart}
           >
-            اضافه کردن به سبد خرید
-          </button> */}
+            {productInCart ? 'دیدن سبد خرید' : 'اضافه کردن به سبد خرید'}
+          </button>
         </div>
       </div>
     </div>
