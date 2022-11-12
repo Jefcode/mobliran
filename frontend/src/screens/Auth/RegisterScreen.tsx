@@ -4,18 +4,19 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import Input from '../../components/common/Input';
 import ImageTitle from '../../components/Partials/ImageTitle';
-import { loginSchema } from '../../components/Auth/schemas';
+import { registerSchema } from '../../components/Auth/schemas';
 import useAuth from '../../hooks/useAuth';
 import LoadingBtn from '../../components/common/LoadingBtn';
 import { useEffect } from 'react';
 
-export interface ILoginFormInputs {
+export interface IRegisterFormInputs {
+  username: string;
   email: string;
   password: string;
-  rememberMe?: boolean;
+  confirmPassword: string;
 }
 
-const LoginScreen = () => {
+const RegisterScreen = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -27,14 +28,14 @@ const LoginScreen = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<ILoginFormInputs>({
-    resolver: yupResolver(loginSchema),
+  } = useForm<IRegisterFormInputs>({
+    resolver: yupResolver(registerSchema),
   });
 
-  // Sign in useAuth
+  // useAuth
   const {
-    signIn,
-    loginMutations: { isLoading, isSuccess },
+    registerMutations: { isLoading, isSuccess },
+    signUp,
   } = useAuth();
 
   // Redirect user when successfully logged in
@@ -44,8 +45,8 @@ const LoginScreen = () => {
     }
   }, [isSuccess, navigate, redirect]);
 
-  const loginSubmitHandler = (data: ILoginFormInputs) => {
-    signIn(data);
+  const registerSubmitHandler = (data: IRegisterFormInputs) => {
+    signUp(data);
   };
 
   return (
@@ -59,9 +60,20 @@ const LoginScreen = () => {
 
         {/* Login Form */}
         <form
-          onSubmit={handleSubmit(loginSubmitHandler)}
+          onSubmit={handleSubmit(registerSubmitHandler)}
           className='text-light'
         >
+          <div className='mb-4'>
+            <label className='mb-1 block'>نام کاربری</label>
+            <Input
+              {...register('username')}
+              className={`${errors.username ? '!border-red-500' : ''}`}
+            />
+            <p className='text-red-500 text-sm mt-1'>
+              {errors.username?.message}
+            </p>
+          </div>
+
           <div className='mb-4'>
             <label className='mb-1 block'>آدرس ایمیل *</label>
             <Input
@@ -83,14 +95,16 @@ const LoginScreen = () => {
             </p>
           </div>
 
-          {/* Remember me */}
-          <div className='flex items-center space-s-2 mb-8'>
-            <input
-              type='checkbox'
-              id='rememberMe'
-              {...register('rememberMe')}
+          <div className='mb-6'>
+            <label className='mb-1 block'>تکرار رمز عبور *</label>
+            <Input
+              type='password'
+              {...register('confirmPassword')}
+              className={`${errors.confirmPassword ? '!border-red-500' : ''}`}
             />
-            <label htmlFor='rememberMe'>مرا به خاطر بسپار</label>
+            <p className='text-red-500 text-sm mt-1'>
+              {errors.confirmPassword?.message}
+            </p>
           </div>
 
           <LoadingBtn loading={isLoading}>وارد شدن</LoadingBtn>
@@ -98,15 +112,11 @@ const LoginScreen = () => {
 
         {/* Forgot password / Register Link */}
         <div className='text-sm mt-6 text-stone-500 flex flex-col space-y-2'>
-          <a href='/' className='hover:text-stone-700 transition'>
-            رمز عبور خود را فراموش کرده ام
-          </a>
-
           <Link
-            to={`/register?redirect=${redirect}`}
+            to={`/login?redirect=${redirect}`}
             className='hover:text-stone-700 transition'
           >
-            ثبت نام
+            حساب دارید؟ وارد شوید
           </Link>
         </div>
       </div>
@@ -114,4 +124,4 @@ const LoginScreen = () => {
   );
 };
 
-export default LoginScreen;
+export default RegisterScreen;

@@ -4,7 +4,7 @@ import { loginSchema } from './schemas';
 import useAuth from '../../hooks/useAuth';
 import Spinner from '../common/Spinner';
 import { useEffect } from 'react';
-import { IFormInputs } from '../../screens/Auth/LoginScreen';
+import { ILoginFormInputs } from '../../screens/Auth/LoginScreen';
 
 const LoginForm = () => {
   const {
@@ -12,7 +12,7 @@ const LoginForm = () => {
     handleSubmit,
     setFocus,
     formState: { errors },
-  } = useForm<IFormInputs>({
+  } = useForm<ILoginFormInputs>({
     resolver: yupResolver(loginSchema),
   });
 
@@ -27,7 +27,7 @@ const LoginForm = () => {
     loginMutations: { isLoading },
   } = useAuth();
 
-  const loginSubmitHandler = (data: IFormInputs) => {
+  const loginSubmitHandler = (data: ILoginFormInputs) => {
     signIn(data);
   };
 

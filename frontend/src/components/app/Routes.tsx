@@ -14,6 +14,7 @@ import CheckoutScreen from '../../screens/CheckoutScreen';
 import ShopScreen from '../../screens/ShopScreen';
 import AboutUsScreen from '../../screens/Pages/AboutUsScreen';
 import LoginScreen from '../../screens/Auth/LoginScreen';
+import RegisterScreen from '../../screens/Auth/RegisterScreen';
 
 const Routes = () => {
   return (
@@ -26,6 +27,7 @@ const Routes = () => {
       <Route path='/checkout' element={<CheckoutScreen />} />
 
       <Route path='/login' element={<LoginScreen />} />
+      <Route path='/register' element={<RegisterScreen />} />
 
       {/* Pages */}
       <Route path='/about-us' element={<AboutUsScreen />} />

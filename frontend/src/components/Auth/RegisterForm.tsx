@@ -3,13 +3,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { registerSchema } from './schemas';
 import useAuth from '../../hooks/useAuth';
 import Spinner from '../common/Spinner';
-
-interface IFormInputs {
-  username: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-}
+import { IRegisterFormInputs } from '../../screens/Auth/RegisterScreen';
 
 const RegisterForm = () => {
   // react hook form
@@ -17,7 +11,7 @@ const RegisterForm = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<IFormInputs>({
+  } = useForm<IRegisterFormInputs>({
     resolver: yupResolver(registerSchema),
   });
 
@@ -27,7 +21,7 @@ const RegisterForm = () => {
     signUp,
   } = useAuth();
 
-  const registerSubmitHandler = (data: IFormInputs) => {
+  const registerSubmitHandler = (data: IRegisterFormInputs) => {
     signUp(data);
   };
 
