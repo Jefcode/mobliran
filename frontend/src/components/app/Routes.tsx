@@ -13,6 +13,7 @@ import EditAddress from '../../screens/Account/EditAddress';
 import CheckoutScreen from '../../screens/CheckoutScreen';
 import ShopScreen from '../../screens/ShopScreen';
 import AboutUsScreen from '../../screens/Pages/AboutUsScreen';
+import LoginScreen from '../../screens/Auth/LoginScreen';
 
 const Routes = () => {
   return (
@@ -23,6 +24,8 @@ const Routes = () => {
       <Route path='/cart' element={<CartScreen />} />
       <Route path='/wishlist' element={<WishListScreen />} />
       <Route path='/checkout' element={<CheckoutScreen />} />
+
+      <Route path='/login' element={<LoginScreen />} />
 
       {/* Pages */}
       <Route path='/about-us' element={<AboutUsScreen />} />

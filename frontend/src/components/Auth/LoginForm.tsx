@@ -4,12 +4,7 @@ import { loginSchema } from './schemas';
 import useAuth from '../../hooks/useAuth';
 import Spinner from '../common/Spinner';
 import { useEffect } from 'react';
-
-interface IFormInputs {
-  email: string;
-  password: string;
-  rememberMe?: boolean;
-}
+import { IFormInputs } from '../../screens/Auth/LoginScreen';
 
 const LoginForm = () => {
   const {
