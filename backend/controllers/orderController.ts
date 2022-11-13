@@ -39,3 +39,36 @@ export const addOrderItems = asyncHandler(async (req, res) => {
 
   res.status(201).json(createdOrder);
 });
+
+/**
+ * @desc    Get order by ID
+ * @route   GET /api/orders/:id
+ * @acess   private
+ */
+export const getOrderById = asyncHandler(async (req, res) => {
+  try {
+    const order = await Order.findById(req.params.id)
+      .populate('user', 'name email')
+      .populate('orderItems.product');
+
+    if (!order) {
+      res.status(404);
+      throw new Error('سفارش یافت نشد');
+    }
+
+    res.status(200).json(order);
+  } catch (error) {
+    res.status(404);
+    throw new Error('خطا! در یافتن سفارش مشکلی پیش آمد لطفا دوباره سعی کنید');
+  }
+});
+
+/**
+ * @desc    Get logged in user orders
+ * @route   GET /api/orders/myorders
+ * @acess   private
+ */
+export const getMyOrders = asyncHandler(async (req, res) => {
+  const orders = await Order.find({ user: req.user._id });
+  res.json(orders);
+});

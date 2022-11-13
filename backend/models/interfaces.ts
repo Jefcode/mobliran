@@ -5,8 +5,13 @@ interface CustomUserMethods {
   matchPassword: (password: string) => Promise<boolean>;
 }
 
-export type IUser = User & CustomUserMethods & Document;
-export type IReview = Review & Document;
-export type IProduct = Product & Document;
-export type ICategory = Category & Document;
-export type IOrder = Order & Document;
+interface Timestamps {
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
+export type IUser = User & CustomUserMethods & Document & Timestamps;
+export type IReview = Review & Document & Timestamps;
+export type IProduct = Product & Document & Timestamps;
+export type ICategory = Category & Document & Timestamps;
+export type IOrder = Order & Document & Timestamps;
