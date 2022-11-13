@@ -48,7 +48,7 @@ export const addOrderItems = asyncHandler(async (req, res) => {
 export const getOrderById = asyncHandler(async (req, res) => {
   try {
     const order = await Order.findById(req.params.id)
-      .populate('user', 'name email')
+      .populate('user', 'firstName lastName username email')
       .populate('orderItems.product', 'title images price');
 
     if (!order) {
@@ -71,4 +71,31 @@ export const getOrderById = asyncHandler(async (req, res) => {
 export const getMyOrders = asyncHandler(async (req, res) => {
   const orders = await Order.find({ user: req.user._id });
   res.json(orders);
+});
+
+/**
+ * @desc    Get order by ID
+ * @route   PUT /api/orders/:id/pay
+ * @acess   private
+ */
+export const updateOrderToPaid = asyncHandler(async (req, res) => {
+  try {
+    const order = await Order.findById(req.params.id)
+      .populate('user', 'firstName lastName username email')
+      .populate('orderItems.product', 'title images price');
+
+    if (!order) {
+      res.status(404);
+      throw new Error('سفارش یافت نشد');
+    }
+
+    order.paidAt = new Date();
+    order.isPaid = true;
+
+    const updatedOrder = await order.save();
+    res.status(200).json(updatedOrder);
+  } catch (error) {
+    res.status(404);
+    throw new Error('خطا! در یافتن سفارش مشکلی پیش آمد لطفا دوباره سعی کنید');
+  }
 });

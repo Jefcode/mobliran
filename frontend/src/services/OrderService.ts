@@ -1,5 +1,6 @@
 import { axiosInstance, getJWTHeader } from './../axiosInstance/index';
 import { Order } from './../../../shared/types';
+import { ResultOrder } from '../models/types';
 
 interface Token {
   token: string;
@@ -31,9 +32,18 @@ class OrderService {
     return response.data;
   }
 
-  async getOrderById({ token, id }: IGetOrderById): Promise<Order> {
+  async getOrderById({ token, id }: IGetOrderById): Promise<ResultOrder> {
     const response = await axiosInstance.get(
       `/orders/${id}`,
+      getJWTHeader(token)
+    );
+    return response.data;
+  }
+
+  async updateOrderToPaid({ token, id }: IGetOrderById): Promise<ResultOrder> {
+    const response = await axiosInstance.put(
+      `/orders/${id}/pay`,
+      {},
       getJWTHeader(token)
     );
     return response.data;

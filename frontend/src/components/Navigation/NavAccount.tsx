@@ -35,14 +35,20 @@ const NavAccount = () => {
             </Link>
           </li>
           <li className='text-stone-400 hover:text-stone-200 transition'>
-            <a href='/' className='myGroup flex items-center overflow-hidden'>
-              پروفایل
-            </a>
+            <Link
+              to='/my-account/edit-account'
+              className='myGroup flex items-center overflow-hidden'
+            >
+              ویرایش پروفایل
+            </Link>
           </li>
           <li className='text-stone-400 hover:text-stone-200 transition'>
-            <a href='/' className='myGroup flex items-center overflow-hidden'>
-              ویرایش پروفایل
-            </a>
+            <Link
+              to='/my-account/orders'
+              className='myGroup flex items-center overflow-hidden'
+            >
+              سفارش ها
+            </Link>
           </li>
           <li className='text-stone-400 hover:text-stone-200 transition'>
             <button

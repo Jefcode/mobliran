@@ -1,9 +1,11 @@
 import { useCallback, useMemo, useState } from 'react';
 import { BsGift, BsArrowRight } from 'react-icons/bs';
-import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { CartItem } from '../../../../shared/types';
 import { useShoppingCartContext } from '../../context/ShoppingCartContext';
+import { authSelector } from '../../features/auth/authSlice';
 import { ResultCartItem } from '../../models/types';
 import Spinner from '../common/Spinner';
 import CartItemRow from './CartItemRow';
@@ -15,6 +17,8 @@ interface CartDetailProps {
 }
 
 const CartDetail = ({ cartItems, total, cartLoading }: CartDetailProps) => {
+  const navigate = useNavigate();
+  const { user } = useSelector(authSelector);
   const [shouldUpdateCart, setShouldUpdateCart] = useState(false);
   const toUpdateData: CartItem[] = useMemo(() => [], []);
 
@@ -52,6 +56,15 @@ const CartDetail = ({ cartItems, total, cartLoading }: CartDetailProps) => {
   const updateCartHandler = () => {
     if (!shouldUpdateCart) return;
     updateCart(toUpdateData);
+  };
+
+  const proceedToCheckoutHandler = () => {
+    // Check if user is logged In
+    if (user.token) {
+      navigate('/checkout');
+    } else {
+      navigate(`/auth/login?redirect=/checkout`);
+    }
   };
 
   return (
@@ -154,12 +167,12 @@ const CartDetail = ({ cartItems, total, cartLoading }: CartDetailProps) => {
             </div>
 
             {/* Checkout Button */}
-            <Link
-              to='/checkout'
-              className='block w-full p-3 text-center text-white duration-200 bg-black hover:bg-black/70'
+            <button
+              onClick={proceedToCheckoutHandler}
+              className='btn block w-full'
             >
               نهـــــایی کردن خریـــــــــــــد
-            </Link>
+            </button>
           </div>
         </div>
       </div>

@@ -55,7 +55,11 @@ const CheckoutDetail = ({ cartItems, totalPrice }: CheckoutDetailProps) => {
   // Prepare for adding order
   const {
     addOrder,
-    addMutation: { isLoading: addIsLoading, isSuccess: addIsSuccess },
+    addMutation: {
+      data: createdOrder,
+      isLoading: addIsLoading,
+      isSuccess: addIsSuccess,
+    },
   } = useOrder();
 
   const checkoutSubmitHandler = (data: ICheckoutFormInputs) => {
@@ -78,12 +82,11 @@ const CheckoutDetail = ({ cartItems, totalPrice }: CheckoutDetailProps) => {
     addOrder(order);
   };
 
-  // Redirect user when adding was successful
   useEffect(() => {
     if (addIsSuccess) {
-      navigate('/');
+      navigate(`/my-account/orders/${createdOrder?._id}`);
     }
-  }, [addIsSuccess, navigate]);
+  }, [addIsSuccess, navigate, createdOrder]);
 
   return (
     <div className='container px-6 mx-auto py-28'>

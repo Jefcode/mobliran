@@ -17,6 +17,7 @@ import LoginScreen from '../../screens/Auth/LoginScreen';
 import RegisterScreen from '../../screens/Auth/RegisterScreen';
 import UnauthorizedUserRoutes from '../utils/UnauthorizedUserRoutes';
 import OrderDetail from '../../screens/Account/OrderDetail';
+import AssureLoggedIn from '../utils/AssureLoggedIn';
 
 const Routes = () => {
   return (
@@ -26,7 +27,14 @@ const Routes = () => {
       <Route path='/product/:id' element={<ProductDetailScreen />} />
       <Route path='/cart' element={<CartScreen />} />
       <Route path='/wishlist' element={<WishListScreen />} />
-      <Route path='/checkout' element={<CheckoutScreen />} />
+      <Route
+        path='/checkout'
+        element={
+          <AssureLoggedIn>
+            <CheckoutScreen />
+          </AssureLoggedIn>
+        }
+      />
 
       <Route path='/auth' element={<UnauthorizedUserRoutes />}>
         <Route path='' element={<NotFoundScreen />} />

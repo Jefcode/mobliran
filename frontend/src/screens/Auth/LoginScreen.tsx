@@ -1,13 +1,13 @@
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import Input from '../../components/common/Input';
 import ImageTitle from '../../components/Partials/ImageTitle';
 import { loginSchema } from '../../components/Auth/schemas';
 import useAuth from '../../hooks/useAuth';
 import LoadingBtn from '../../components/common/LoadingBtn';
-import { useEffect } from 'react';
+import { useUnauthorizedRoutes } from '../../components/utils/UnauthorizedUserRoutes';
 
 export interface ILoginFormInputs {
   email: string;
@@ -16,12 +16,7 @@ export interface ILoginFormInputs {
 }
 
 const LoginScreen = () => {
-  const location = useLocation();
-  const navigate = useNavigate();
-
-  // Get the redirect path from search query
-  const search = new URLSearchParams(location.search);
-  const redirect: string = search.get('redirect') ?? '/';
+  const { redirect } = useUnauthorizedRoutes();
 
   const {
     register,
@@ -34,15 +29,8 @@ const LoginScreen = () => {
   // Sign in useAuth
   const {
     signIn,
-    loginMutations: { isLoading, isSuccess },
+    loginMutations: { isLoading },
   } = useAuth();
-
-  // Redirect user when successfully logged in
-  useEffect(() => {
-    if (isSuccess) {
-      navigate(redirect);
-    }
-  }, [isSuccess, navigate, redirect]);
 
   const loginSubmitHandler = (data: ILoginFormInputs) => {
     signIn(data);
