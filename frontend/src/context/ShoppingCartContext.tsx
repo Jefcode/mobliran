@@ -3,8 +3,8 @@ import {
   UseMutationResult,
   useQueryClient,
 } from '@tanstack/react-query';
-import { createContext, ReactNode, useContext, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { createContext, ReactNode, useContext } from 'react';
+import { useSelector } from 'react-redux';
 import { CartItem, User } from '../../../shared/types';
 import { authSelector } from '../features/auth/authSlice';
 import { useLocalStorage } from '../hooks/useLocalStorage';
@@ -38,7 +38,6 @@ export const ShoppingCartContextProvider = ({
   children,
 }: ShoppingCartContextProviderProps) => {
   const queryClient = useQueryClient();
-  const dispatch = useDispatch();
 
   // Data
   const [cartItems, setCartItems] = useLocalStorage<CartItem[]>(
