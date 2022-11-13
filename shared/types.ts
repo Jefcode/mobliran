@@ -64,6 +64,7 @@ export interface Category {
 }
 
 export interface Order {
+  _id?: string;
   user?: string | User;
   orderItems: CartItem[] | ResultCartItem[];
   shippingAddress: Address;
@@ -81,4 +82,7 @@ export interface Order {
   paidAt?: Date;
   isDelivered?: boolean;
   deliveredAt?: Date;
+
+  createdAt?: Date;
+  updatedAt?: Date;
 }

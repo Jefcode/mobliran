@@ -49,7 +49,7 @@ export const getOrderById = asyncHandler(async (req, res) => {
   try {
     const order = await Order.findById(req.params.id)
       .populate('user', 'name email')
-      .populate('orderItems.product');
+      .populate('orderItems.product', 'title images price');
 
     if (!order) {
       res.status(404);

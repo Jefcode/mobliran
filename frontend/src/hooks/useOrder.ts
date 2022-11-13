@@ -16,7 +16,7 @@ export default function useOrder() {
   const { user } = useSelector(authSelector);
   const addMutation = useMutation(OrderService.addOrder);
 
-  const addOrder = async (order: Order) => {
+  async function addOrder(order: Order) {
     const createdOrder = await addMutation.mutateAsync({
       token: user.token ?? '',
       order,
@@ -26,7 +26,7 @@ export default function useOrder() {
       // Empty user Cart
       emptyCart();
     }
-  };
+  }
 
   return { addMutation, addOrder };
 }

@@ -18,6 +18,14 @@ class OrderService {
     );
     return response.data;
   }
+
+  async getMyOrders(token: string): Promise<Order[]> {
+    const response = await axiosInstance.get(
+      '/orders/myorders',
+      getJWTHeader(token)
+    );
+    return response.data;
+  }
 }
 
 export default new OrderService();
