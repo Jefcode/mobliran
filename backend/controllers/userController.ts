@@ -220,7 +220,7 @@ export const addToCart = asyncHandler(async (req, res) => {
 
 /**
  * @desc    Remove Product from Cart
- * @route   Delete /api/users/cart/:id
+ * @route   DELETE /api/users/cart/:id
  * @acess   Private
  */
 export const removeFromCart = asyncHandler(async (req, res) => {
@@ -254,6 +254,21 @@ export const updateCart = asyncHandler(async (req, res) => {
 
   // Validate the cart values
   user.cart = newCart;
+
+  const updatedUser = await user.save();
+
+  res.json(updatedUser);
+});
+
+/**
+ * @desc    Empty user cart
+ * @route   DELETE /api/products/cart
+ * @acess   Private
+ */
+export const emptyCart = asyncHandler(async (req, res) => {
+  const user = req.user;
+
+  user.cart = [];
 
   const updatedUser = await user.save();
 

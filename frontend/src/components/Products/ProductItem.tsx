@@ -1,12 +1,9 @@
 import { useState } from 'react';
 import { AiFillHeart } from 'react-icons/ai';
-import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { CartItem, Product } from '../../../../shared/types';
 import { useShoppingCartContext } from '../../context/ShoppingCartContext';
-import { cartSelector } from '../../features/cart/cartSlice';
-// import useCart from '../../hooks/useCart';
 import QuickLookBtn from './QuickLookBtn';
 
 interface ProductItemProps {
@@ -16,7 +13,7 @@ interface ProductItemProps {
 const ProductItem = ({ product }: ProductItemProps) => {
   const navigate = useNavigate();
   const [isSuccess, setIsSuccess] = useState(false);
-  const { items } = useSelector(cartSelector);
+  const { items } = useShoppingCartContext();
   const {
     addToCart,
     addMutation: { isLoading },

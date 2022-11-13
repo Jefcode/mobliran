@@ -11,7 +11,6 @@ import AuthService, {
 } from '../services/AuthService';
 import { Address, CartItem, User } from '../../../shared/types';
 import { IProfileUpdateForm } from '../screens/Account/AccountDetails';
-import { cartActions } from '../features/cart/cartSlice';
 import { authActions, authSelector } from '../features/auth/authSlice';
 
 // Global Configurations for ls => localStorage-slim
@@ -92,9 +91,6 @@ export default function useAuth() {
     token: string | undefined
   ) {
     const newCart = mergeTwoCart(cartItems, userCart);
-
-    // Update Redux
-    dispatch(cartActions.saveCart(newCart));
 
     // Save to localStorage
     setLocalCart(newCart);

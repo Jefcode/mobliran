@@ -2,6 +2,7 @@ import { Router } from 'express';
 import {
   addToCart,
   authUser,
+  emptyCart,
   getUserProfile,
   registerUser,
   removeFromCart,
@@ -20,7 +21,11 @@ router
   .get(protect, getUserProfile)
   .put(protect, updateUserProfile);
 router.put('/profile/address', protect, updateUserAddress);
-router.route('/cart').post(protect, addToCart).put(protect, updateCart);
+router
+  .route('/cart')
+  .post(protect, addToCart)
+  .put(protect, updateCart)
+  .delete(protect, emptyCart);
 router.route('/cart/:id').delete(protect, removeFromCart);
 
 export default router;

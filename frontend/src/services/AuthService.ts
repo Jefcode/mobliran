@@ -113,6 +113,14 @@ class AuthService {
     );
     return response.data;
   }
+
+  async emptyCart(token: string): Promise<User> {
+    const response = await axiosInstance.delete(
+      '/users/cart',
+      getJWTHeader(token)
+    );
+    return response.data;
+  }
 }
 
 export default new AuthService();

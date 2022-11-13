@@ -1,7 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
-import { useSelector } from 'react-redux';
 
-import { cartSelector } from '../../../features/cart/cartSlice';
+import { useShoppingCartContext } from '../../../context/ShoppingCartContext';
 import { queryKeys } from '../../../react-query/constants';
 import ProductService from '../../../services/ProductService';
 
@@ -9,7 +8,7 @@ import ProductService from '../../../services/ProductService';
  * This Hook is responsible for getting the cart data
  */
 export default function useCartData(keepPreviousData: boolean = true) {
-  const { items } = useSelector(cartSelector);
+  const { items } = useShoppingCartContext();
 
   const cartDataQuery = useQuery(
     [queryKeys.cart, items],

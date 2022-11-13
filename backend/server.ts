@@ -6,6 +6,7 @@ import cors from 'cors';
 import productRoutes from './routers/productRoutes';
 import userRoutes from './routers/userRoutes';
 import categoryRoutes from './routers/categoryRoutes';
+import orderRoutes from './routers/orderRoutes';
 import connectDB from './config/db';
 import { errorHandler, notFound } from './middlewares/errorMiddleware';
 
@@ -29,6 +30,7 @@ app.get('/', (req, res) => {
 app.use('/api/products', productRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/categories', categoryRoutes);
+app.use('/api/orders', orderRoutes);
 
 // Middleware for error handling
 app.use(notFound);

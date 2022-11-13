@@ -1,5 +1,5 @@
 import { useForm } from 'react-hook-form';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { yupResolver } from '@hookform/resolvers/yup';
 
@@ -9,6 +9,11 @@ import { ResultCartItem } from '../../models/types';
 import Input from '../common/Input';
 import CouponCheckout from './CouponCheckout';
 import checkoutFormSchema from './schema';
+import useOrder from '../../hooks/useOrder';
+import { Address, Order } from '../../../../shared/types';
+import { useNavigate } from 'react-router-dom';
+import LoadingBtn from '../common/LoadingBtn';
+import { useShoppingCartContext } from '../../context/ShoppingCartContext';
 
 interface CheckoutDetailProps {
   cartItems: ResultCartItem[];
@@ -28,11 +33,14 @@ interface ICheckoutFormInputs {
 }
 
 const CheckoutDetail = ({ cartItems, totalPrice }: CheckoutDetailProps) => {
+  const navigate = useNavigate();
+  const { items: cart } = useShoppingCartContext();
   const { user } = useSelector(authSelector);
-  const [shipToAnotherAddress, setShipToAnotherAddress] = useState<boolean>(
+  const [shipToAnotherAddress, setShipToAnotherAddress] = useState(
     !!!user.address?.address
   );
 
+  // React hook form
   const {
     register,
     handleSubmit,
@@ -44,9 +52,38 @@ const CheckoutDetail = ({ cartItems, totalPrice }: CheckoutDetailProps) => {
     },
   });
 
+  // Prepare for adding order
+  const {
+    addOrder,
+    addMutation: { isLoading: addIsLoading, isSuccess: addIsSuccess },
+  } = useOrder();
+
   const checkoutSubmitHandler = (data: ICheckoutFormInputs) => {
-    console.log(data);
+    const order: Order = {
+      orderItems: cart,
+      shippingAddress: shipToAnotherAddress
+        ? {
+            country: data.country,
+            city: data.city,
+            address: data.address,
+            postalCode: data.postalCode,
+          }
+        : (user.address as Address),
+      paymentMethod: 'ZarinPal',
+      shippingPrice: SHIPPING_PRICE,
+      totalPrice: totalPrice + SHIPPING_PRICE,
+      specialNotes: data.specialNotes,
+    };
+
+    addOrder(order);
   };
+
+  // Redirect user when adding was successful
+  useEffect(() => {
+    if (addIsSuccess) {
+      navigate('/');
+    }
+  }, [addIsSuccess, navigate]);
 
   return (
     <div className='container px-6 mx-auto py-28'>
@@ -231,7 +268,7 @@ const CheckoutDetail = ({ cartItems, totalPrice }: CheckoutDetailProps) => {
           </div>
 
           {/* Place Order Button */}
-          <button className='btn'>ثبت سفارشـــــــــ</button>
+          <LoadingBtn loading={addIsLoading}>ثبت سفارشـــــــــ</LoadingBtn>
         </section>
       </form>
     </div>

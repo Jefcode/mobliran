@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { ResultCartItem } from '../frontend/src/models/types';
 
 export interface Id {
   _id: string;
@@ -60,4 +61,24 @@ export interface User {
 export interface Category {
   _id?: string;
   title: string;
+}
+
+export interface Order {
+  user?: string | User;
+  orderItems: CartItem[] | ResultCartItem[];
+  shippingAddress: Address;
+  paymentMethod: string;
+  paymentResult?: {
+    id: string;
+    status: string;
+    update_time: string;
+    email_adress: string;
+  };
+  shippingPrice: number;
+  specialNotes?: string;
+  totalPrice: number;
+  isPaid?: boolean;
+  paidAt?: Date;
+  isDelivered?: boolean;
+  deliveredAt?: Date;
 }

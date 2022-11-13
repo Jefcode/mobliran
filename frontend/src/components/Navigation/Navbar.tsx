@@ -19,11 +19,11 @@ import MobileMenu from './MobileMenu';
 import NavAccount from './NavAccount';
 import CartDropdown from './CartDropdown';
 import { authActions, authSelector } from '../../features/auth/authSlice';
-import { cartSelector } from '../../features/cart/cartSlice';
+import { useShoppingCartContext } from '../../context/ShoppingCartContext';
 
 const Navbar = () => {
   const dispatch = useDispatch();
-  const { items } = useSelector(cartSelector);
+  const { items } = useShoppingCartContext();
   const { modalOpen, user } = useSelector(authSelector);
   const [menuOpen, setMenuOpen] = useState(false);
 
