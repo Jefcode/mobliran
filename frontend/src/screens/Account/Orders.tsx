@@ -119,12 +119,12 @@ const Orders = () => {
                       )}
                     </td>
                     <td className='py-8 px-6 text-right'>
-                      <a
-                        href='/'
+                      <Link
+                        to={`${order._id}`}
                         className='font-medium text-blue-600 hover:underline'
                       >
                         جزئیات
-                      </a>
+                      </Link>
                     </td>
                   </tr>
                 ))}

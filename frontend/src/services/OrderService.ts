@@ -9,6 +9,10 @@ interface IAddOrder extends Token {
   order: Order;
 }
 
+interface IGetOrderById extends Token {
+  id: string;
+}
+
 class OrderService {
   async addOrder({ order, token }: IAddOrder): Promise<Order> {
     const response = await axiosInstance.post(
@@ -22,6 +26,14 @@ class OrderService {
   async getMyOrders(token: string): Promise<Order[]> {
     const response = await axiosInstance.get(
       '/orders/myorders',
+      getJWTHeader(token)
+    );
+    return response.data;
+  }
+
+  async getOrderById({ token, id }: IGetOrderById): Promise<Order> {
+    const response = await axiosInstance.get(
+      `/orders/${id}`,
       getJWTHeader(token)
     );
     return response.data;

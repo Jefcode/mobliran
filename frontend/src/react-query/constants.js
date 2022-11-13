@@ -4,4 +4,5 @@ export const queryKeys = {
   userProfile: 'userProfile',
   cart: 'cart',
   myOrders: 'myOrders',
+  order: 'order',
 };

@@ -16,6 +16,7 @@ import AboutUsScreen from '../../screens/Pages/AboutUsScreen';
 import LoginScreen from '../../screens/Auth/LoginScreen';
 import RegisterScreen from '../../screens/Auth/RegisterScreen';
 import UnauthorizedUserRoutes from '../utils/UnauthorizedUserRoutes';
+import OrderDetail from '../../screens/Account/OrderDetail';
 
 const Routes = () => {
   return (
@@ -39,6 +40,7 @@ const Routes = () => {
       <Route path='/my-account' element={<AccountScreen />}>
         <Route path='' element={<Dashboard />} />
         <Route path='orders' element={<Orders />} />
+        <Route path='orders/:id' element={<OrderDetail />} />
         <Route path='edit-account' element={<AccountDetails />} />
         <Route path='edit-address' element={<EditAddress />} />
       </Route>
