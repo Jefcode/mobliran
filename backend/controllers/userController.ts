@@ -1,4 +1,4 @@
-import { CartItem } from './../../shared/types';
+import { CartItem, WishListItem } from './../../shared/types';
 import asyncHandler from 'express-async-handler';
 
 import User from '../models/userModel';
@@ -269,6 +269,87 @@ export const emptyCart = asyncHandler(async (req, res) => {
   const user = req.user;
 
   user.cart = [];
+
+  const updatedUser = await user.save();
+
+  res.json(updatedUser);
+});
+
+/* ============= WISHLIST ============== */
+/**
+ * @desc    Add Product to Wishlist
+ * @route   POST /api/users/wishlist
+ * @acess   Private
+ */
+export const addToWishlist = asyncHandler(async (req, res) => {
+  const user = req.user;
+
+  const { product } = req.body;
+
+  if (!product) {
+    res.status(400);
+    throw new Error('اطلاعات به درستی ارسال نشده است');
+  }
+
+  // Check if product is a valid product
+  const existingProduct = await Product.findById(product);
+
+  if (!existingProduct) {
+    res.status(404);
+    throw new Error('محصول مد نظر یافت نشد');
+  }
+
+  // Check if product exist in cart
+  const existingItem = user.wishlist.find(
+    (p: WishListItem) => p.product.toString() === product
+  );
+
+  if (!existingItem) {
+    user.wishlist.push({
+      product,
+    });
+  }
+
+  const updatedUser = await user.save();
+
+  res.status(200).json({ ...updatedUser._doc });
+});
+
+/**
+ * @desc    Remove Product from wishlist
+ * @route   DELETE /api/users/wishlist/:id
+ * @acess   Private
+ */
+export const removeFromWishlist = asyncHandler(async (req, res) => {
+  const { id: productId } = req.params;
+
+  const user = req.user;
+
+  user.wishlist = user.wishlist.filter((p: WishListItem) => {
+    return p.product.toString() !== productId;
+  });
+
+  const updatedUser = await user.save();
+
+  res.json(updatedUser);
+});
+
+/**
+ * @desc    Update user wishlist
+ * @route   PUT /api/products/wishlist
+ * @acess   Private
+ */
+export const updateWishlist = asyncHandler(async (req, res) => {
+  const user = req.user;
+
+  const { wishlist } = req.body;
+
+  const newWishlist = wishlist.map((p: WishListItem) => ({
+    product: p.product,
+  }));
+
+  // Validate the cart values
+  user.wihslist = newWishlist;
 
   const updatedUser = await user.save();
 

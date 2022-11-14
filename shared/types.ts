@@ -46,6 +46,10 @@ export interface CartItem {
   quantity: number;
 }
 
+export interface WishListItem {
+  product: mongoose.Schema.Types.ObjectId | string;
+}
+
 export interface User {
   email: string;
   password: string;
@@ -56,6 +60,7 @@ export interface User {
   isAdmin?: boolean;
   token?: string;
   cart?: CartItem[];
+  wishlist?: WishListItem[];
 }
 
 export interface Category {

@@ -40,6 +40,15 @@ const userSchema = new mongoose.Schema<IUser>(
         quantity: { type: Number, required: true },
       },
     ],
+    wishlist: [
+      {
+        product: {
+          type: mongoose.Schema.Types.ObjectId,
+          required: true,
+          ref: 'Product',
+        },
+      },
+    ],
   },
   {
     timestamps: true,

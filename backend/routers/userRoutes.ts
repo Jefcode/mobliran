@@ -1,14 +1,17 @@
 import { Router } from 'express';
 import {
   addToCart,
+  addToWishlist,
   authUser,
   emptyCart,
   getUserProfile,
   registerUser,
   removeFromCart,
+  removeFromWishlist,
   updateCart,
   updateUserAddress,
   updateUserProfile,
+  updateWishlist,
 } from '../controllers/userController';
 import { protect } from '../middlewares/authMiddleware';
 
@@ -27,5 +30,10 @@ router
   .put(protect, updateCart)
   .delete(protect, emptyCart);
 router.route('/cart/:id').delete(protect, removeFromCart);
+router
+  .route('/wishlist')
+  .post(protect, addToWishlist)
+  .put(protect, updateWishlist);
+router.route('/wishlist/:id').delete(protect, removeFromWishlist);
 
 export default router;
