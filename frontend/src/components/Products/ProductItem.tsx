@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { AiFillHeart } from 'react-icons/ai';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { CartItem, Product } from '../../../../shared/types';

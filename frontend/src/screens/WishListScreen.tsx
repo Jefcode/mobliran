@@ -1,8 +1,6 @@
-import { IoMdClose } from 'react-icons/io';
 import Spinner from '../components/common/Spinner';
 
 import ImageTitle from '../components/Partials/ImageTitle';
-import QuickLookBtn from '../components/Products/QuickLookBtn';
 import useWishlistData from '../components/Wishlist/hooks/useWishlistData';
 import WishlistDetail from '../components/Wishlist/WishlistDetail';
 
