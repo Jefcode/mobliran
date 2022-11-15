@@ -1,5 +1,5 @@
 import ImageTitle from '../components/Partials/ImageTitle';
-import useCartData from '../components/Navigation/hooks/useCartData';
+import useCartData from '../components/Cart/hooks/useCartData';
 import Spinner from '../components/common/Spinner';
 import { Navigate } from 'react-router-dom';
 import CheckoutDetail from '../components/Checkout/CheckoutDetail';

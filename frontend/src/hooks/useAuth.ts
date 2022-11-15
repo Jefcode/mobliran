@@ -9,9 +9,10 @@ import AuthService, {
   LoginUserData,
   RegisterUserData,
 } from '../services/AuthService';
-import { Address, CartItem, User } from '../../../shared/types';
+import { Address, CartItem, User, WishListItem } from '../../../shared/types';
 import { IProfileUpdateForm } from '../screens/Account/AccountDetails';
 import { authActions, authSelector } from '../features/auth/authSlice';
+import { useWishlistContext } from '../context/WishlistContext';
 
 // Global Configurations for ls => localStorage-slim
 ls.config.ttl = 10;
@@ -26,6 +27,7 @@ export default function useAuth() {
   let rememberMe = false;
 
   const { items: cartItems, setLocalCart } = useShoppingCartContext();
+  const { items: wishlistItems, setLocalWishlist } = useWishlistContext();
 
   /**
    * Mutations
@@ -102,9 +104,24 @@ export default function useAuth() {
     });
   }
 
+  async function updateUserWishlist(
+    userWishlist: WishListItem[],
+    token: string | undefined
+  ) {
+    const newWishlist = mergeTwoWishlist(wishlistItems, userWishlist);
+
+    // Save to localStorage
+    setLocalWishlist(newWishlist);
+
+    // Save to Database
+    await AuthService.updateUserWishlist(newWishlist, token || '');
+  }
+
   // Login and Register On Success Event handler
-  function successHandler(userData: User) {
-    updateUserCart(userData.cart || [], userData.token);
+  async function successHandler(userData: User) {
+    // Update user Cart and wishlist.
+    await updateUserWishlist(userData.wishlist || [], userData.token);
+    await updateUserCart(userData.cart || [], userData.token);
 
     // Close Auth modal
     dispatch(authActions.closeModal());
@@ -168,3 +185,27 @@ function mergeTwoCart(array1: CartItem[], array2: CartItem[]): CartItem[] {
 
   return newArray;
 }
+
+const mergeTwoWishlist = (
+  wishlist1: WishListItem[],
+  wishlist2: WishListItem[]
+): WishListItem[] => {
+  const combinedArray = [...wishlist1, ...wishlist2];
+
+  const newArray: WishListItem[] = [];
+  combinedArray.forEach((wishlistItem) => {
+    // Check if this wishlistItem with this id is already in newArray variable
+    const newArrayItemIndex = newArray.findIndex(
+      (p) => p.product === wishlistItem.product
+    );
+    const newArrayItem = newArray[newArrayItemIndex];
+
+    if (!newArrayItem) {
+      newArray.push(wishlistItem);
+    } else {
+      return;
+    }
+  });
+
+  return newArray;
+};

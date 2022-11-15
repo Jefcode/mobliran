@@ -4,7 +4,7 @@ import { useShoppingCartContext } from '../../context/ShoppingCartContext';
 import { ResultCartItem } from '../../models/types';
 
 import Spinner from '../common/Spinner';
-import useCartData from './hooks/useCartData';
+import useCartData from '../Cart/hooks/useCartData';
 
 const CartDropdown = () => {
   const {

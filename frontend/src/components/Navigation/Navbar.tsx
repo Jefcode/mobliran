@@ -20,10 +20,12 @@ import NavAccount from './NavAccount';
 import CartDropdown from './CartDropdown';
 import { authActions, authSelector } from '../../features/auth/authSlice';
 import { useShoppingCartContext } from '../../context/ShoppingCartContext';
+import { useWishlistContext } from '../../context/WishlistContext';
 
 const Navbar = () => {
   const dispatch = useDispatch();
-  const { items } = useShoppingCartContext();
+  const { items: cartItems } = useShoppingCartContext();
+  const { items: wishlistItems } = useWishlistContext();
   const { modalOpen, user } = useSelector(authSelector);
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -50,7 +52,7 @@ const Navbar = () => {
           <div className='relative group'>
             <Link to='/cart' className='inline-block py-7'>
               سبد خرید{' '}
-              <span className='text-gray-500'>({items.length ?? 0})</span>
+              <span className='text-gray-500'>({cartItems.length ?? 0})</span>
             </Link>
 
             {/* Dropdown */}
@@ -64,7 +66,7 @@ const Navbar = () => {
               className='flex items-center duration-300 py-7 space-s-1 hover:text-gray-500'
             >
               <AiOutlineHeart />
-              <span className='text-gray-500'>(0)</span>
+              <span className='text-gray-500'>({wishlistItems.length})</span>
             </Link>
           </div>
 

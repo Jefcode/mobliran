@@ -91,7 +91,7 @@ const Orders = () => {
                       {order.totalPrice.toLocaleString()} تومان
                     </td>
                     {/* Paid Status */}
-                    <td className='py-8 px-6'>
+                    <td className='py-8 px-6 whitespace-nowrap'>
                       {order.isPaid ? (
                         <span className='text-xs bg-green-100 rounded-full px-2 py-1 text-green-500 inline-flex items-center'>
                           <span className='w-2 h-2 inline-block rounded-full bg-green-400 ml-2 animate-pulse'></span>
@@ -105,7 +105,7 @@ const Orders = () => {
                       )}
                     </td>
                     {/* Delivery Status */}
-                    <td className='py-8 px-6'>
+                    <td className='py-8 px-6 whitespace-nowrap'>
                       {order.isDelivered ? (
                         <span className='text-xs bg-green-100 rounded-full px-2 py-1 text-green-500 inline-flex items-center'>
                           <span className='w-2 h-2 inline-block rounded-full bg-green-400 ml-2 animate-pulse'></span>

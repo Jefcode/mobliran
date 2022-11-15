@@ -1,7 +1,7 @@
-import { CartItem, Product } from '../../../shared/types';
+import { CartItem, Product, WishListItem } from '../../../shared/types';
 import { axiosInstance } from '../axiosInstance';
 import { PriceRange } from '../components/Products/hooks/useProducts';
-import { ResultCartItem } from '../models/types';
+import { ResultCartItem, ResultWishListItem } from '../models/types';
 
 interface GetProductsArgs {
   category: string | undefined;
@@ -37,6 +37,17 @@ class ProductService {
     for (const item of items) {
       const product = await this.getProductDetail(item.product as string);
       products.push({ product, quantity: item.quantity });
+    }
+
+    return products;
+  }
+
+  async getWishlistProductsById(items: WishListItem[]) {
+    const products: Product[] = [];
+
+    for (const item of items) {
+      const product = await this.getProductDetail(item.product as string);
+      products.push(product);
     }
 
     return products;

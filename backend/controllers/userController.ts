@@ -40,6 +40,7 @@ export const registerUser = asyncHandler(async (req, res) => {
       isAdmin: user.isAdmin,
       address: user.address,
       cart: user.cart,
+      wishlist: user.wishlist,
       token: generateToken(user.id),
     });
   } else {
@@ -68,6 +69,7 @@ export const authUser = asyncHandler(async (req, res) => {
       isAdmin: user.isAdmin,
       address: user.address,
       cart: user.cart,
+      wishlist: user.wishlist,
       token: generateToken(user.id),
     });
   } else {
@@ -342,14 +344,9 @@ export const removeFromWishlist = asyncHandler(async (req, res) => {
 export const updateWishlist = asyncHandler(async (req, res) => {
   const user = req.user;
 
-  const { wishlist } = req.body;
+  const wishlist = req.body;
 
-  const newWishlist = wishlist.map((p: WishListItem) => ({
-    product: p.product,
-  }));
-
-  // Validate the cart values
-  user.wihslist = newWishlist;
+  user.wishlist = wishlist;
 
   const updatedUser = await user.save();
 

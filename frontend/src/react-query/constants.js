@@ -5,4 +5,5 @@ export const queryKeys = {
   cart: 'cart',
   myOrders: 'myOrders',
   order: 'order',
+  wishlist: 'wishlist',
 };

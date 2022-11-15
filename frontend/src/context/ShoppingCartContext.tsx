@@ -26,6 +26,7 @@ interface IShoppingCartContext {
   updateCart: (newCart: CartItem[], onSuccess?: () => void) => void;
   setLocalCart: (newCart: CartItem[]) => void;
   emptyCart: () => void;
+  isInCart: (id: string) => boolean;
 }
 
 interface ShoppingCartContextProviderProps {
@@ -164,6 +165,12 @@ export const ShoppingCartContextProvider = ({
     setCartItems(newCart);
   }
 
+  // Check if product is in cart
+  function isInCart(id: string): boolean {
+    const item = cartItems.find((p) => p.product === id);
+    return !!item;
+  }
+
   return (
     <ShoppingCartContext.Provider
       value={{
@@ -177,6 +184,7 @@ export const ShoppingCartContextProvider = ({
         updateCart,
         setLocalCart,
         emptyCart,
+        isInCart,
       }}
     >
       {children}

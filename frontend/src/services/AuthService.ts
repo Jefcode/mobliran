@@ -156,12 +156,16 @@ class AuthService {
   }
 
   // Update the whole wishlist with new wishlist
-  async updateWishlist({ token, wishlist }: IUpdateWishlist): Promise<User> {
-    const response = await axiosInstance.put(
-      '/users/wishlist',
-      { wishlist },
-      getJWTHeader(token)
-    );
+  async updateUserWishlist(
+    wishlist: WishListItem[],
+    token: string
+  ): Promise<User> {
+    const response = await axiosInstance.put('/users/wishlist', wishlist, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
     return response.data;
   }
 }

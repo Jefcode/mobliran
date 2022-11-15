@@ -1,5 +1,5 @@
 import ImageTitle from '../components/Partials/ImageTitle';
-import useCartData from '../components/Navigation/hooks/useCartData';
+import useCartData from '../components/Cart/hooks/useCartData';
 import CartEmpty from '../components/Cart/CartEmpty';
 import CartDetail from '../components/Cart/CartDetail';
 import Spinner from '../components/common/Spinner';

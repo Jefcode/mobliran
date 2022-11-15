@@ -11,7 +11,7 @@ const NavAccount = () => {
 
   return (
     <div className='relative group'>
-      <Link to='/cart' className='flex items-center h-full'>
+      <Link to='/my-account' className='flex items-center h-full'>
         {/* Avatar */}
         <img
           src='/images/avatar.png'

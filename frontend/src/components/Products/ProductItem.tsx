@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import { CartItem, Product } from '../../../../shared/types';
 import { useShoppingCartContext } from '../../context/ShoppingCartContext';
+import AddToWishlistItem from './AddToWishlistItem';
 import QuickLookBtn from './QuickLookBtn';
 
 interface ProductItemProps {
@@ -50,9 +51,7 @@ const ProductItem = ({ product }: ProductItemProps) => {
           <QuickLookBtn product={product} />
 
           {/* Wishlist */}
-          <div className='flex items-center justify-center p-2 bg-stone-600'>
-            <AiFillHeart />
-          </div>
+          <AddToWishlistItem productId={product._id ?? ''} />
         </div>
       </div>
 
