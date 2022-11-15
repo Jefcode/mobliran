@@ -9,19 +9,22 @@ import Routes from './Routes';
 import { queryClient } from '../../react-query/queryClient';
 import store from './store';
 import { ShoppingCartContextProvider } from '../../context/ShoppingCartContext';
+import { WishlistContextProvider } from '../../context/WishlistContext';
 
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <ReduxProvider store={store}>
         <ShoppingCartContextProvider>
-          <div className='w-full max-w-full min-w-full min-h-screen overflow-hidden'>
-            <Navbar />
-            <Routes />
-            <Footer />
-            <ToastContainer rtl />
-            <ReactQueryDevtools />
-          </div>
+          <WishlistContextProvider>
+            <div className='w-full max-w-full min-w-full min-h-screen overflow-hidden'>
+              <Navbar />
+              <Routes />
+              <Footer />
+              <ToastContainer rtl />
+              <ReactQueryDevtools />
+            </div>
+          </WishlistContextProvider>
         </ShoppingCartContextProvider>
       </ReduxProvider>
     </QueryClientProvider>

@@ -13,6 +13,7 @@ import ProductService from '../services/ProductService';
 import Spinner from '../components/common/Spinner';
 import NotFoundScreen from './NotFoundScreen';
 import type { Category } from '../../../shared/types';
+import AddToWishlist from '../components/Products/AddToWishlist';
 
 const ProductDetailScreen = () => {
   const [tab, setTab] = useState('description'); // description / informations / reviews
@@ -160,10 +161,7 @@ const ProductDetailScreen = () => {
                   />
 
                   {/* Add To wishlist */}
-                  <div className='flex items-center cursor-pointer mb-14 space-s-2'>
-                    <AiOutlineHeart />
-                    <span>اضافه کردن به علاقه مندی ها</span>
-                  </div>
+                  <AddToWishlist productId={product._id ?? ''} />
 
                   {/* ProductCode / Categories / Tags */}
                   <div className='flex flex-col space-y-1 text-sm'>

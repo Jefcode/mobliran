@@ -1,5 +1,5 @@
 import { axiosInstance, getJWTHeader } from '../axiosInstance';
-import { Address, CartItem, User } from '../../../shared/types';
+import { Address, CartItem, User, WishListItem } from '../../../shared/types';
 import { IProfileUpdateForm } from '../screens/Account/AccountDetails';
 
 export interface LoginUserData {
@@ -34,6 +34,18 @@ export interface IRemoveFromCart extends Token {
 
 export interface IUpdateCart extends Token {
   cart: CartItem[];
+}
+
+export interface IAddToWishlist extends Token {
+  id: string;
+}
+
+export interface IRemoveFromWishlist extends Token {
+  id: string;
+}
+
+export interface IUpdateWishlist extends Token {
+  wishlist: WishListItem[];
 }
 
 class AuthService {
@@ -105,6 +117,7 @@ class AuthService {
     return response.data;
   }
 
+  // Update the whole cart with new cart
   async updateCart({ token, cart }: IUpdateCart): Promise<User> {
     const response = await axiosInstance.put(
       '/users/cart',
@@ -117,6 +130,36 @@ class AuthService {
   async emptyCart(token: string): Promise<User> {
     const response = await axiosInstance.delete(
       '/users/cart',
+      getJWTHeader(token)
+    );
+    return response.data;
+  }
+
+  /* ============== WISHLIST ================ */
+  // Add Product To wishlist
+  async addToWishlist({ token, id }: IAddToWishlist): Promise<User> {
+    const response = await axiosInstance.post(
+      '/users/wishlist',
+      { product: id },
+      getJWTHeader(token)
+    );
+    return response.data;
+  }
+
+  // Remove from cart
+  async removeFromWishlist({ token, id }: IRemoveFromWishlist): Promise<User> {
+    const response = await axiosInstance.delete(
+      `/users/wishlist/${id}`,
+      getJWTHeader(token)
+    );
+    return response.data;
+  }
+
+  // Update the whole wishlist with new wishlist
+  async updateWishlist({ token, wishlist }: IUpdateWishlist): Promise<User> {
+    const response = await axiosInstance.put(
+      '/users/wishlist',
+      { wishlist },
       getJWTHeader(token)
     );
     return response.data;
