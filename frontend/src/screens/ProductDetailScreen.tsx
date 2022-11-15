@@ -14,6 +14,7 @@ import Spinner from '../components/common/Spinner';
 import NotFoundScreen from './NotFoundScreen';
 import type { Category } from '../../../shared/types';
 import AddToWishlist from '../components/Products/AddToWishlist';
+import ProductReviews from '../components/Products/ProductReviews';
 
 const ProductDetailScreen = () => {
   const [tab, setTab] = useState('description'); // description / informations / reviews
@@ -285,44 +286,7 @@ const ProductDetailScreen = () => {
                 </div>
               ) : tab === 'reviews' ? (
                 // Reviews panel
-                <div className='py-24'>
-                  <h5 className='mb-5 text-xl font-bold'>
-                    2 نظر برای {product?.title}
-                  </h5>
-
-                  {/* Comments Container */}
-                  <div className='flex flex-col mb-8 space-y-8'>
-                    {/* Comment Item */}
-                    <div className='flex items-start space-s-4'>
-                      {/* User Avatar */}
-                      <img
-                        src='/avatars/avatar-1.png'
-                        className='object-cover w-14 h-14'
-                        alt=''
-                      />
-
-                      {/* Comment Info */}
-                      <div className='flex flex-col items-start space-y-3'>
-                        <Rating score={4} className='text-sm' />
-
-                        {/* User name / Comment Date */}
-                        <div className='flex space-s-2 text-lightGray'>
-                          <h6 className='font-bold'>امیرحسین جعفری پناه</h6>
-
-                          <span className=''>- 1401/08/09</span>
-                        </div>
-
-                        {/* Comment Text */}
-                        <p className='font-light text-lightGray'>
-                          بسیار زیبا است
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Review Form Container */}
-                  <ReviewForm />
-                </div>
+                <ProductReviews product={product} />
               ) : null}
             </div>
           </div>

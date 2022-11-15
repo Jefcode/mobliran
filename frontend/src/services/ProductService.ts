@@ -1,5 +1,5 @@
 import { CartItem, Product, WishListItem } from '../../../shared/types';
-import { axiosInstance } from '../axiosInstance';
+import { axiosInstance, getJWTHeader } from '../axiosInstance';
 import { PriceRange } from '../components/Products/hooks/useProducts';
 import { ResultCartItem, ResultWishListItem } from '../models/types';
 
@@ -7,6 +7,15 @@ interface GetProductsArgs {
   category: string | undefined;
   sortBy: string;
   priceRange: PriceRange;
+}
+
+interface ICreateReview {
+  token: string;
+  id: string;
+  data: {
+    comment: string;
+    rating: number;
+  };
 }
 
 class ProductService {
@@ -51,6 +60,15 @@ class ProductService {
     }
 
     return products;
+  }
+
+  async createReview({ token, id, data }: ICreateReview) {
+    const response = await axiosInstance.post(
+      `/products/${id}/reviews`,
+      data,
+      getJWTHeader(token)
+    );
+    return response.data;
   }
 }
 

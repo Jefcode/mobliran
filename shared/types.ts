@@ -5,7 +5,12 @@ export interface Id {
   _id: string;
 }
 
-export interface Review {
+export interface Timestamps {
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
+export interface Review extends Timestamps {
   name: string;
   rating: number;
   comment: string;
