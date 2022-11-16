@@ -1,17 +1,16 @@
 import { useQuery } from '@tanstack/react-query';
-import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import Spinner from '../../components/common/Spinner';
-import { authSelector } from '../../features/auth/authSlice';
 import { queryKeys } from '../../react-query/constants';
 import OrderService from '../../services/OrderService';
 import convertToJalali from '../../utils/convertToJalali';
+import { useAccountUser } from './AccountScreen';
 
 const Orders = () => {
   const {
     user: { token },
-  } = useSelector(authSelector);
+  } = useAccountUser();
   const { data, isLoading, isSuccess } = useQuery(
     [queryKeys.myOrders],
     () => OrderService.getMyOrders(token ?? ''),

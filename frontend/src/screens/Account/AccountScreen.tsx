@@ -1,14 +1,15 @@
 import { useSelector } from 'react-redux';
-import { Link, Navigate, Outlet } from 'react-router-dom';
+import { Link, Navigate, Outlet, useOutletContext } from 'react-router-dom';
+import { User } from '../../../../shared/types';
 import ImageTitle from '../../components/Partials/ImageTitle';
 import { authSelector } from '../../features/auth/authSlice';
 
-const AccountScreen = () => {
-  const {
-    user: { token },
-  } = useSelector(authSelector);
+type ContextType = { user: User };
 
-  if (!token) {
+const AccountScreen = () => {
+  const { user } = useSelector(authSelector);
+
+  if (!user.token) {
     return <Navigate to='/' replace />;
   }
 
@@ -38,7 +39,7 @@ const AccountScreen = () => {
                 className='text-lightGray text-lg font-english text-right'
                 dir='ltr'
               >
-                @jefcode
+                @{user.username}
               </p>
             </div>
 
@@ -83,12 +84,16 @@ const AccountScreen = () => {
 
           {/* Content */}
           <div className='w-full md:w-3/4'>
-            <Outlet />
+            <Outlet context={{ user }} />
           </div>
         </div>
       </div>
     </div>
   );
 };
+
+export function useAccountUser() {
+  return useOutletContext<ContextType>();
+}
 
 export default AccountScreen;

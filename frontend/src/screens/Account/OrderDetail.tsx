@@ -1,21 +1,21 @@
 import { useQuery } from '@tanstack/react-query';
-import { useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
+
 import LoadingBtn from '../../components/common/LoadingBtn';
 import Message from '../../components/common/Message';
 import Spinner from '../../components/common/Spinner';
-import { authSelector } from '../../features/auth/authSlice';
 import useOrder from '../../hooks/useOrder';
 import { queryKeys } from '../../react-query/constants';
 import OrderService from '../../services/OrderService';
 import convertToJalali from '../../utils/convertToJalali';
+import { useAccountUser } from './AccountScreen';
 
 const OrderDetail = () => {
   const params = useParams();
   const { id: orderId } = params;
   const {
     user: { token },
-  } = useSelector(authSelector);
+  } = useAccountUser();
 
   // Paying order from useOrder Hook
   const {
@@ -23,6 +23,7 @@ const OrderDetail = () => {
     payOrderMutation: { isLoading: payLoading },
   } = useOrder();
 
+  // Getting order with useQuery
   const {
     data: order,
     isLoading,
@@ -56,7 +57,9 @@ const OrderDetail = () => {
         <div>
           <span>نام: </span>
           <span className='text-lightGray'>
-            {order?.user.firstName + ' ' + order?.user.lastName}
+            {order.user.firstName && order.user.lastName
+              ? order?.user.firstName + ' ' + order?.user.lastName
+              : order.user.username}
           </span>
         </div>
         <div className='font-both'>

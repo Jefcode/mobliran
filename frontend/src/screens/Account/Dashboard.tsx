@@ -1,16 +1,18 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import useAuth from '../../hooks/useAuth';
+import { useAccountUser } from './AccountScreen';
 
 const Dashboard = () => {
+  const { user } = useAccountUser();
   const { logout } = useAuth();
 
   return (
     <div>
       {/* Greeting Text */}
       <p className='text-lightGray font-light leading-loose'>
-        سلام <span className='font-medium font-both'>jefcode</span> (
-        <span className='font-medium font-both'>jefcode</span> نیستید؟{' '}
+        سلام <span className='font-medium font-both'>{user.username}</span> (
+        <span className='font-medium font-both'>{user.username}</span> نیستید؟{' '}
         <button onClick={() => logout()} className='text-stone-700'>
           خارج شوید
         </button>

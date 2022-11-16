@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
@@ -7,7 +6,7 @@ import Message from '../../components/common/Message';
 import Spinner from '../../components/common/Spinner';
 import useAuth from '../../hooks/useAuth';
 import { editProfileFormSchema } from './schemas';
-import { authSelector } from '../../features/auth/authSlice';
+import { useAccountUser } from './AccountScreen';
 
 export interface IProfileUpdateForm {
   firstName: string;
@@ -20,7 +19,7 @@ export interface IProfileUpdateForm {
 }
 
 const AccountDetails = () => {
-  const { user } = useSelector(authSelector);
+  const { user } = useAccountUser();
   const {
     updateUserProfile,
     userProfileMutations: { isLoading, isSuccess },
