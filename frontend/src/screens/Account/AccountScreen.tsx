@@ -3,15 +3,21 @@ import { Link, Navigate, Outlet, useOutletContext } from 'react-router-dom';
 import { User } from '../../../../shared/types';
 import ImageTitle from '../../components/Partials/ImageTitle';
 import { authSelector } from '../../features/auth/authSlice';
+import useAuth from '../../hooks/useAuth';
 
 type ContextType = { user: User };
 
 const AccountScreen = () => {
   const { user } = useSelector(authSelector);
+  const { logout } = useAuth();
 
   if (!user.token) {
     return <Navigate to='/' replace />;
   }
+
+  const logoutHandler = () => {
+    logout();
+  };
 
   return (
     <div>
@@ -75,9 +81,12 @@ const AccountScreen = () => {
                 </Link>
               </li>
               <li className='w-full group'>
-                <a href='/' className='group-hover:text-stone-600 duration-200'>
+                <button
+                  onClick={logoutHandler}
+                  className='group-hover:text-stone-600 duration-200'
+                >
                   خروج از حساب
-                </a>
+                </button>
               </li>
             </ul>
           </div>

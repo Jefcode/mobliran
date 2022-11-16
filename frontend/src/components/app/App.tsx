@@ -10,7 +10,7 @@ import { queryClient } from '../../react-query/queryClient';
 import store from './store';
 import { ShoppingCartContextProvider } from '../../context/ShoppingCartContext';
 import { WishlistContextProvider } from '../../context/WishlistContext';
-import DescriptionBtn from '../Description/DescriptionBtn';
+// import DescriptionBtn from '../Description/DescriptionBtn';
 
 function App() {
   return (
@@ -21,7 +21,7 @@ function App() {
             <div className='w-full max-w-full min-w-full min-h-screen overflow-hidden'>
               <Navbar />
               <Routes />
-              <DescriptionBtn />
+              {/* <DescriptionBtn /> */}
               <Footer />
               <ToastContainer rtl />
               <ReactQueryDevtools />

@@ -1,12 +1,13 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { AnimatePresence } from 'framer-motion';
 import { IoMdClose } from 'react-icons/io';
 import { AiOutlineCaretLeft } from 'react-icons/ai';
 
 import MobileMenuDropdown from './MobileMenuDropdown';
 import Backdrop from '../common/Backdrop';
-import { authActions } from '../../features/auth/authSlice';
+import { authActions, authSelector } from '../../features/auth/authSlice';
+import { Link } from 'react-router-dom';
 
 interface MobileMenuProps {
   open: boolean;
@@ -15,6 +16,7 @@ interface MobileMenuProps {
 
 const MobileMenu = ({ open, toggle }: MobileMenuProps) => {
   const dispatch = useDispatch();
+  const { user } = useSelector(authSelector);
 
   const [shopSubmenu, setShopSubmenu] = useState(false);
   const [pagesSubmenu, setPagesSubmenu] = useState(false);
@@ -48,8 +50,8 @@ const MobileMenu = ({ open, toggle }: MobileMenuProps) => {
 
   const pagesDropdownItesm = [
     {
-      name: 'همه محصولات',
-      to: '/',
+      name: 'درباره ما',
+      to: '/about-us',
     },
     {
       name: 'مبل سلطنتی',
@@ -86,12 +88,13 @@ const MobileMenu = ({ open, toggle }: MobileMenuProps) => {
         <div className='flex flex-col items-start h-full space-y-5 overflow-y-auto no-scrollbar text-stone-400'>
           {/* Menu Item 1 */}
           <div className='relative w-full'>
-            <a
-              href='/'
+            <Link
+              to='/'
+              onClick={toggle}
               className='flex items-center w-full text-2xl text-white duration-200 hover:text-white space-s-1'
             >
               <span>خانه</span>
-            </a>
+            </Link>
           </div>
 
           {/* Menu Item 2 */}
@@ -144,15 +147,38 @@ const MobileMenu = ({ open, toggle }: MobileMenuProps) => {
             </AnimatePresence>
           </div>
 
-          {/* Menu Item 4 */}
+          {/* Cart */}
           <div className='relative w-full'>
-            <span
-              onClick={openAuthModalHandler}
-              className='flex items-center w-full text-2xl duration-200 cursor-pointer hover:text-white space-s-1'
+            <Link
+              to='/cart'
+              onClick={toggle}
+              className='flex items-center w-full text-2xl duration-200 hover:text-white space-s-1'
             >
-              <span>ورود / عضویــــت</span>
-            </span>
+              <span>سبد خرید</span>
+            </Link>
           </div>
+
+          {/* Login / Account */}
+          {!user.token ? (
+            <div className='relative w-full'>
+              <span
+                onClick={openAuthModalHandler}
+                className='flex items-center w-full text-2xl duration-200 cursor-pointer hover:text-white space-s-1'
+              >
+                <span>ورود / عضویــــت</span>
+              </span>
+            </div>
+          ) : (
+            <div className='relative w-full'>
+              <Link
+                to='/my-account'
+                onClick={toggle}
+                className='flex items-center w-full text-2xl duration-200 hover:text-white space-s-1'
+              >
+                <span>حساب کاربری</span>
+              </Link>
+            </div>
+          )}
         </div>
       </div>
     </>
