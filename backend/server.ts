@@ -9,6 +9,7 @@ import categoryRoutes from './routers/categoryRoutes';
 import orderRoutes from './routers/orderRoutes';
 import connectDB from './config/db';
 import { errorHandler, notFound } from './middlewares/errorMiddleware';
+import path from 'path';
 
 dotenv.config();
 connectDB();
@@ -23,14 +24,24 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.get('/', (req, res) => {
-  res.send('API Running');
-});
-
 app.use('/api/products', productRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/orders', orderRoutes);
+
+const DIRNAME = path.resolve();
+
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(DIRNAME, '/frontend/build')));
+
+  app.get('*', (req, res) =>
+    res.sendFile(path.resolve(DIRNAME, 'frontend', 'build', 'index.html'))
+  );
+} else {
+  app.get('/', (req, res) => {
+    res.send('API Running');
+  });
+}
 
 // Middleware for error handling
 app.use(notFound);
