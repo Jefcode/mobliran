@@ -1,3 +1,4 @@
+import Meta from '../components/common/Meta';
 import Spinner from '../components/common/Spinner';
 
 import ImageTitle from '../components/Partials/ImageTitle';
@@ -11,6 +12,8 @@ const WishListScreen = () => {
 
   return (
     <>
+      <Meta title='لیست علاقه مندی ها' />
+
       {/* Image Title */}
       <ImageTitle>علاقه مندی ها</ImageTitle>
 

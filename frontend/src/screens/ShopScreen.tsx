@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import Meta from '../components/common/Meta';
 import useCategoriesData from '../components/Navigation/hooks/useCategoriesData';
 import Filter from '../components/Products/Filter';
 import {
@@ -53,6 +54,9 @@ const ShopScreen = () => {
 
   return (
     <>
+      {/* Meta */}
+      <Meta title='فروشگاه | مبل ایران' />
+
       {/* Breadcrumb */}
       <div className='w-full py-8 bg-stone-100'>
         <div className='container px-6 mx-auto'>

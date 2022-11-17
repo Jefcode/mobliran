@@ -13,6 +13,7 @@ import NotFoundScreen from './NotFoundScreen';
 import type { Category } from '../../../shared/types';
 import AddToWishlist from '../components/Products/AddToWishlist';
 import ProductReviews from '../components/Products/ProductReviews';
+import Meta from '../components/common/Meta';
 
 const ProductDetailScreen = () => {
   const [tab, setTab] = useState('description'); // description / informations / reviews
@@ -51,6 +52,8 @@ const ProductDetailScreen = () => {
       ) : isSuccess ? (
         // Product Detail
         <>
+          <Meta title={`خرید ${product.title} | مبل ایران`} />
+
           {/* Imgs / Breadcrumb / Info */}
           <div className='bg-secondaryGray'>
             {/* Container */}

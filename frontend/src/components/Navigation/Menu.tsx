@@ -63,12 +63,9 @@ const Menu = () => {
         onHoverEnd={() => setPagesHover(false)}
         className='relative'
       >
-        <a
-          href='/'
-          className='inline-block duration-300 py-7 hover:text-gray-500'
-        >
+        <button className='inline-block duration-300 py-7 hover:text-gray-500'>
           صفحات
-        </a>
+        </button>
 
         {/* Dropdown */}
         <AnimatePresence>

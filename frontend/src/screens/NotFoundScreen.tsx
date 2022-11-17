@@ -1,10 +1,13 @@
 import React from 'react';
 import { TfiFaceSad } from 'react-icons/tfi';
 import { Link } from 'react-router-dom';
+import Meta from '../components/common/Meta';
 
 const NotFoundScreen = () => {
   return (
     <>
+      <Meta title='صفحه مورد نظر یافت نشد' />
+
       <div className='py-32'>
         <div className='max-w-md mx-auto px-5 flex flex-col space-y-10 items-center text-center'>
           {/* Icon */}

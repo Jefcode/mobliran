@@ -6,6 +6,7 @@ import { useProducts } from '../components/Products/hooks/useProducts';
 import { queryKeys } from '../react-query/constants';
 import CategoryService from '../services/CategoryService';
 import Products from '../components/Products/Products';
+import Meta from '../components/common/Meta';
 
 const HomeScreen = () => {
   // Prefetch Categories
@@ -23,6 +24,8 @@ const HomeScreen = () => {
 
   return (
     <>
+      <Meta />
+
       <Hero />
 
       {/* Recent Products */}

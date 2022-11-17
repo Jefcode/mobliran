@@ -7,6 +7,7 @@ import Spinner from '../../components/common/Spinner';
 import useAuth from '../../hooks/useAuth';
 import { editProfileFormSchema } from './schemas';
 import { useAccountUser } from './AccountScreen';
+import Meta from '../../components/common/Meta';
 
 export interface IProfileUpdateForm {
   firstName: string;
@@ -55,6 +56,8 @@ const AccountDetails = () => {
 
   return (
     <div>
+      <Meta title='حساب کاربری | ویرایش اطلاعات حساب' />
+
       {isSuccess && (
         <Message variant='success' className='mb-8'>
           اطلاعات حساب شما ویرایش شد

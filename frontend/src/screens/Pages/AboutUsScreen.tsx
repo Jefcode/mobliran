@@ -4,12 +4,15 @@ import { Swiper, SwiperSlide, useSwiper } from 'swiper/react';
 import { BsArrowLeft, BsArrowRight } from 'react-icons/bs';
 
 import ImageTitle from '../../components/Partials/ImageTitle';
+import Meta from '../../components/common/Meta';
 
 const AboutUsScreen = () => {
   const [tab, setTab] = useState('about');
 
   return (
     <>
+      <Meta title='درباره ما | مبل ایران' />
+
       {/* Image Title */}
       <ImageTitle img='/images/title-img-about.jpg'>درباره ما</ImageTitle>
 

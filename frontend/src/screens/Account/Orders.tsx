@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
+import Meta from '../../components/common/Meta';
 
 import Spinner from '../../components/common/Spinner';
 import { queryKeys } from '../../react-query/constants';
@@ -21,6 +22,8 @@ const Orders = () => {
 
   return (
     <>
+      <Meta title='حساب کاربری | سفارش ها' />
+
       {/* Loading Spinner  */}
       {isLoading && (
         <div className='py-32 text-center'>

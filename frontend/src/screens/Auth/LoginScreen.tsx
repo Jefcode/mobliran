@@ -8,6 +8,7 @@ import { loginSchema } from '../../components/Auth/schemas';
 import useAuth from '../../hooks/useAuth';
 import LoadingBtn from '../../components/common/LoadingBtn';
 import { useUnauthorizedRoutes } from '../../components/utils/UnauthorizedUserRoutes';
+import Meta from '../../components/common/Meta';
 
 export interface ILoginFormInputs {
   email: string;
@@ -38,6 +39,8 @@ const LoginScreen = () => {
 
   return (
     <>
+      <Meta title='ورود به حساب | مبل ایران' />
+
       <ImageTitle>ورود به حساب کاربری</ImageTitle>
 
       {/* Login Container */}

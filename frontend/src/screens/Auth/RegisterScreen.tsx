@@ -8,6 +8,7 @@ import { registerSchema } from '../../components/Auth/schemas';
 import useAuth from '../../hooks/useAuth';
 import LoadingBtn from '../../components/common/LoadingBtn';
 import { useUnauthorizedRoutes } from '../../components/utils/UnauthorizedUserRoutes';
+import Meta from '../../components/common/Meta';
 
 export interface IRegisterFormInputs {
   username: string;
@@ -39,7 +40,9 @@ const RegisterScreen = () => {
 
   return (
     <>
-      <ImageTitle>ورود به حساب کاربری</ImageTitle>
+      <Meta title='ثبت نام | مبل ایران' />
+
+      <ImageTitle>ثبت نام</ImageTitle>
 
       {/* Login Container */}
       <div className='max-w-2xl mx-auto px-6 py-28'>

@@ -3,6 +3,7 @@ import useCartData from '../components/Cart/hooks/useCartData';
 import CartEmpty from '../components/Cart/CartEmpty';
 import CartDetail from '../components/Cart/CartDetail';
 import Spinner from '../components/common/Spinner';
+import Meta from '../components/common/Meta';
 
 const CartScreen = () => {
   const {
@@ -12,6 +13,8 @@ const CartScreen = () => {
 
   return (
     <>
+      <Meta title='سبد خرید' />
+
       {/* Image Title */}
       <ImageTitle>سبــــــد خریــــــــــد</ImageTitle>
 

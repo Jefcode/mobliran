@@ -3,6 +3,7 @@ import useCartData from '../components/Cart/hooks/useCartData';
 import Spinner from '../components/common/Spinner';
 import { Navigate } from 'react-router-dom';
 import CheckoutDetail from '../components/Checkout/CheckoutDetail';
+import Meta from '../components/common/Meta';
 
 const CheckoutScreen = () => {
   const {
@@ -16,6 +17,8 @@ const CheckoutScreen = () => {
 
   return (
     <>
+      <Meta title='تصفیه حساب' />
+
       {/* Image Title */}
       <ImageTitle>تصفیـــــــه حساب</ImageTitle>
 

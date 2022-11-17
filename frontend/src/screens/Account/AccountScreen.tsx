@@ -1,6 +1,7 @@
 import { useSelector } from 'react-redux';
 import { Link, Navigate, Outlet, useOutletContext } from 'react-router-dom';
 import { User } from '../../../../shared/types';
+import Meta from '../../components/common/Meta';
 import ImageTitle from '../../components/Partials/ImageTitle';
 import { authSelector } from '../../features/auth/authSlice';
 import useAuth from '../../hooks/useAuth';
@@ -21,6 +22,8 @@ const AccountScreen = () => {
 
   return (
     <div>
+      <Meta title='حساب کاربری' />
+
       {/* Image Title */}
       <ImageTitle>حساب کاربری من</ImageTitle>
 

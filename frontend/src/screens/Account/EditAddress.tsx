@@ -7,6 +7,7 @@ import Spinner from '../../components/common/Spinner';
 import Message from '../../components/common/Message';
 import { useEffect } from 'react';
 import { useAccountUser } from './AccountScreen';
+import Meta from '../../components/common/Meta';
 
 interface IFormInputs {
   country: string;
@@ -55,6 +56,8 @@ const EditAddress = () => {
 
   return (
     <div>
+      <Meta title='حساب کاربری | آدرس' />
+
       <p className='text-lightGray'>
         آدرس زیر به صورت پیش فرض در فرایند خرید استفاده خواهد شد.
       </p>

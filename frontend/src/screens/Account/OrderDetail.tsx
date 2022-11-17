@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 
 import LoadingBtn from '../../components/common/LoadingBtn';
 import Message from '../../components/common/Message';
+import Meta from '../../components/common/Meta';
 import Spinner from '../../components/common/Spinner';
 import useOrder from '../../hooks/useOrder';
 import { queryKeys } from '../../react-query/constants';
@@ -50,6 +51,8 @@ const OrderDetail = () => {
 
   return (
     <div>
+      <Meta title='جزئیات سفارش' />
+
       <h2 className='text-xl font-bold mb-7'>جزئیات سفارش</h2>
 
       {/* User Detail */}
