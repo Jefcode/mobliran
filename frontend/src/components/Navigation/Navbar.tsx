@@ -40,10 +40,10 @@ const Navbar = () => {
 
         {/* Logo Container */}
         <div className='text-3xl'>
-          <a href='/' className='inline-block py-5'>
+          <Link to='/' className='inline-block py-5'>
             <span>مبلـ</span>
             <span className='text-gray-400'> ایرانـ </span>
-          </a>
+          </Link>
         </div>
 
         {/* Cart/Wishlist/account Flex Container */}

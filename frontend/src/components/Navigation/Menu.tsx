@@ -21,18 +21,8 @@ const Menu = () => {
 
   const pagesDropdownItems: MenuLink[] = [
     {
-      name: 'کار ما چیست؟',
-      to: '/',
-    },
-
-    {
       name: 'درباره ما',
       to: '/about-us',
-    },
-
-    {
-      name: 'سوالات پر تکرار',
-      to: '/faq',
     },
   ];
 

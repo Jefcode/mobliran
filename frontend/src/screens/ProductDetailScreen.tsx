@@ -58,20 +58,20 @@ const ProductDetailScreen = () => {
               {/* Breadcrumb Container */}
               <div className='flex flex-wrap w-full gap-4 pt-10 text-gray-400 pb-14'>
                 <div className='after:content-["/"] after:mr-4 last:after:content-[""]'>
-                  <a href='/' className='transition hover:text-gray-600'>
+                  <Link to='/' className='transition hover:text-gray-600'>
                     خانه
-                  </a>
+                  </Link>
                 </div>
 
                 <div className='after:content-["/"] after:mr-4 last:after:content-[""]'>
                   {product?.categories.map((category, idx) => (
-                    <a
-                      href='/'
+                    <Link
+                      to={`/shop?category=${(category as Category).title}`}
                       key={idx}
                       className='transition hover:text-gray-600 after:content-["،"] mr-1 first:mr-0 last:after:content-[""] flex-inline items-center'
                     >
                       {(category as Category).title}
-                    </a>
+                    </Link>
                   ))}
                 </div>
 
@@ -172,12 +172,14 @@ const ProductDetailScreen = () => {
                       <span>دسته بندی ها:</span>
                       {product?.categories.map((category, idx) => (
                         <React.Fragment key={idx}>
-                          <a
-                            href='/'
+                          <Link
+                            to={`/shop?category=${
+                              (category as Category).title
+                            }`}
                             className='text-gray-500 transition hover:text-black'
                           >
-                            لوازم خانگی
-                          </a>{' '}
+                            {(category as Category).title}
+                          </Link>{' '}
                         </React.Fragment>
                       ))}
                     </div>

@@ -24,7 +24,7 @@ const Products = ({
         </div>
       )}
       {products.length === 0 && !isLoading && (
-        <div className='w-full px-6'>
+        <div className='w-full px-6 mb-10'>
           <Message variant='info'>
             هیچ محصولی با این دسته بندی یافت نشد.
           </Message>

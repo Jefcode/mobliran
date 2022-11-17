@@ -38,7 +38,9 @@ const MobileMenu = ({ open, toggle }: MobileMenuProps) => {
     setTimeout(toggle, 500);
   };
 
-  // Dropdown Items
+  /**
+   * Dropdown items
+   */
   const shopDropdownItems: MenuLink[] = categories.map((category) => ({
     name: category.title,
     to: `/shop?category=${category.title}`,
@@ -51,14 +53,6 @@ const MobileMenu = ({ open, toggle }: MobileMenuProps) => {
     {
       name: 'درباره ما',
       to: '/about-us',
-    },
-    {
-      name: 'مبل سلطنتی',
-      to: '/',
-    },
-    {
-      name: 'مبل راحتی',
-      to: '/',
     },
   ];
 

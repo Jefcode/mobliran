@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import useCategoriesData from '../components/Navigation/hooks/useCategoriesData';
 import Filter from '../components/Products/Filter';
 import {
@@ -58,9 +58,9 @@ const ShopScreen = () => {
         <div className='container px-6 mx-auto'>
           <div className='flex flex-wrap w-full gap-4 text-gray-400'>
             <div className='after:content-["/"] after:mr-4 last:after:content-[""]'>
-              <a href='/' className='transition hover:text-gray-600'>
+              <Link to='/' className='transition hover:text-gray-600'>
                 خانه
-              </a>
+              </Link>
             </div>
 
             <div className='after:content-["/"] after:mr-4 last:after:content-[""]'>
