@@ -3,46 +3,38 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { MenuLink } from '../../models/menu-link';
+import useCategoriesData from './hooks/useCategoriesData';
 import MenuDropdown from './MenuDropdown';
-
-// Dropdown Items
-const shopDropdownItems: MenuLink[] = [
-  {
-    name: 'مبل های سلطنتی',
-    to: '/',
-  },
-
-  {
-    name: 'دکوراسیون',
-    to: '/',
-  },
-
-  {
-    name: 'نور آرایی',
-    to: '/categories/lighting',
-  },
-];
-
-const pagesDropdownItems: MenuLink[] = [
-  {
-    name: 'کار ما چیست؟',
-    to: '/',
-  },
-
-  {
-    name: 'درباره ما',
-    to: '/about-us',
-  },
-
-  {
-    name: 'سوالات پر تکرار',
-    to: '/faq',
-  },
-];
 
 const Menu = () => {
   const [pagesHover, setPagesHover] = useState(false);
   const [shopHover, setShopHover] = useState(false);
+
+  // Get categories
+  const { categories } = useCategoriesData();
+
+  // Dropdown Items
+  const shopDropdownItems: MenuLink[] = categories.map((category) => ({
+    name: category.title,
+    to: `/shop?category=${category.title}`,
+  }));
+
+  const pagesDropdownItems: MenuLink[] = [
+    {
+      name: 'کار ما چیست؟',
+      to: '/',
+    },
+
+    {
+      name: 'درباره ما',
+      to: '/about-us',
+    },
+
+    {
+      name: 'سوالات پر تکرار',
+      to: '/faq',
+    },
+  ];
 
   return (
     <div className='items-center hidden text-sm text-gray-900 md:flex space-s-7'>

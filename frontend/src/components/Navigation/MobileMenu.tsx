@@ -8,6 +8,8 @@ import MobileMenuDropdown from './MobileMenuDropdown';
 import Backdrop from '../common/Backdrop';
 import { authActions, authSelector } from '../../features/auth/authSlice';
 import { Link } from 'react-router-dom';
+import useCategoriesData from './hooks/useCategoriesData';
+import { MenuLink } from '../../models/menu-link';
 
 interface MobileMenuProps {
   open: boolean;
@@ -18,11 +20,15 @@ const MobileMenu = ({ open, toggle }: MobileMenuProps) => {
   const dispatch = useDispatch();
   const { user } = useSelector(authSelector);
 
-  const [shopSubmenu, setShopSubmenu] = useState(false);
-  const [pagesSubmenu, setPagesSubmenu] = useState(false);
+  // States
+  const [shopSubmenuOpen, setShopSubmenuOpen] = useState(false);
+  const [pagesSubmenuOpen, setPagesSubmenuOpen] = useState(false);
 
-  const toggleShopSubmenu = () => setShopSubmenu((state) => !state);
-  const togglePagesSubmenu = () => setPagesSubmenu((state) => !state);
+  // Get categories
+  const { categories } = useCategoriesData();
+
+  const toggleShopSubmenu = () => setShopSubmenuOpen((state) => !state);
+  const togglePagesSubmenu = () => setPagesSubmenuOpen((state) => !state);
 
   const openAuthModalHandler = () => {
     // open auth modal
@@ -33,20 +39,13 @@ const MobileMenu = ({ open, toggle }: MobileMenuProps) => {
   };
 
   // Dropdown Items
-  const shopDropdownItems = [
-    {
-      name: 'همه محصولات',
-      to: '/shop',
-    },
-    {
-      name: 'مبل سلطنتی',
-      to: '/',
-    },
-    {
-      name: 'مبل راحتی',
-      to: '/',
-    },
-  ];
+  const shopDropdownItems: MenuLink[] = categories.map((category) => ({
+    name: category.title,
+    to: `/shop?category=${category.title}`,
+  }));
+
+  // Add a hard coded dropdown item
+  shopDropdownItems.unshift({ name: 'همه محصولات', to: '/shop' });
 
   const pagesDropdownItesm = [
     {
@@ -106,14 +105,14 @@ const MobileMenu = ({ open, toggle }: MobileMenuProps) => {
               <span>فروشـــــگاه</span>
               <AiOutlineCaretLeft
                 className={`text-xs duration-200 ${
-                  shopSubmenu && '-rotate-90'
+                  shopSubmenuOpen && '-rotate-90'
                 }`}
               />
             </span>
 
             {/* Submenu Container (Dropdown) */}
             <AnimatePresence>
-              {shopSubmenu && (
+              {shopSubmenuOpen && (
                 <MobileMenuDropdown
                   items={shopDropdownItems}
                   onClickItem={toggle}
@@ -131,14 +130,14 @@ const MobileMenu = ({ open, toggle }: MobileMenuProps) => {
               <span>صفحـــات</span>
               <AiOutlineCaretLeft
                 className={`text-xs duration-200 ${
-                  pagesSubmenu && '-rotate-90'
+                  pagesSubmenuOpen && '-rotate-90'
                 }`}
               />
             </span>
 
             {/* Submenu Container (Dropdown) */}
             <AnimatePresence>
-              {pagesSubmenu && (
+              {pagesSubmenuOpen && (
                 <MobileMenuDropdown
                   items={pagesDropdownItesm}
                   onClickItem={toggle}

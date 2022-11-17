@@ -1,3 +1,6 @@
+import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
+import useCategoriesData from '../components/Navigation/hooks/useCategoriesData';
 import Filter from '../components/Products/Filter';
 import {
   PriceRange,
@@ -7,6 +10,16 @@ import {
 import Products from '../components/Products/Products';
 
 const ShopScreen = () => {
+  // Get the category in url if exits
+  const location = useLocation();
+  const search = new URLSearchParams(location.search);
+  const categoryTitle = search.get('category');
+
+  const { categories } = useCategoriesData();
+  const categoryId = categories.find(
+    (category) => category.title === categoryTitle
+  )?._id;
+
   // Get products
   const {
     productsQuery: { data: products = [], isLoading, isError },
@@ -16,7 +29,12 @@ const ShopScreen = () => {
     setCategory,
     setSortBy,
     setPriceRange,
-  } = useProducts();
+  } = useProducts(categoryId);
+
+  // Change the category everytime categoryId (category in url) changes
+  useEffect(() => {
+    setCategory(categoryId);
+  }, [categoryId, setCategory]);
 
   // Changing Category event in Filter
   const categoryChangeHandler = (category: string | undefined) => {
@@ -57,6 +75,7 @@ const ShopScreen = () => {
         {/* Container */}
         <div className='container mx-auto'>
           <Filter
+            categories={categories}
             selectedCategory={category}
             onChangeCategory={categoryChangeHandler}
             sortBy={sortBy}

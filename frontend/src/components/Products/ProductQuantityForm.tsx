@@ -46,7 +46,7 @@ const ProductQuantityForm = ({
       className='flex flex-col items-stretch my-12 space-y-3 lg:flex-row lg:space-y-0'
     >
       {/* Input Container */}
-      <div className='flex justify-between w-full text-sm bg-white border lg:w-52 border-stone-300 text-stone-500'>
+      <div className='flex justify-between w-full text-sm bg-white border lg:w-40 xl:w-52 border-stone-300 text-stone-500'>
         <span className='px-3 py-4'>تعداد</span>
 
         {/* Counter Container */}

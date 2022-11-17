@@ -1,10 +1,8 @@
 import React, { useCallback, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { AiOutlineHeart } from 'react-icons/ai';
 import { Link, useParams } from 'react-router-dom';
 
 import ProductItem from '../components/Products/ProductItem';
-import ReviewForm from '../components/Forms/ReviewForm';
 import Rating from '../components/common/Rating';
 import products from '../data/products';
 import ProductQuantityForm from '../components/Products/ProductQuantityForm';
@@ -130,7 +128,7 @@ const ProductDetailScreen = () => {
                 </div>
 
                 {/* Info Half */}
-                <div className='w-full pr-0 lg:w-1/2 lg:pr-32'>
+                <div className='w-full pr-0 lg:w-1/2 lg:pr-28'>
                   {/* Title */}
                   <h1 className='text-3xl'>{product?.title}</h1>
 

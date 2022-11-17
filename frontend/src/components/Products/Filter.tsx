@@ -1,9 +1,7 @@
-import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { AiOutlineCaretDown } from 'react-icons/ai';
-import { queryKeys } from '../../react-query/constants';
-import CategoryService from '../../services/CategoryService';
+import { Category } from '../../../../shared/types';
 import { PriceRange, SortOptions } from './hooks/useProducts';
 
 const listVariants = {
@@ -24,6 +22,7 @@ const listVariants = {
 };
 
 interface FilterProps {
+  categories: Category[];
   selectedCategory: string | undefined;
   onChangeCategory: (category: string | undefined) => void;
   sortBy: SortOptions;
@@ -33,6 +32,7 @@ interface FilterProps {
 }
 
 const Filter = ({
+  categories,
   onChangeCategory,
   selectedCategory,
   sortBy,
@@ -40,15 +40,6 @@ const Filter = ({
   priceRange,
   onChangePriceRange,
 }: FilterProps) => {
-  // Get Categories
-  const { data: categories = [] } = useQuery(
-    [queryKeys.categories],
-    CategoryService.getAllCategories,
-    {
-      staleTime: 3600000,
-    }
-  );
-
   const [categoriesOpen, setCategoriesOpen] = useState(false);
   const [filtersOpen, setFiltersOpen] = useState(false);
 
@@ -136,8 +127,7 @@ const Filter = ({
                 <button
                   onClick={() => onChangeSort('default')}
                   className={`hover:text-stone-700 md:hover:text-stone-100 duration-200 ${
-                    sortBy === 'default' &&
-                    'text-stone-700 md:text-stone-500 md:text-stone-100'
+                    sortBy === 'default' && 'text-stone-700 md:text-stone-500'
                   }`}
                 >
                   پیش فرض
@@ -146,7 +136,7 @@ const Filter = ({
                   onClick={() => onChangeSort('popularity')}
                   className={`hover:text-stone-700 md:hover:text-stone-100 duration-200 ${
                     sortBy === 'popularity' &&
-                    'text-stone-700 md:text-stone-500 md:text-stone-100'
+                    'text-stone-700 md:text-stone-500'
                   }`}
                 >
                   محبوبیت
@@ -154,8 +144,7 @@ const Filter = ({
                 <button
                   onClick={() => onChangeSort('new')}
                   className={`hover:text-stone-700 md:hover:text-stone-100 duration-200 ${
-                    sortBy === 'new' &&
-                    'text-stone-700 md:text-stone-500 md:text-stone-100'
+                    sortBy === 'new' && 'text-stone-700 md:text-stone-500'
                   }`}
                 >
                   جدید بودن
@@ -163,8 +152,7 @@ const Filter = ({
                 <button
                   onClick={() => onChangeSort('ASC')}
                   className={`hover:text-stone-700 md:hover:text-stone-100 duration-200 ${
-                    sortBy === 'ASC' &&
-                    'text-stone-700 md:text-stone-500 md:text-stone-100'
+                    sortBy === 'ASC' && 'text-stone-700 md:text-stone-500'
                   }`}
                 >
                   قیمت: کمتر به بیشتر
@@ -172,8 +160,7 @@ const Filter = ({
                 <button
                   onClick={() => onChangeSort('DESC')}
                   className={`hover:text-stone-700 md:hover:text-stone-100 duration-200 ${
-                    sortBy === 'DESC' &&
-                    'text-stone-700 md:text-stone-500 md:text-stone-100'
+                    sortBy === 'DESC' && 'text-stone-700 md:text-stone-500'
                   }`}
                 >
                   قیمت: بیشتر به کمتر
@@ -192,7 +179,7 @@ const Filter = ({
                   className={`hover:text-stone-700 md:hover:text-stone-100 duration-200 ${
                     priceRange.min === 1000 &&
                     priceRange.max === 500000 &&
-                    'text-stone-700 md:text-stone-500 md:text-stone-100'
+                    'text-stone-700 md:text-stone-500'
                   }`}
                 >
                   1 هزار - 500 هزار
@@ -203,7 +190,7 @@ const Filter = ({
                   }
                   className={`hover:text-stone-700 md:hover:text-stone-100 duration-200 ${
                     priceRange.min === 500000 &&
-                    'text-stone-700 md:text-stone-500 md:text-stone-100'
+                    'text-stone-700 md:text-stone-500'
                   }`}
                 >
                   500 هزار - 1 میلیون
@@ -214,7 +201,7 @@ const Filter = ({
                   }
                   className={`hover:text-stone-700 md:hover:text-stone-100 duration-200 ${
                     priceRange.min === 1000000 &&
-                    'text-stone-700 md:text-stone-500 md:text-stone-100'
+                    'text-stone-700 md:text-stone-500'
                   }`}
                 >
                   1 میلیون - 2 میلیون
@@ -225,7 +212,7 @@ const Filter = ({
                   }
                   className={`hover:text-stone-700 md:hover:text-stone-100 duration-200 ${
                     priceRange.min === 2000000 &&
-                    'text-stone-700 md:text-stone-500 md:text-stone-100'
+                    'text-stone-700 md:text-stone-500'
                   }`}
                 >
                   2 میلیون - 5 میلیون
@@ -234,7 +221,7 @@ const Filter = ({
                   onClick={() => onChangePriceRange({ min: 5000000 })}
                   className={`hover:text-stone-700 md:hover:text-stone-100 duration-200 ${
                     priceRange.min === 5000000 &&
-                    'text-stone-700 md:text-stone-500 md:text-stone-100'
+                    'text-stone-700 md:text-stone-500'
                   }`}
                 >
                   5 میلیون به بالا

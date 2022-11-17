@@ -2,7 +2,7 @@ import { Product } from '../../shared/types';
 
 const products: Product[] = [
   {
-    user: '63693a3e8f90ded4279527c1',
+    user: '6375932c46584de83329f42e',
 
     images: [
       '/products/clock-1.jpg',
@@ -25,13 +25,13 @@ const products: Product[] = [
       material: 'چوبی، فلزی',
     },
     reviews: [],
-    numReviews: 10,
-    rating: 5,
-    categories: ['6369b99ffbc49636c4c7bdc8', '6369b99ffbc49636c4c7bdc9'],
+    numReviews: 0,
+    rating: 0,
+    categories: ['637593da816b850008f2043c', '637593da816b850008f2043d'],
     tags: ['وسایل، خرید وسایل خانگی'],
   },
   {
-    user: '63693a3e8f90ded4279527c1',
+    user: '6375932c46584de83329f42e',
 
     images: [
       '/products/p-1.jpg',
@@ -54,13 +54,13 @@ const products: Product[] = [
       material: 'چوبی، فلزی',
     },
     reviews: [],
-    numReviews: 10,
-    rating: 5,
-    categories: ['6369b99ffbc49636c4c7bdc8', '6369b99ffbc49636c4c7bdc9'],
+    numReviews: 0,
+    rating: 0,
+    categories: ['637593da816b850008f2043c', '637593da816b850008f2043d'],
     tags: ['وسایل، خرید وسایل خانگی'],
   },
   {
-    user: '63693a3e8f90ded4279527c1',
+    user: '6375932c46584de83329f42e',
 
     images: [
       '/products/table-1.jpg',
@@ -83,13 +83,13 @@ const products: Product[] = [
       material: 'چوبی، فلزی',
     },
     reviews: [],
-    numReviews: 10,
-    rating: 5,
-    categories: ['6369b99ffbc49636c4c7bdc8', '6369b99ffbc49636c4c7bdc9'],
+    numReviews: 0,
+    rating: 0,
+    categories: ['637593da816b850008f2043c', '637593da816b850008f2043d'],
     tags: ['وسایل، خرید وسایل خانگی'],
   },
   {
-    user: '63693a3e8f90ded4279527c1',
+    user: '6375932c46584de83329f42e',
 
     images: [
       '/products/chair-1.jpg',
@@ -112,13 +112,13 @@ const products: Product[] = [
       material: 'چوبی، فلزی',
     },
     reviews: [],
-    numReviews: 10,
-    rating: 5,
-    categories: ['6369b99ffbc49636c4c7bdc8', '6369b99ffbc49636c4c7bdc9'],
+    numReviews: 0,
+    rating: 0,
+    categories: ['637593da816b850008f2043c', '637593da816b850008f2043d'],
     tags: ['وسایل، خرید وسایل خانگی'],
   },
   {
-    user: '63693a3e8f90ded4279527c1',
+    user: '6375932c46584de83329f42e',
 
     images: [
       '/products/lamp-1.jpg',
@@ -142,12 +142,12 @@ const products: Product[] = [
     },
     reviews: [],
     rating: 2.3,
-    numReviews: 10,
-    categories: ['6369b99ffbc49636c4c7bdc8', '6369b99ffbc49636c4c7bdc9'],
+    numReviews: 0,
+    categories: ['637593da816b850008f2043c', '637593da816b850008f2043d'],
     tags: ['وسایل، خرید وسایل خانگی'],
   },
   {
-    user: '63693a3e8f90ded4279527c1',
+    user: '6375932c46584de83329f42e',
 
     images: [
       '/products/bed-1.jpg',
@@ -170,13 +170,13 @@ const products: Product[] = [
       material: 'چوبی، فلزی',
     },
     reviews: [],
-    numReviews: 10,
-    rating: 5,
-    categories: ['6369b99ffbc49636c4c7bdc8', '6369b99ffbc49636c4c7bdc9'],
+    numReviews: 0,
+    rating: 0,
+    categories: ['637593da816b850008f2043c', '637593da816b850008f2043d'],
     tags: ['وسایل، خرید وسایل خانگی'],
   },
   {
-    user: '63693a3e8f90ded4279527c1',
+    user: '6375932c46584de83329f42e',
 
     images: [
       '/products/gold-clock-1.jpg',
@@ -199,13 +199,13 @@ const products: Product[] = [
       material: 'چوبی، فلزی',
     },
     reviews: [],
-    numReviews: 10,
-    rating: 5,
-    categories: ['6369b99ffbc49636c4c7bdc8', '6369b99ffbc49636c4c7bdc9'],
+    numReviews: 0,
+    rating: 0,
+    categories: ['637593da816b850008f2043c', '637593da816b850008f2043d'],
     tags: ['وسایل، خرید وسایل خانگی'],
   },
   {
-    user: '63693a3e8f90ded4279527c1',
+    user: '6375932c46584de83329f42e',
 
     images: [
       '/products/gray-chair-1.jpg',
@@ -228,9 +228,9 @@ const products: Product[] = [
       material: 'چوبی، فلزی',
     },
     reviews: [],
-    numReviews: 10,
-    rating: 5,
-    categories: ['6369b99ffbc49636c4c7bdc8', '6369b99ffbc49636c4c7bdc9'],
+    numReviews: 0,
+    rating: 0,
+    categories: ['637593da816b850008f2043c', '637593da816b850008f2043d'],
     tags: ['وسایل، خرید وسایل خانگی'],
   },
 ];

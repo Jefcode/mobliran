@@ -12,8 +12,8 @@ export type PriceRange = {
   max?: number;
 };
 
-export function useProducts() {
-  const [category, setCategory] = useState<string>();
+export function useProducts(initCategory?: string | undefined) {
+  const [category, setCategory] = useState(initCategory);
   const [sortBy, setSortBy] = useState<SortOptions>('default');
   const [priceRange, setPriceRange] = useState<PriceRange>({ min: 1000 });
 
