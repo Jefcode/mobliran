@@ -1,8 +1,6 @@
-import mongoose from 'mongoose';
 import asyncHandler from 'express-async-handler';
 
 import Product from '../models/productModel';
-import { CartItem } from '../types';
 
 /**
  * @desc    fetch all products
@@ -124,4 +122,30 @@ export const createProductReview = asyncHandler(async (req, res) => {
 
   await product.save();
   res.status(201).json({ message: 'نظر شما اضافه شد' });
+});
+
+/**
+ * @desc    Get related products
+ * @route   GET /api/products/:id/related
+ * @acess   Public
+ */
+export const getRelatedProducts = asyncHandler(async (req, res) => {
+  const product = await Product.findById(req.params.id);
+
+  if (!product) {
+    res.status(404);
+    throw new Error('محصول یافت نشد');
+  }
+
+  let filter = [];
+  for (const category of product.categories) {
+    filter.push({ categories: category });
+  }
+
+  // Get related products based on categories
+  const relatedProducts = await Product.find({
+    $and: [{ $or: filter }, { _id: { $ne: product._id } }],
+  }).limit(4);
+
+  res.json(relatedProducts);
 });

@@ -70,6 +70,11 @@ class ProductService {
     );
     return response.data;
   }
+
+  async getRelatedProducts(id: string): Promise<Product[]> {
+    const response = await axiosInstance.get(`/products/${id}/related`);
+    return response.data;
+  }
 }
 
 export default new ProductService();

@@ -14,6 +14,7 @@ import type { Category } from '../../../shared/types';
 import AddToWishlist from '../components/Products/AddToWishlist';
 import ProductReviews from '../components/Products/ProductReviews';
 import Meta from '../components/common/Meta';
+import RelatedProducts from '../components/Products/RelatedProducts';
 
 const ProductDetailScreen = () => {
   const [tab, setTab] = useState('description'); // description / informations / reviews
@@ -295,19 +296,7 @@ const ProductDetailScreen = () => {
           </div>
 
           {/* Related Products */}
-          <div className='py-20 bg-white'>
-            <div className='container mx-auto'>
-              {/* Title */}
-              <p className='px-5 mb-10 text-lightGray'>محصولات مرتبط</p>
-
-              {/* Products Flex Container */}
-              <div className='flex flex-col items-start sm:flex-row sm:flex-wrap'>
-                {products.slice(0, 4).map((product) => (
-                  <ProductItem product={product} key={product._id} />
-                ))}
-              </div>
-            </div>
-          </div>
+          <RelatedProducts id={product._id as string} />
         </>
       ) : isError ? (
         <NotFoundScreen />
