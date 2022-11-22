@@ -1,7 +1,7 @@
 import { CartItem, Product, WishListItem } from '../../../shared/types';
 import { axiosInstance, getJWTHeader } from '../axiosInstance';
 import { PriceRange } from '../components/Products/hooks/useProducts';
-import { ResultCartItem, ResultWishListItem } from '../models/types';
+import { ResultCartItem } from '../models/types';
 
 interface GetProductsArgs {
   category: string | undefined;

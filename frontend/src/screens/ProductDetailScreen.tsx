@@ -2,9 +2,7 @@ import React, { useCallback, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Link, useParams } from 'react-router-dom';
 
-import ProductItem from '../components/Products/ProductItem';
 import Rating from '../components/common/Rating';
-import products from '../data/products';
 import ProductQuantityForm from '../components/Products/ProductQuantityForm';
 import { queryKeys } from '../react-query/constants';
 import ProductService from '../services/ProductService';

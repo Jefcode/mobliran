@@ -1,5 +1,4 @@
 import { useQuery } from '@tanstack/react-query';
-import { Product } from '../../../../shared/types';
 import { queryKeys } from '../../react-query/constants';
 import ProductService from '../../services/ProductService';
 import Spinner from '../common/Spinner';
