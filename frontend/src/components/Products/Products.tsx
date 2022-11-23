@@ -19,15 +19,13 @@ const Products = ({
     <div className='flex flex-col items-start sm:flex-row sm:flex-wrap'>
       {isLoading && <SkeletonProducts />}
       {isError && (
-        <div className='w-full px-5 py-4 bg-rose-200 border-rose-400 font-both'>
-          خطایی رخ داده است
+        <div className='w-full px-6 mb-10'>
+          <Message variant='danger'>خطایی رخ داده است</Message>
         </div>
       )}
       {products.length === 0 && !isLoading && (
-        <div className='w-full px-6 mb-10'>
-          <Message variant='info'>
-            هیچ محصولی با این دسته بندی یافت نشد.
-          </Message>
+        <div className='w-full px-6'>
+          <Message variant='info'>هیچ محصولی یافت نشد</Message>
         </div>
       )}
       {products.map((product) => (

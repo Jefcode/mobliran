@@ -7,4 +7,5 @@ export const queryKeys = {
   order: 'order',
   wishlist: 'wishlist',
   relatedProducts: 'relatedProducts',
+  searchedProducts: 'searchedProducts',
 };

@@ -44,7 +44,7 @@ const HomeScreen = () => {
           <Products products={products} isLoading={isLoading} />
 
           {/* Go to SHop */}
-          <div className='px-6 sm:hidden'>
+          <div className='px-6 sm:hidden mt-10'>
             <Link to='/shop' className='block w-full text-center btn'>
               رفتن به فروشگاه
             </Link>

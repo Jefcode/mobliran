@@ -75,6 +75,11 @@ class ProductService {
     const response = await axiosInstance.get(`/products/${id}/related`);
     return response.data;
   }
+
+  async getSearchedProducts(keyword: string): Promise<Product[]> {
+    const response = await axiosInstance.get(`/products/search/${keyword}`);
+    return response.data;
+  }
 }
 
 export default new ProductService();

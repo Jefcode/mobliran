@@ -21,6 +21,7 @@ import CartDropdown from './CartDropdown';
 import { authActions, authSelector } from '../../features/auth/authSlice';
 import { useShoppingCartContext } from '../../context/ShoppingCartContext';
 import { useWishlistContext } from '../../context/WishlistContext';
+import SearchDropdown from './SearchDropdown';
 
 const Navbar = () => {
   const dispatch = useDispatch();
@@ -87,12 +88,12 @@ const Navbar = () => {
 
           {/* Search */}
           <div className='relative group flex items-center'>
-            <a
-              href='/'
-              className='flex items-center h-full duration-300 space-s-1 hover:text-gray-500'
-            >
+            <button className='flex items-center h-full duration-300 space-s-1 hover:text-gray-500'>
               <AiOutlineSearch />
-            </a>
+            </button>
+
+            {/* Search Dropdown */}
+            <SearchDropdown />
           </div>
         </div>
 

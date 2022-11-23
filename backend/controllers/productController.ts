@@ -149,3 +149,21 @@ export const getRelatedProducts = asyncHandler(async (req, res) => {
 
   res.json(relatedProducts);
 });
+
+/**
+ * @desc    Get Searched Products
+ * @route   GET /api/products/search/:keyword
+ * @acess   Public
+ */
+export const getSearchedProducts = asyncHandler(async (req, res) => {
+  const keyword = {
+    title: {
+      $regex: req.params.keyword,
+      $options: 'i',
+    },
+  };
+
+  const products = await Product.find({ ...keyword });
+
+  res.json(products);
+});

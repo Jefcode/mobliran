@@ -18,11 +18,13 @@ import RegisterScreen from '../../screens/Auth/RegisterScreen';
 import UnauthorizedUserRoutes from '../utils/UnauthorizedUserRoutes';
 import OrderDetail from '../../screens/Account/OrderDetail';
 import AssureLoggedIn from '../utils/AssureLoggedIn';
+import SearchScreen from '../../screens/SearchScreen';
 
 const Routes = () => {
   return (
     <DRoutes>
       <Route path='/' element={<HomeScreen />} />
+      <Route path='/search/:keyword' element={<SearchScreen />} />
       <Route path='/shop' element={<ShopScreen />} />
       <Route path='/product/:id' element={<ProductDetailScreen />} />
       <Route path='/cart' element={<CartScreen />} />
